@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
-/* Custom theme variables for Tailwind CSS v4 - converted from original HSL values */
+/* Light Mode Theme Variables for Tailwind CSS v4 */
 @theme {
-  /* Light theme colors */
-  --color-background: oklch(98% 0 0);
-  --color-foreground: oklch(9% 0.02 264);
-  --color-card: oklch(100% 0 0);
-  --color-card-foreground: oklch(9% 0.02 264);
-  --color-popover: oklch(100% 0 0);
-  --color-popover-foreground: oklch(9% 0.02 264);
-  --color-primary: oklch(47% 0.13 264);
-  --color-primary-foreground: oklch(98% 0.004 264);
-  --color-secondary: oklch(96% 0.006 264);
-  --color-secondary-foreground: oklch(11% 0.02 264);
-  --color-muted: oklch(96% 0.006 264);
-  --color-muted-foreground: oklch(46% 0.01 264);
-  --color-accent: oklch(96% 0.006 264);
-  --color-accent-foreground: oklch(11% 0.02 264);
-  --color-destructive: oklch(60% 0.15 30);
-  --color-destructive-foreground: oklch(98% 0.004 264);
-  --color-border: oklch(91% 0.006 264);
-  --color-input: oklch(88% 0.006 264);
-  --color-ring: oklch(47% 0.13 264);
+  /* Core light theme colors - optimized for readability */
+  --color-background: oklch(100% 0 0);        /* Pure white background */
+  --color-foreground: oklch(12% 0.02 264);    /* Dark text for high contrast */
+  --color-card: oklch(100% 0 0);              /* White cards */
+  --color-card-foreground: oklch(12% 0.02 264);
+  --color-popover: oklch(100% 0 0);           /* White popovers */
+  --color-popover-foreground: oklch(12% 0.02 264);
+  --color-primary: oklch(47% 0.13 264);       /* Blue primary color */
+  --color-primary-foreground: oklch(100% 0 0); /* White text on primary */
+  --color-secondary: oklch(96% 0.006 264);    /* Light gray secondary */
+  --color-secondary-foreground: oklch(12% 0.02 264);
+  --color-muted: oklch(96% 0.006 264);        /* Muted backgrounds */
+  --color-muted-foreground: oklch(45% 0.01 264); /* Muted text */
+  --color-accent: oklch(96% 0.006 264);       /* Accent backgrounds */
+  --color-accent-foreground: oklch(12% 0.02 264);
+  --color-destructive: oklch(60% 0.15 30);    /* Red for errors */
+  --color-destructive-foreground: oklch(100% 0 0);
+  --color-border: oklch(90% 0.006 264);       /* Light borders */
+  --color-input: oklch(95% 0.006 264);        /* Input backgrounds */
+  --color-ring: oklch(47% 0.13 264);          /* Focus rings */
   
   /* Custom primary color scale */
   --color-primary-50: oklch(98% 0.01 264);
@@ -47,15 +47,15 @@
   --color-secondary-800: oklch(15% 0.04 0);
   --color-secondary-900: oklch(8% 0.02 0);
   
-  /* Sidebar colors */
-  --color-sidebar-background: oklch(98% 0 0);
-  --color-sidebar-foreground: oklch(26% 0.01 264);
-  --color-sidebar-primary: oklch(10% 0.01 264);
-  --color-sidebar-primary-foreground: oklch(98% 0 0);
-  --color-sidebar-accent: oklch(96% 0.005 264);
-  --color-sidebar-accent-foreground: oklch(10% 0.01 264);
-  --color-sidebar-border: oklch(91% 0.006 264);
-  --color-sidebar-ring: oklch(59% 0.15 264);
+  /* Light mode sidebar colors */
+  --color-sidebar-background: oklch(98% 0 0);      /* Light gray sidebar */
+  --color-sidebar-foreground: oklch(25% 0.01 264); /* Dark sidebar text */
+  --color-sidebar-primary: oklch(47% 0.13 264);    /* Primary blue for active items */
+  --color-sidebar-primary-foreground: oklch(100% 0 0); /* White text on primary */
+  --color-sidebar-accent: oklch(94% 0.005 264);    /* Light accent backgrounds */
+  --color-sidebar-accent-foreground: oklch(12% 0.01 264); /* Dark accent text */
+  --color-sidebar-border: oklch(90% 0.006 264);    /* Light sidebar borders */
+  --color-sidebar-ring: oklch(47% 0.13 264);       /* Focus rings */
   
   /* Border radius */
   --radius: 0.5rem;
@@ -66,40 +66,7 @@
   --text-2xl: 1.5rem;
 }
 
-/* Dark mode theme */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: oklch(4% 0.02 264);
-    --color-foreground: oklch(98% 0.004 264);
-    --color-card: oklch(5% 0.02 264);
-    --color-card-foreground: oklch(98% 0.004 264);
-    --color-popover: oklch(5% 0.02 264);
-    --color-popover-foreground: oklch(98% 0.004 264);
-    --color-primary: oklch(59% 0.15 264);
-    --color-primary-foreground: oklch(11% 0.02 264);
-    --color-secondary: oklch(18% 0.02 264);
-    --color-secondary-foreground: oklch(98% 0.004 264);
-    --color-muted: oklch(18% 0.02 264);
-    --color-muted-foreground: oklch(65% 0.01 264);
-    --color-accent: oklch(18% 0.02 264);
-    --color-accent-foreground: oklch(98% 0.004 264);
-    --color-destructive: oklch(31% 0.08 30);
-    --color-destructive-foreground: oklch(98% 0.004 264);
-    --color-border: oklch(18% 0.02 264);
-    --color-input: oklch(16% 0.02 264);
-    --color-ring: oklch(48% 0.15 264);
-    
-    /* Dark mode sidebar colors */
-    --color-sidebar-background: oklch(10% 0.01 264);
-    --color-sidebar-foreground: oklch(96% 0.005 264);
-    --color-sidebar-primary: oklch(48% 0.15 264);
-    --color-sidebar-primary-foreground: oklch(100% 0 0);
-    --color-sidebar-accent: oklch(16% 0.02 264);
-    --color-sidebar-accent-foreground: oklch(96% 0.005 264);
-    --color-sidebar-border: oklch(16% 0.02 264);
-    --color-sidebar-ring: oklch(59% 0.15 264);
-  }
-}
+/* Dark mode removed - Light mode only configuration */
 
 /* Base styles */
 *,
@@ -124,6 +91,8 @@ body {
   color: var(--color-foreground);
   line-height: 1.5;
   font-size: var(--text-sm);
+  /* Ensure light mode is always applied */
+  color-scheme: light;
 }
 
 /* Custom component classes following Tailwind v4 patterns */

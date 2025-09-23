@@ -1,6 +1,15 @@
-
-import React from 'react';
+import React from "react";
+import HeroSection from "./(nondashboard)/landing/HeroSection";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
-  return <div className='flex bg-red-300 text-cyan-700 text-4xl '>home</div>;
+  return (
+    <div className="h-full w-full">
+      <Navbar />
+      <main className={`h-full flex w-full flex-col`}>
+        <HeroSection />
+        
+      </main>
+    </div>
+  );
 }
