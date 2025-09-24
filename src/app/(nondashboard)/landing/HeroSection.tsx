@@ -27,7 +27,7 @@ const HeroSection = () => {
               {" "}
               Start Your Journey for Finding the perfect place to call home
             </h1>
-            <p className="text-white mb-8">
+            <p className="text-xl text-white mb-8">
               Explore our wide range of rental properties tailored to fit your
               lifestyle and budget. From cozy apartments to spacious homes.
             </p>
@@ -35,7 +35,6 @@ const HeroSection = () => {
             <div className="flex justify-center ">
               <Input 
                 type="text"
-                
                 onChange={() => {}}
                 placeholder="Search by city, neighborhood or address"
                 className="w-full max-w-lg rounded-none rounded-l-xl border-none bg-white h-12 opacity-100" 

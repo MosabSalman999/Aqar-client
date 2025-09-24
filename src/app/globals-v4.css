@@ -20,7 +20,7 @@
   --color-destructive: oklch(60% 0.15 30);    /* Red for errors */
   --color-destructive-foreground: oklch(100% 0 0);
   --color-border: oklch(90% 0.006 264);       /* Light borders */
-  --color-input: oklch(95% 0.006 264);        /* Input backgrounds */
+  /* --color-input: oklch(95% 0.006 264);        Input backgrounds */
   --color-ring: oklch(47% 0.13 264);          /* Focus rings */
   
   /* Custom primary color scale */
@@ -95,87 +95,147 @@ body {
   color-scheme: light;
 }
 
-/* Custom component classes following Tailwind v4 patterns */
-@layer components {
-  .dashboard-container {
-    padding-top: 2rem;
-    padding-bottom: 1.25rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 88%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .mapboxgl-popup-content {
-    background-color: var(--color-primary-700) !important;
-    border-radius: var(--radius) !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-  }
-
-  .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
-    border-bottom-color: var(--color-primary-700) !important;
-  }
-
-  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
-    border-top-color: var(--color-primary-700) !important;
-  }
-
-  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
-    border-right-color: var(--color-primary-700) !important;
-  }
-
-  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
-    border-left-color: var(--color-primary-700) !important;
-  }
-
-  .marker-popup {
-    background-color: var(--color-primary-700);
-    color: white;
-    padding: 0;
-    margin: 0;
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .marker-popup-image {
-    width: 2.5rem;
-    height: 2.5rem;
-    object-fit: cover;
-    background-color: white;
-    border-radius: var(--radius);
-  }
-
-  .marker-popup-price {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-primary-200);
-  }
-
-  .marker-popup-title {
-    cursor: pointer;
-    outline: none;
-  }
-
-  .marker-popup-title:hover {
-    text-decoration: underline;
-    color: rgb(147 197 253); /* blue-300 equivalent */
-  }
-
-  .marker-popup-title:focus {
-    outline: none;
-  }
-
-  .marker-popup-price-unit {
-    font-size: var(--text-xs);
-    color: var(--color-primary-500);
-    font-weight: 400;
+  .dark {
+    --background: 222.2 84% 3.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 15.5%;
+    --ring: 224.3 76.3% 48%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
-/* Scrollbar styling */
+.dashboard-container {
+  padding-top: 2rem;
+  padding-bottom: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.mapboxgl-popup-content {
+  background-color: var(--color-primary-700) !important;
+  border-radius: var(--radius) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color: var(--color-primary-700) !important;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: var(--color-primary-700) !important;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  border-right-color: var(--color-primary-700) !important;
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-left-color: var(--color-primary-700) !important;
+}
+
+.marker-popup {
+  background-color: var(--color-primary-700);
+  color: white;
+  padding: 0;
+  margin: 0;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.marker-popup-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+  background-color: white;
+  border-radius: var(--radius);
+}
+
+.marker-popup-price {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary-200);
+}
+
+.marker-popup-title {
+  cursor: pointer;
+  outline: none;
+}
+
+.marker-popup-title:hover {
+  text-decoration: underline;
+  color: rgb(147 197 253); /* blue-300 equivalent */
+}
+
+.marker-popup-title:focus {
+  outline: none;
+}
+
+.marker-popup-price-unit {
+  font-size: var(--text-xs);
+  color: var(--color-primary-500);
+  font-weight: 400;
+}
+
+/* scrollbar styling */
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -193,12 +253,10 @@ body {
   background-color: var(--color-primary-300);
 }
 
-/* Base layer styles for consistent theming */
 @layer base {
   * {
     border-color: var(--color-border);
   }
-  
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -207,8 +265,10 @@ body {
 
 /* Amplify UI Overrides */
 [data-amplify-authenticator] {
-  --amplify-components-button-primary-background-color: var(--color-primary);
-  --amplify-components-button-primary-hover-background-color: var(--color-primary);
+  --amplify-components-button-primary-background-color: var(--primary);
+  --amplify-components-button-primary-hover-background-color: hsl(
+    var(--primary) / 0.9
+  );
   --amplify-components-button-border-radius: var(--radius);
   --amplify-components-fieldcontrol-border-radius: var(--radius);
 }
@@ -228,7 +288,7 @@ body {
 [data-amplify-authenticator] [data-amplify-container] {
   border-radius: var(--radius);
   padding: 2rem !important;
-  border: 1px solid var(--color-border);
+  border: 1px solid hsl(var(--border));
 }
 
 [data-amplify-authenticator] [data-amplify-form] {
@@ -250,21 +310,20 @@ body {
 }
 
 [data-amplify-authenticator] .amplify-button--primary:hover {
-  background-color: var(--color-primary) !important;
-  opacity: 0.8;
+  background-color: hsl(var(--primary) / 0.8) !important;
 }
 
 [data-amplify-authenticator] .amplify-field-group__control {
-  border-color: var(--color-input);
+  border-color: hsl(var(--input));
 }
 
 [data-amplify-authenticator] .amplify-field-group__control:focus-within {
-  border-color: var(--color-ring) !important;
-  box-shadow: 0 0 0 1px var(--color-ring) !important;
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 1px hsl(var(--ring)) !important;
 }
 
 [data-amplify-authenticator] .amplify-field__show-password {
-  color: var(--color-muted-foreground);
+  color: hsl(var(--muted-foreground));
 }
 
 [data-amplify-authenticator] .amplify-label {
