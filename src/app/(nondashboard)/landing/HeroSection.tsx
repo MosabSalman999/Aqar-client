@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -33,12 +34,18 @@ const HeroSection = () => {
             </p>
 
             <div className="flex justify-center ">
-              <Input 
+              <Input
                 type="text"
                 onChange={() => {}}
                 placeholder="Search by city, neighborhood or address"
-                className="w-full max-w-lg rounded-none rounded-l-xl border-none bg-white h-12 opacity-100" 
+                className="w-full max-w-lg rounded-none rounded-l-xl border-none bg-white h-12 opacity-100"
               />
+              <Button
+                onClick={() => {}}
+                className="bg-secondary-500 text-white rounded-none rounded-r-xl border-none hover:bg-secondary-600 h-12"
+              >
+                Search
+              </Button>
             </div>
           </div>
         </motion.div>
