@@ -8,7 +8,6 @@ export default function Home() {
       <Navbar />
       <main className={`h-full flex w-full flex-col`}>
         <HeroSection />
-        
       </main>
     </div>
   );
