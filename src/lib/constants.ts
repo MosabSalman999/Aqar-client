@@ -113,6 +113,8 @@ export const PropertyTypeIcons: Record<PropertyTypeEnum, LucideIcon> = {
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 60; // in pixels
 
+export const PUBLIC_ROUTES = ["/", "/landing"] as const;
+
 // Test users for development
 export const testUsers = {
   tenant: {
