@@ -3,7 +3,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Description } from "@radix-ui/react-dialog";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -80,8 +79,8 @@ const FeatureCard = ({
   linkHref: string;
 }) => {
   return (
-    <div className="text-center">
-      <div className="p-4 rounded-lg mb-4 flex items-center justify-center h-48">
+    <div className="text-center flex flex-col justify-between h-full">
+      <div className="p-5 rounded-lg mb-4 flex items-center justify-center h-48 ">
         <Image
           src={imageSrc}
           width={400}
@@ -92,10 +91,10 @@ const FeatureCard = ({
       </div>
 
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="mb-4">{description}</p>
+      <p className="mb-5">{description}</p>
       <Link
         href={linkHref}
-        className="inline-block border border-gray-300 rounded px-4 py-2 hover:bg-gray-100"
+        className="inline-block border border-gray-300 rounded px-4 py-2 hover:bg-gray-100 w-[50%] mx-auto text-center"
         scroll={false}
       >
         {linkText}

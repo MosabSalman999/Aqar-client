@@ -15,6 +15,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { usePathname, useRouter } from "next/navigation";
 
 import { PUBLIC_ROUTES } from "@/lib/constants";
+import router from "next/dist/shared/lib/router/router";
 
 Amplify.configure({
   Auth: {
@@ -139,6 +140,7 @@ const formFields = {
     },
   },
 };
+
 
 const Auth = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuthenticator((context) => [context.user]);
