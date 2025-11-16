@@ -14,9 +14,6 @@ import {
 import "@aws-amplify/ui-react/styles.css";
 import { usePathname, useRouter } from "next/navigation";
 
-import { PUBLIC_ROUTES } from "@/lib/constants";
-import router from "next/dist/shared/lib/router/router";
-
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -149,7 +146,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
 
   const isAuthPage = pathname.match(/^\/(signin|signup)$/);
   const isDashboardPage =
-    pathname.startsWith("/manager") || pathname.startsWith("/tenants");
+    pathname.startsWith("/managers") || pathname.startsWith("/tenants");
 
   // Redirect authenticated users away from auth pages
   useEffect(() => {

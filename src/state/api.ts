@@ -9,6 +9,9 @@ import {
 } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
+import { FiltersState } from ".";
+
+
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -38,8 +41,6 @@ export const api = createApi({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
         try {
-
-
           const session = await fetchAuthSession();
           const { idToken } = session.tokens ?? {};
           const user = await getCurrentUser();
@@ -72,8 +73,13 @@ export const api = createApi({
               userRole,
             },
           };
-        } catch (error: any) {
-          return { error: error.message || "Could not fetch user data" };
+        } catch (error: unknown) {
+          return { 
+            error: { 
+              status: 'CUSTOM_ERROR' as const,
+              error: error instanceof Error ? error.message : "Could not fetch user data"
+            } 
+          };
         }
       },
     }),
