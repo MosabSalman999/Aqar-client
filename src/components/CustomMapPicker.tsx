@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { MapPin, Loader2 } from "lucide-react";
 
 // Set Mapbox access token
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
@@ -67,6 +68,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
   const [suggestions, setSuggestions] = useState<GeocodingFeature[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   // Reverse geocode to get address from coordinates
   const reverseGeocode = useCallback(
@@ -136,6 +138,66 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     },
     [onLocationChange]
   );
+
+  // Get user's current location
+  const getCurrentLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setIsGettingLocation(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { longitude, latitude } = position.coords;
+
+        // Check if within Jordan
+        if (!isWithinJordan(longitude, latitude)) {
+          setLocationError(
+            "Your current location is outside Jordan. Please select a location within Jordan."
+          );
+          setIsGettingLocation(false);
+          return;
+        }
+
+        // Move map and marker to user's location
+        map.current?.flyTo({
+          center: [longitude, latitude],
+          zoom: 15,
+        });
+        marker.current?.setLngLat([longitude, latitude]);
+
+        // Reverse geocode to get address
+        reverseGeocode(longitude, latitude);
+        setIsGettingLocation(false);
+      },
+      (error) => {
+        setIsGettingLocation(false);
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            setLocationError(
+              "Location permission denied. Please enable location access in your browser settings."
+            );
+            break;
+          case error.POSITION_UNAVAILABLE:
+            setLocationError("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            setLocationError("Location request timed out. Please try again.");
+            break;
+          default:
+            setLocationError("An unknown error occurred while getting your location.");
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  }, [reverseGeocode]);
 
   // Initialize map
   useEffect(() => {
@@ -285,35 +347,53 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
 
   return (
     <div className={`space-y-3 ${className}`}>
-      {/* Search Input */}
-      <div className="relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for an address..."
-          className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-        />
-        {isLoading && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <div className="animate-spin h-4 w-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
-          </div>
-        )}
+      {/* Search Input and Current Location Button */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search for an address..."
+            className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          />
+          {isLoading && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <div className="animate-spin h-4 w-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+            </div>
+          )}
 
-        {/* Suggestions Dropdown */}
-        {suggestions.length > 0 && (
-          <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
-            {suggestions.map((feature, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelectSuggestion(feature)}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-              >
-                {feature.place_name}
-              </li>
-            ))}
-          </ul>
-        )}
+          {/* Suggestions Dropdown */}
+          {suggestions.length > 0 && (
+            <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+              {suggestions.map((feature, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSelectSuggestion(feature)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                >
+                  {feature.place_name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Use My Location Button */}
+        <button
+          type="button"
+          onClick={getCurrentLocation}
+          disabled={isGettingLocation}
+          className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+          title="Use my current location"
+        >
+          {isGettingLocation ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <MapPin className="h-4 w-4" />
+          )}
+          <span className="hidden sm:inline">My Location</span>
+        </button>
       </div>
 
       {/* Error Message */}
@@ -332,7 +412,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       {/* Instructions */}
       <p className="text-xs text-gray-500">
         Select a location within Jordan. Click on the map or drag the marker to
-        set the property location. You can also search for an address above.
+        set the property location. You can also search for an address or use your current location.
       </p>
     </div>
   );
