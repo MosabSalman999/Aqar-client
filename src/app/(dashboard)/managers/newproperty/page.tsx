@@ -7,9 +7,10 @@ import { PropertyFormData, propertySchema } from "@/lib/schemas";
 import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
 import { AmenityEnum, HighlightEnum, PropertyTypeEnum } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import CustomMapPicker from "@/components/CustomMapPicker";
 
 const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
@@ -36,8 +37,32 @@ const NewProperty = () => {
       state: "",
       country: "",
       postalCode: "",
+      longitude: undefined,
+      latitude: undefined,
     },
   });
+
+  // Handle location change from map picker
+  const handleLocationChange = useCallback(
+    (location: {
+      longitude: number;
+      latitude: number;
+      address?: string;
+      city?: string;
+      state?: string;
+      country?: string;
+      postalCode?: string;
+    }) => {
+      form.setValue("longitude", location.longitude);
+      form.setValue("latitude", location.latitude);
+      if (location.address) form.setValue("address", location.address);
+      if (location.city) form.setValue("city", location.city);
+      if (location.state) form.setValue("state", location.state);
+      if (location.country) form.setValue("country", location.country);
+      if (location.postalCode) form.setValue("postalCode", location.postalCode);
+    },
+    [form]
+  );
 
   const onSubmit = async (data: PropertyFormData) => {
     if (!authUser?.cognitoInfo?.userId) {
@@ -206,8 +231,19 @@ const NewProperty = () => {
             {/* Additional Information */}
             <div className="space-y-6">
               <h2 className="text-lg font-semibold mb-4">
-                Additional Information
+                Property Location
               </h2>
+
+              {/* Mapbox Location Picker */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Location on Map
+                </label>
+                <CustomMapPicker
+                  onLocationChange={handleLocationChange}
+                />
+              </div>
+
               <CustomFormField name="address" label="Address" />
               <div className="flex justify-between gap-4">
                 <CustomFormField name="city" label="City" className="w-full" />

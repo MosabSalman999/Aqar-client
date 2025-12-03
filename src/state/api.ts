@@ -87,7 +87,7 @@ export const api = createApi({
     // property related endpoints
     getProperties: build.query<
       Property[],
-      Partial<FiltersState> & { favoriteIds?: number[] }
+      Partial<FiltersState> & { favoriteIds?: number[]; radiusMeters?: number }
     >({
       query: (filters) => {
         const params = cleanParams({
@@ -104,6 +104,7 @@ export const api = createApi({
           favoriteIds: filters.favoriteIds?.join(","),
           latitude: filters.coordinates?.[1],
           longitude: filters.coordinates?.[0],
+          radiusMeters: filters.radiusMeters,
         });
 
         return { url: "properties", params };
@@ -270,6 +271,27 @@ export const api = createApi({
       },
     }),
 
+    updateProperty: build.mutation<
+      Property,
+      { id: number; data: Partial<Property> & { longitude?: number; latitude?: number } }
+    >({
+      query: ({ id, data }) => ({
+        url: `properties/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Properties", id: "LIST" },
+        { type: "PropertyDetails", id },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Property updated successfully!",
+          error: "Failed to update property.",
+        });
+      },
+    }),
+
     // lease related enpoints
     getLeases: build.query<Lease[], number>({
       query: () => "leases",
@@ -369,6 +391,7 @@ export const {
   useGetCurrentResidencesQuery,
   useGetManagerPropertiesQuery,
   useCreatePropertyMutation,
+  useUpdatePropertyMutation,
   useGetTenantQuery,
   useAddFavoritePropertyMutation,
   useRemoveFavoritePropertyMutation,

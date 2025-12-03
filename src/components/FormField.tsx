@@ -212,7 +212,9 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
 };
 interface MultiInputFieldProps {
   name: string;
-  control: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: any; 
+
   placeholder?: string;
   inputClassName?: string;
 }
