@@ -1,4 +1,4 @@
-import { Bath, Bed, Heart, House, Star } from "lucide-react";
+import { Bath, Bed, Heart, House, Star, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -28,11 +28,6 @@ const Card = ({
           />
         </div>
         <div className="absolute bottom-4 left-4 flex gap-2">
-          {property.isPetsAllowed && (
-            <span className="bg-white/80 text-black text-xs font-semibold px-2 py-1 rounded-full">
-              Pets Allowed
-            </span>
-          )}
           {property.isParkingIncluded && (
             <span className="bg-white/80 text-black text-xs font-semibold px-2 py-1 rounded-full">
               Parking Included
@@ -50,6 +45,13 @@ const Card = ({
               }`}
             />
           </button>
+        )}
+        {/* Hidden Badge */}
+        {property.isHidden && (
+          <div className="absolute top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+            <EyeOff className="w-3 h-3" />
+            Hidden
+          </div>
         )}
       </div>
       <div className="p-4">

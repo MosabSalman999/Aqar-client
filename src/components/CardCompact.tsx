@@ -26,11 +26,6 @@ const CardCompact = ({
           onError={() => setImgSrc("/placeholder.jpg")}
         />
         <div className="absolute bottom-2 left-2 flex gap-1 flex-col">
-          {property.isPetsAllowed && (
-            <span className="bg-white/80 text-black text-xs font-semibold px-2 py-1 rounded-full w-fit">
-              Pets
-            </span>
-          )}
           {property.isParkingIncluded && (
             <span className="bg-white/80 text-black text-xs font-semibold px-2 py-1 rounded-full">
               Parking

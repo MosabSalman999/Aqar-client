@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import { Form } from "@/components/ui/form";
 import { PropertyFormData, propertySchema } from "@/lib/schemas";
 import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
-import { AmenityEnum, HighlightEnum, PropertyTypeEnum } from "@/lib/constants";
+import { PropertyTypeEnum } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -22,13 +22,8 @@ const NewProperty = () => {
       name: "",
       description: "",
       pricePerMonth: 1000,
-      securityDeposit: 500,
-      applicationFee: 100,
-      isPetsAllowed: true,
       isParkingIncluded: true,
       photoUrls: [],
-      amenities: "",
-      highlights: "",
       beds: 1,
       baths: 1,
       squareFeet: 1000,
@@ -115,33 +110,14 @@ const NewProperty = () => {
 
             <hr className="my-6 border-gray-200" />
 
-            {/* Fees */}
+            {/* Property Details */}
             <div className="space-y-6">
-              <h2 className="text-lg font-semibold mb-4">Fees</h2>
+              <h2 className="text-lg font-semibold mb-4">Property Details</h2>
               <CustomFormField
                 name="pricePerMonth"
                 label="Price per Month"
                 type="number"
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <CustomFormField
-                  name="securityDeposit"
-                  label="Security Deposit"
-                  type="number"
-                />
-                <CustomFormField
-                  name="applicationFee"
-                  label="Application Fee"
-                  type="number"
-                />
-              </div>
-            </div>
-
-            <hr className="my-6 border-gray-200" />
-
-            {/* Property Details */}
-            <div className="space-y-6">
-              <h2 className="text-lg font-semibold mb-4">Property Details</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <CustomFormField
                   name="beds"
@@ -161,11 +137,6 @@ const NewProperty = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <CustomFormField
-                  name="isPetsAllowed"
-                  label="Pets Allowed"
-                  type="switch"
-                />
-                <CustomFormField
                   name="isParkingIncluded"
                   label="Parking Included"
                   type="switch"
@@ -179,35 +150,6 @@ const NewProperty = () => {
                   options={Object.keys(PropertyTypeEnum).map((type) => ({
                     value: type,
                     label: type,
-                  }))}
-                />
-              </div>
-            </div>
-
-            <hr className="my-6 border-gray-200" />
-
-            {/* Amenities and Highlights */}
-            <div>
-              <h2 className="text-lg font-semibold mb-4">
-                Amenities and Highlights
-              </h2>
-              <div className="space-y-6">
-                <CustomFormField
-                  name="amenities"
-                  label="Amenities"
-                  type="select"
-                  options={Object.keys(AmenityEnum).map((amenity) => ({
-                    value: amenity,
-                    label: amenity,
-                  }))}
-                />
-                <CustomFormField
-                  name="highlights"
-                  label="Highlights"
-                  type="select"
-                  options={Object.keys(HighlightEnum).map((highlight) => ({
-                    value: highlight,
-                    label: highlight,
                   }))}
                 />
               </div>

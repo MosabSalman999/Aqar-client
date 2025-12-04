@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from '@prisma/client/runtime/library.js';
+import * as runtime from '@prisma/client/runtime/client.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -53,53 +53,11 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  * Enums
  */
 export namespace $Enums {
-  export const Highlight: {
-  HighSpeedInternetAccess: 'HighSpeedInternetAccess',
-  WasherDryer: 'WasherDryer',
-  AirConditioning: 'AirConditioning',
-  Heating: 'Heating',
-  SmokeFree: 'SmokeFree',
-  CableReady: 'CableReady',
-  SatelliteTV: 'SatelliteTV',
-  DoubleVanities: 'DoubleVanities',
-  TubShower: 'TubShower',
-  Intercom: 'Intercom',
-  SprinklerSystem: 'SprinklerSystem',
-  RecentlyRenovated: 'RecentlyRenovated',
-  CloseToTransit: 'CloseToTransit',
-  GreatView: 'GreatView',
-  QuietNeighborhood: 'QuietNeighborhood'
-};
-
-export type Highlight = (typeof Highlight)[keyof typeof Highlight]
-
-
-export const Amenity: {
-  WasherDryer: 'WasherDryer',
-  AirConditioning: 'AirConditioning',
-  Dishwasher: 'Dishwasher',
-  HighSpeedInternet: 'HighSpeedInternet',
-  HardwoodFloors: 'HardwoodFloors',
-  WalkInClosets: 'WalkInClosets',
-  Microwave: 'Microwave',
-  Refrigerator: 'Refrigerator',
-  Pool: 'Pool',
-  Gym: 'Gym',
-  Parking: 'Parking',
-  PetsAllowed: 'PetsAllowed',
-  WiFi: 'WiFi'
-};
-
-export type Amenity = (typeof Amenity)[keyof typeof Amenity]
-
-
-export const PropertyType: {
-  Rooms: 'Rooms',
-  Tinyhouse: 'Tinyhouse',
-  Apartment: 'Apartment',
-  Villa: 'Villa',
-  Townhouse: 'Townhouse',
-  Cottage: 'Cottage'
+  export const PropertyType: {
+  vacantLand: 'vacantLand',
+  unsortedProperty: 'unsortedProperty',
+  floorsAndApartments: 'floorsAndApartments',
+  settlement: 'settlement'
 };
 
 export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
@@ -125,14 +83,6 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 }
 
-export type Highlight = $Enums.Highlight
-
-export const Highlight: typeof $Enums.Highlight
-
-export type Amenity = $Enums.Amenity
-
-export const Amenity: typeof $Enums.Amenity
-
 export type PropertyType = $Enums.PropertyType
 
 export const PropertyType: typeof $Enums.PropertyType
@@ -157,7 +107,7 @@ export const PaymentStatus: typeof $Enums.PaymentStatus
  * ```
  *
  *
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
@@ -178,7 +128,7 @@ export class PrismaClient<
    * ```
    *
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
@@ -201,7 +151,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -213,7 +163,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -224,7 +174,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -236,7 +186,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -257,7 +207,6 @@ export class PrismaClient<
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
-
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
@@ -372,14 +321,6 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics
-   */
-  export type Metrics = runtime.Metrics
-  export type Metric<T> = runtime.Metric<T>
-  export type MetricHistogram = runtime.MetricHistogram
-  export type MetricHistogramBucket = runtime.MetricHistogramBucket
-
-  /**
   * Extensions
   */
   export import Extension = $Extensions.UserArgs
@@ -390,11 +331,12 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.17.1
-   * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
+   * Prisma Client JS version: 7.1.0
+   * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
    */
   export type PrismaVersion = {
     client: string
+    engine: string
   }
 
   export const prismaVersion: PrismaVersion
@@ -404,6 +346,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -784,9 +727,6 @@ export namespace Prisma {
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 
-  export type Datasources = {
-    db?: Datasource
-  }
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -1332,14 +1272,6 @@ export namespace Prisma {
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
     /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasources?: Datasources
-    /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasourceUrl?: string
-    /**
      * @default "colorless"
      */
     errorFormat?: ErrorFormat
@@ -1365,7 +1297,7 @@ export namespace Prisma {
      *  { emit: 'stdout', level: 'error' }
      * 
      * ```
-     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     * Read more in our [docs](https://pris.ly/d/logging).
      */
     log?: (LogLevel | LogDefinition)[]
     /**
@@ -1381,7 +1313,11 @@ export namespace Prisma {
     /**
      * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
      */
-    adapter?: runtime.SqlDriverAdapterFactory | null
+    adapter?: runtime.SqlDriverAdapterFactory
+    /**
+     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     */
+    accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1397,6 +1333,22 @@ export namespace Prisma {
      * ```
      */
     omit?: Prisma.GlobalOmitConfig
+    /**
+     * SQL commenter plugins that add metadata to SQL queries as comments.
+     * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   adapter,
+     *   comments: [
+     *     traceContext(),
+     *     queryInsights(),
+     *   ],
+     * })
+     * ```
+     */
+    comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
     property?: PropertyOmit
@@ -1709,8 +1661,6 @@ export namespace Prisma {
   export type PropertyAvgAggregateOutputType = {
     id: number | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     beds: number | null
     baths: number | null
     squareFeet: number | null
@@ -1722,8 +1672,6 @@ export namespace Prisma {
   export type PropertySumAggregateOutputType = {
     id: number | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     beds: number | null
     baths: number | null
     squareFeet: number | null
@@ -1737,9 +1685,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
-    isPetsAllowed: boolean | null
     isParkingIncluded: boolean | null
     beds: number | null
     baths: number | null
@@ -1757,9 +1702,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
-    isPetsAllowed: boolean | null
     isParkingIncluded: boolean | null
     beds: number | null
     baths: number | null
@@ -1777,12 +1719,7 @@ export namespace Prisma {
     name: number
     description: number
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls: number
-    amenities: number
-    highlights: number
-    isPetsAllowed: number
     isParkingIncluded: number
     beds: number
     baths: number
@@ -1800,8 +1737,6 @@ export namespace Prisma {
   export type PropertyAvgAggregateInputType = {
     id?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     beds?: true
     baths?: true
     squareFeet?: true
@@ -1813,8 +1748,6 @@ export namespace Prisma {
   export type PropertySumAggregateInputType = {
     id?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     beds?: true
     baths?: true
     squareFeet?: true
@@ -1828,9 +1761,6 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
-    isPetsAllowed?: true
     isParkingIncluded?: true
     beds?: true
     baths?: true
@@ -1848,9 +1778,6 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
-    isPetsAllowed?: true
     isParkingIncluded?: true
     beds?: true
     baths?: true
@@ -1868,12 +1795,7 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     photoUrls?: true
-    amenities?: true
-    highlights?: true
-    isPetsAllowed?: true
     isParkingIncluded?: true
     beds?: true
     baths?: true
@@ -1978,12 +1900,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls: string[]
-    amenities: $Enums.Amenity[]
-    highlights: $Enums.Highlight[]
-    isPetsAllowed: boolean
     isParkingIncluded: boolean
     beds: number
     baths: number
@@ -2020,12 +1937,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
-    amenities?: boolean
-    highlights?: boolean
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
     baths?: boolean
@@ -2050,12 +1962,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
-    amenities?: boolean
-    highlights?: boolean
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
     baths?: boolean
@@ -2075,12 +1982,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
-    amenities?: boolean
-    highlights?: boolean
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
     baths?: boolean
@@ -2100,12 +2002,7 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
-    amenities?: boolean
-    highlights?: boolean
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
     baths?: boolean
@@ -2118,7 +2015,7 @@ export namespace Prisma {
     managerCognitoId?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "securityDeposit" | "applicationFee" | "photoUrls" | "amenities" | "highlights" | "isPetsAllowed" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "photoUrls" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
     manager?: boolean | ManagerDefaultArgs<ExtArgs>
@@ -2152,12 +2049,7 @@ export namespace Prisma {
       name: string
       description: string
       pricePerMonth: number
-      securityDeposit: number
-      applicationFee: number
       photoUrls: string[]
-      amenities: $Enums.Amenity[]
-      highlights: $Enums.Highlight[]
-      isPetsAllowed: boolean
       isParkingIncluded: boolean
       beds: number
       baths: number
@@ -2601,16 +2493,11 @@ export namespace Prisma {
     readonly name: FieldRef<"Property", 'String'>
     readonly description: FieldRef<"Property", 'String'>
     readonly pricePerMonth: FieldRef<"Property", 'Float'>
-    readonly securityDeposit: FieldRef<"Property", 'Float'>
-    readonly applicationFee: FieldRef<"Property", 'Float'>
     readonly photoUrls: FieldRef<"Property", 'String[]'>
-    readonly amenities: FieldRef<"Property", 'Amenity[]'>
-    readonly highlights: FieldRef<"Property", 'Highlight[]'>
-    readonly isPetsAllowed: FieldRef<"Property", 'Boolean'>
     readonly isParkingIncluded: FieldRef<"Property", 'Boolean'>
     readonly beds: FieldRef<"Property", 'Int'>
-    readonly baths: FieldRef<"Property", 'Float'>
-    readonly squareFeet: FieldRef<"Property", 'Int'>
+    readonly baths: FieldRef<"Property", 'Int'>
+    readonly squareFeet: FieldRef<"Property", 'Float'>
     readonly propertyType: FieldRef<"Property", 'PropertyType'>
     readonly postedDate: FieldRef<"Property", 'DateTime'>
     readonly averageRating: FieldRef<"Property", 'Float'>
@@ -3141,10 +3028,12 @@ export namespace Prisma {
 
   export type ManagerAvgAggregateOutputType = {
     id: number | null
+    nationalNumber: number | null
   }
 
   export type ManagerSumAggregateOutputType = {
     id: number | null
+    nationalNumber: number | null
   }
 
   export type ManagerMinAggregateOutputType = {
@@ -3153,6 +3042,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
   }
 
   export type ManagerMaxAggregateOutputType = {
@@ -3161,6 +3051,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
   }
 
   export type ManagerCountAggregateOutputType = {
@@ -3169,16 +3060,19 @@ export namespace Prisma {
     name: number
     email: number
     phoneNumber: number
+    nationalNumber: number
     _all: number
   }
 
 
   export type ManagerAvgAggregateInputType = {
     id?: true
+    nationalNumber?: true
   }
 
   export type ManagerSumAggregateInputType = {
     id?: true
+    nationalNumber?: true
   }
 
   export type ManagerMinAggregateInputType = {
@@ -3187,6 +3081,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
   }
 
   export type ManagerMaxAggregateInputType = {
@@ -3195,6 +3090,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
   }
 
   export type ManagerCountAggregateInputType = {
@@ -3203,6 +3099,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
     _all?: true
   }
 
@@ -3298,6 +3195,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     _count: ManagerCountAggregateOutputType | null
     _avg: ManagerAvgAggregateOutputType | null
     _sum: ManagerSumAggregateOutputType | null
@@ -3325,6 +3223,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     managedProperties?: boolean | Manager$managedPropertiesArgs<ExtArgs>
     _count?: boolean | ManagerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["manager"]>
@@ -3335,6 +3234,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }, ExtArgs["result"]["manager"]>
 
   export type ManagerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3343,6 +3243,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }, ExtArgs["result"]["manager"]>
 
   export type ManagerSelectScalar = {
@@ -3351,9 +3252,10 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }
 
-  export type ManagerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cognitoId" | "name" | "email" | "phoneNumber", ExtArgs["result"]["manager"]>
+  export type ManagerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cognitoId" | "name" | "email" | "phoneNumber" | "nationalNumber", ExtArgs["result"]["manager"]>
   export type ManagerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     managedProperties?: boolean | Manager$managedPropertiesArgs<ExtArgs>
     _count?: boolean | ManagerCountOutputTypeDefaultArgs<ExtArgs>
@@ -3372,6 +3274,7 @@ export namespace Prisma {
       name: string
       email: string
       phoneNumber: string
+      nationalNumber: number
     }, ExtArgs["result"]["manager"]>
     composites: {}
   }
@@ -3801,6 +3704,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Manager", 'String'>
     readonly email: FieldRef<"Manager", 'String'>
     readonly phoneNumber: FieldRef<"Manager", 'String'>
+    readonly nationalNumber: FieldRef<"Manager", 'Int'>
   }
     
 
@@ -4245,10 +4149,12 @@ export namespace Prisma {
 
   export type TenantAvgAggregateOutputType = {
     id: number | null
+    nationalNumber: number | null
   }
 
   export type TenantSumAggregateOutputType = {
     id: number | null
+    nationalNumber: number | null
   }
 
   export type TenantMinAggregateOutputType = {
@@ -4257,6 +4163,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
   }
 
   export type TenantMaxAggregateOutputType = {
@@ -4265,6 +4172,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
   }
 
   export type TenantCountAggregateOutputType = {
@@ -4273,16 +4181,19 @@ export namespace Prisma {
     name: number
     email: number
     phoneNumber: number
+    nationalNumber: number
     _all: number
   }
 
 
   export type TenantAvgAggregateInputType = {
     id?: true
+    nationalNumber?: true
   }
 
   export type TenantSumAggregateInputType = {
     id?: true
+    nationalNumber?: true
   }
 
   export type TenantMinAggregateInputType = {
@@ -4291,6 +4202,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
   }
 
   export type TenantMaxAggregateInputType = {
@@ -4299,6 +4211,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
   }
 
   export type TenantCountAggregateInputType = {
@@ -4307,6 +4220,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
     _all?: true
   }
 
@@ -4402,6 +4316,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     _count: TenantCountAggregateOutputType | null
     _avg: TenantAvgAggregateOutputType | null
     _sum: TenantSumAggregateOutputType | null
@@ -4429,6 +4344,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     properties?: boolean | Tenant$propertiesArgs<ExtArgs>
     favorites?: boolean | Tenant$favoritesArgs<ExtArgs>
     applications?: boolean | Tenant$applicationsArgs<ExtArgs>
@@ -4442,6 +4358,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4450,6 +4367,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }, ExtArgs["result"]["tenant"]>
 
   export type TenantSelectScalar = {
@@ -4458,9 +4376,10 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cognitoId" | "name" | "email" | "phoneNumber", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cognitoId" | "name" | "email" | "phoneNumber" | "nationalNumber", ExtArgs["result"]["tenant"]>
   export type TenantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     properties?: boolean | Tenant$propertiesArgs<ExtArgs>
     favorites?: boolean | Tenant$favoritesArgs<ExtArgs>
@@ -4485,6 +4404,7 @@ export namespace Prisma {
       name: string
       email: string
       phoneNumber: string
+      nationalNumber: number
     }, ExtArgs["result"]["tenant"]>
     composites: {}
   }
@@ -4917,6 +4837,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Tenant", 'String'>
     readonly email: FieldRef<"Tenant", 'String'>
     readonly phoneNumber: FieldRef<"Tenant", 'String'>
+    readonly nationalNumber: FieldRef<"Tenant", 'Int'>
   }
     
 
@@ -6389,12 +6310,14 @@ export namespace Prisma {
   export type ApplicationAvgAggregateOutputType = {
     id: number | null
     propertyId: number | null
+    nationalNumber: number | null
     leaseId: number | null
   }
 
   export type ApplicationSumAggregateOutputType = {
     id: number | null
     propertyId: number | null
+    nationalNumber: number | null
     leaseId: number | null
   }
 
@@ -6407,6 +6330,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
     message: string | null
     leaseId: number | null
   }
@@ -6420,6 +6344,7 @@ export namespace Prisma {
     name: string | null
     email: string | null
     phoneNumber: string | null
+    nationalNumber: number | null
     message: string | null
     leaseId: number | null
   }
@@ -6433,6 +6358,7 @@ export namespace Prisma {
     name: number
     email: number
     phoneNumber: number
+    nationalNumber: number
     message: number
     leaseId: number
     _all: number
@@ -6442,12 +6368,14 @@ export namespace Prisma {
   export type ApplicationAvgAggregateInputType = {
     id?: true
     propertyId?: true
+    nationalNumber?: true
     leaseId?: true
   }
 
   export type ApplicationSumAggregateInputType = {
     id?: true
     propertyId?: true
+    nationalNumber?: true
     leaseId?: true
   }
 
@@ -6460,6 +6388,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
     message?: true
     leaseId?: true
   }
@@ -6473,6 +6402,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
     message?: true
     leaseId?: true
   }
@@ -6486,6 +6416,7 @@ export namespace Prisma {
     name?: true
     email?: true
     phoneNumber?: true
+    nationalNumber?: true
     message?: true
     leaseId?: true
     _all?: true
@@ -6586,6 +6517,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message: string | null
     leaseId: number | null
     _count: ApplicationCountAggregateOutputType | null
@@ -6618,6 +6550,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     message?: boolean
     leaseId?: boolean
     property?: boolean | PropertyDefaultArgs<ExtArgs>
@@ -6634,6 +6567,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     message?: boolean
     leaseId?: boolean
     property?: boolean | PropertyDefaultArgs<ExtArgs>
@@ -6650,6 +6584,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     message?: boolean
     leaseId?: boolean
     property?: boolean | PropertyDefaultArgs<ExtArgs>
@@ -6666,11 +6601,12 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     phoneNumber?: boolean
+    nationalNumber?: boolean
     message?: boolean
     leaseId?: boolean
   }
 
-  export type ApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationDate" | "status" | "propertyId" | "tenantCognitoId" | "name" | "email" | "phoneNumber" | "message" | "leaseId", ExtArgs["result"]["application"]>
+  export type ApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationDate" | "status" | "propertyId" | "tenantCognitoId" | "name" | "email" | "phoneNumber" | "nationalNumber" | "message" | "leaseId", ExtArgs["result"]["application"]>
   export type ApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     property?: boolean | PropertyDefaultArgs<ExtArgs>
     tenant?: boolean | TenantDefaultArgs<ExtArgs>
@@ -6703,6 +6639,7 @@ export namespace Prisma {
       name: string
       email: string
       phoneNumber: string
+      nationalNumber: number
       message: string | null
       leaseId: number | null
     }, ExtArgs["result"]["application"]>
@@ -7139,6 +7076,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Application", 'String'>
     readonly email: FieldRef<"Application", 'String'>
     readonly phoneNumber: FieldRef<"Application", 'String'>
+    readonly nationalNumber: FieldRef<"Application", 'Int'>
     readonly message: FieldRef<"Application", 'String'>
     readonly leaseId: FieldRef<"Application", 'Int'>
   }
@@ -9914,12 +9852,7 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     pricePerMonth: 'pricePerMonth',
-    securityDeposit: 'securityDeposit',
-    applicationFee: 'applicationFee',
     photoUrls: 'photoUrls',
-    amenities: 'amenities',
-    highlights: 'highlights',
-    isPetsAllowed: 'isPetsAllowed',
     isParkingIncluded: 'isParkingIncluded',
     beds: 'beds',
     baths: 'baths',
@@ -9940,7 +9873,8 @@ export namespace Prisma {
     cognitoId: 'cognitoId',
     name: 'name',
     email: 'email',
-    phoneNumber: 'phoneNumber'
+    phoneNumber: 'phoneNumber',
+    nationalNumber: 'nationalNumber'
   };
 
   export type ManagerScalarFieldEnum = (typeof ManagerScalarFieldEnum)[keyof typeof ManagerScalarFieldEnum]
@@ -9951,7 +9885,8 @@ export namespace Prisma {
     cognitoId: 'cognitoId',
     name: 'name',
     email: 'email',
-    phoneNumber: 'phoneNumber'
+    phoneNumber: 'phoneNumber',
+    nationalNumber: 'nationalNumber'
   };
 
   export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
@@ -9978,6 +9913,7 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     phoneNumber: 'phoneNumber',
+    nationalNumber: 'nationalNumber',
     message: 'message',
     leaseId: 'leaseId'
   };
@@ -10083,34 +10019,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Amenity[]'
-   */
-  export type ListEnumAmenityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Amenity[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Amenity'
-   */
-  export type EnumAmenityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Amenity'>
-    
-
-
-  /**
-   * Reference to a field of type 'Highlight[]'
-   */
-  export type ListEnumHighlightFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Highlight[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Highlight'
-   */
-  export type EnumHighlightFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Highlight'>
-    
-
-
-  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -10184,16 +10092,11 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
-    amenities?: EnumAmenityNullableListFilter<"Property">
-    highlights?: EnumHighlightNullableListFilter<"Property">
-    isPetsAllowed?: BoolFilter<"Property"> | boolean
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
-    baths?: FloatFilter<"Property"> | number
-    squareFeet?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    squareFeet?: FloatFilter<"Property"> | number
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -10213,12 +10116,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
-    amenities?: SortOrder
-    highlights?: SortOrder
-    isPetsAllowed?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -10245,16 +10143,11 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
-    amenities?: EnumAmenityNullableListFilter<"Property">
-    highlights?: EnumHighlightNullableListFilter<"Property">
-    isPetsAllowed?: BoolFilter<"Property"> | boolean
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
-    baths?: FloatFilter<"Property"> | number
-    squareFeet?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    squareFeet?: FloatFilter<"Property"> | number
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -10274,12 +10167,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
-    amenities?: SortOrder
-    highlights?: SortOrder
-    isPetsAllowed?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -10305,16 +10193,11 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Property"> | string
     description?: StringWithAggregatesFilter<"Property"> | string
     pricePerMonth?: FloatWithAggregatesFilter<"Property"> | number
-    securityDeposit?: FloatWithAggregatesFilter<"Property"> | number
-    applicationFee?: FloatWithAggregatesFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
-    amenities?: EnumAmenityNullableListFilter<"Property">
-    highlights?: EnumHighlightNullableListFilter<"Property">
-    isPetsAllowed?: BoolWithAggregatesFilter<"Property"> | boolean
     isParkingIncluded?: BoolWithAggregatesFilter<"Property"> | boolean
     beds?: IntWithAggregatesFilter<"Property"> | number
-    baths?: FloatWithAggregatesFilter<"Property"> | number
-    squareFeet?: IntWithAggregatesFilter<"Property"> | number
+    baths?: IntWithAggregatesFilter<"Property"> | number
+    squareFeet?: FloatWithAggregatesFilter<"Property"> | number
     propertyType?: EnumPropertyTypeWithAggregatesFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     averageRating?: FloatNullableWithAggregatesFilter<"Property"> | number | null
@@ -10332,6 +10215,7 @@ export namespace Prisma {
     name?: StringFilter<"Manager"> | string
     email?: StringFilter<"Manager"> | string
     phoneNumber?: StringFilter<"Manager"> | string
+    nationalNumber?: IntFilter<"Manager"> | number
     managedProperties?: PropertyListRelationFilter
   }
 
@@ -10341,12 +10225,14 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     managedProperties?: PropertyOrderByRelationAggregateInput
   }
 
   export type ManagerWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     cognitoId?: string
+    nationalNumber?: number
     AND?: ManagerWhereInput | ManagerWhereInput[]
     OR?: ManagerWhereInput[]
     NOT?: ManagerWhereInput | ManagerWhereInput[]
@@ -10354,7 +10240,7 @@ export namespace Prisma {
     email?: StringFilter<"Manager"> | string
     phoneNumber?: StringFilter<"Manager"> | string
     managedProperties?: PropertyListRelationFilter
-  }, "id" | "cognitoId">
+  }, "id" | "cognitoId" | "nationalNumber">
 
   export type ManagerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10362,6 +10248,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     _count?: ManagerCountOrderByAggregateInput
     _avg?: ManagerAvgOrderByAggregateInput
     _max?: ManagerMaxOrderByAggregateInput
@@ -10378,6 +10265,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Manager"> | string
     email?: StringWithAggregatesFilter<"Manager"> | string
     phoneNumber?: StringWithAggregatesFilter<"Manager"> | string
+    nationalNumber?: IntWithAggregatesFilter<"Manager"> | number
   }
 
   export type TenantWhereInput = {
@@ -10389,6 +10277,7 @@ export namespace Prisma {
     name?: StringFilter<"Tenant"> | string
     email?: StringFilter<"Tenant"> | string
     phoneNumber?: StringFilter<"Tenant"> | string
+    nationalNumber?: IntFilter<"Tenant"> | number
     properties?: PropertyListRelationFilter
     favorites?: PropertyListRelationFilter
     applications?: ApplicationListRelationFilter
@@ -10401,6 +10290,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     properties?: PropertyOrderByRelationAggregateInput
     favorites?: PropertyOrderByRelationAggregateInput
     applications?: ApplicationOrderByRelationAggregateInput
@@ -10410,17 +10300,18 @@ export namespace Prisma {
   export type TenantWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     cognitoId?: string
+    email?: string
+    nationalNumber?: number
     AND?: TenantWhereInput | TenantWhereInput[]
     OR?: TenantWhereInput[]
     NOT?: TenantWhereInput | TenantWhereInput[]
     name?: StringFilter<"Tenant"> | string
-    email?: StringFilter<"Tenant"> | string
     phoneNumber?: StringFilter<"Tenant"> | string
     properties?: PropertyListRelationFilter
     favorites?: PropertyListRelationFilter
     applications?: ApplicationListRelationFilter
     leases?: LeaseListRelationFilter
-  }, "id" | "cognitoId">
+  }, "id" | "cognitoId" | "email" | "nationalNumber">
 
   export type TenantOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10428,6 +10319,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     _count?: TenantCountOrderByAggregateInput
     _avg?: TenantAvgOrderByAggregateInput
     _max?: TenantMaxOrderByAggregateInput
@@ -10444,6 +10336,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Tenant"> | string
     email?: StringWithAggregatesFilter<"Tenant"> | string
     phoneNumber?: StringWithAggregatesFilter<"Tenant"> | string
+    nationalNumber?: IntWithAggregatesFilter<"Tenant"> | number
   }
 
   export type LocationWhereInput = {
@@ -10520,6 +10413,7 @@ export namespace Prisma {
     name?: StringFilter<"Application"> | string
     email?: StringFilter<"Application"> | string
     phoneNumber?: StringFilter<"Application"> | string
+    nationalNumber?: IntFilter<"Application"> | number
     message?: StringNullableFilter<"Application"> | string | null
     leaseId?: IntNullableFilter<"Application"> | number | null
     property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
@@ -10536,6 +10430,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     message?: SortOrderInput | SortOrder
     leaseId?: SortOrderInput | SortOrder
     property?: PropertyOrderByWithRelationInput
@@ -10556,6 +10451,7 @@ export namespace Prisma {
     name?: StringFilter<"Application"> | string
     email?: StringFilter<"Application"> | string
     phoneNumber?: StringFilter<"Application"> | string
+    nationalNumber?: IntFilter<"Application"> | number
     message?: StringNullableFilter<"Application"> | string | null
     property?: XOR<PropertyScalarRelationFilter, PropertyWhereInput>
     tenant?: XOR<TenantScalarRelationFilter, TenantWhereInput>
@@ -10571,6 +10467,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     message?: SortOrderInput | SortOrder
     leaseId?: SortOrderInput | SortOrder
     _count?: ApplicationCountOrderByAggregateInput
@@ -10592,6 +10489,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Application"> | string
     email?: StringWithAggregatesFilter<"Application"> | string
     phoneNumber?: StringWithAggregatesFilter<"Application"> | string
+    nationalNumber?: IntWithAggregatesFilter<"Application"> | number
     message?: StringNullableWithAggregatesFilter<"Application"> | string | null
     leaseId?: IntNullableWithAggregatesFilter<"Application"> | number | null
   }
@@ -10743,12 +10641,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -10770,12 +10663,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -10796,16 +10684,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10823,16 +10706,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10850,12 +10728,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -10872,16 +10745,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10893,16 +10761,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10916,6 +10779,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     managedProperties?: PropertyCreateNestedManyWithoutManagerInput
   }
 
@@ -10925,6 +10789,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     managedProperties?: PropertyUncheckedCreateNestedManyWithoutManagerInput
   }
 
@@ -10933,6 +10798,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     managedProperties?: PropertyUpdateManyWithoutManagerNestedInput
   }
 
@@ -10942,6 +10808,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     managedProperties?: PropertyUncheckedUpdateManyWithoutManagerNestedInput
   }
 
@@ -10951,6 +10818,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
   }
 
   export type ManagerUpdateManyMutationInput = {
@@ -10958,6 +10826,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type ManagerUncheckedUpdateManyInput = {
@@ -10966,6 +10835,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type TenantCreateInput = {
@@ -10973,6 +10843,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyCreateNestedManyWithoutTenantsInput
     favorites?: PropertyCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationCreateNestedManyWithoutTenantInput
@@ -10985,6 +10856,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyUncheckedCreateNestedManyWithoutTenantsInput
     favorites?: PropertyUncheckedCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutTenantInput
@@ -10996,6 +10868,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUpdateManyWithoutTenantNestedInput
@@ -11008,6 +10881,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUncheckedUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUncheckedUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutTenantNestedInput
@@ -11020,6 +10894,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
   }
 
   export type TenantUpdateManyMutationInput = {
@@ -11027,6 +10902,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type TenantUncheckedUpdateManyInput = {
@@ -11035,6 +10911,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type LocationUpdateInput = {
@@ -11079,6 +10956,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     property: PropertyCreateNestedOneWithoutApplicationsInput
     tenant: TenantCreateNestedOneWithoutApplicationsInput
@@ -11094,6 +10972,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -11104,6 +10983,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     property?: PropertyUpdateOneRequiredWithoutApplicationsNestedInput
     tenant?: TenantUpdateOneRequiredWithoutApplicationsNestedInput
@@ -11119,6 +10999,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -11132,6 +11013,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -11142,6 +11024,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -11154,6 +11037,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -11342,22 +11226,6 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type EnumAmenityNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.Amenity[] | ListEnumAmenityFieldRefInput<$PrismaModel> | null
-    has?: $Enums.Amenity | EnumAmenityFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.Amenity[] | ListEnumAmenityFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.Amenity[] | ListEnumAmenityFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
-  export type EnumHighlightNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.Highlight[] | ListEnumHighlightFieldRefInput<$PrismaModel> | null
-    has?: $Enums.Highlight | EnumHighlightFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.Highlight[] | ListEnumHighlightFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.Highlight[] | ListEnumHighlightFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -11453,12 +11321,7 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
-    amenities?: SortOrder
-    highlights?: SortOrder
-    isPetsAllowed?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -11474,8 +11337,6 @@ export namespace Prisma {
   export type PropertyAvgOrderByAggregateInput = {
     id?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
@@ -11489,9 +11350,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
-    isPetsAllowed?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -11509,9 +11367,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
-    isPetsAllowed?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -11527,8 +11382,6 @@ export namespace Prisma {
   export type PropertySumOrderByAggregateInput = {
     id?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
@@ -11667,10 +11520,12 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type ManagerAvgOrderByAggregateInput = {
     id?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type ManagerMaxOrderByAggregateInput = {
@@ -11679,6 +11534,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type ManagerMinOrderByAggregateInput = {
@@ -11687,10 +11543,12 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type ManagerSumOrderByAggregateInput = {
     id?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type TenantCountOrderByAggregateInput = {
@@ -11699,10 +11557,12 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type TenantAvgOrderByAggregateInput = {
     id?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type TenantMaxOrderByAggregateInput = {
@@ -11711,6 +11571,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type TenantMinOrderByAggregateInput = {
@@ -11719,10 +11580,12 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type TenantSumOrderByAggregateInput = {
     id?: SortOrder
+    nationalNumber?: SortOrder
   }
 
   export type LocationCountOrderByAggregateInput = {
@@ -11806,6 +11669,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     message?: SortOrder
     leaseId?: SortOrder
   }
@@ -11813,6 +11677,7 @@ export namespace Prisma {
   export type ApplicationAvgOrderByAggregateInput = {
     id?: SortOrder
     propertyId?: SortOrder
+    nationalNumber?: SortOrder
     leaseId?: SortOrder
   }
 
@@ -11825,6 +11690,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     message?: SortOrder
     leaseId?: SortOrder
   }
@@ -11838,6 +11704,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    nationalNumber?: SortOrder
     message?: SortOrder
     leaseId?: SortOrder
   }
@@ -11845,6 +11712,7 @@ export namespace Prisma {
   export type ApplicationSumOrderByAggregateInput = {
     id?: SortOrder
     propertyId?: SortOrder
+    nationalNumber?: SortOrder
     leaseId?: SortOrder
   }
 
@@ -12005,14 +11873,6 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type PropertyCreateamenitiesInput = {
-    set: $Enums.Amenity[]
-  }
-
-  export type PropertyCreatehighlightsInput = {
-    set: $Enums.Highlight[]
-  }
-
   export type LocationCreateNestedOneWithoutPropertiesInput = {
     connect?: LocationWhereUniqueInput
   }
@@ -12090,16 +11950,6 @@ export namespace Prisma {
   export type PropertyUpdatephotoUrlsInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type PropertyUpdateamenitiesInput = {
-    set?: $Enums.Amenity[]
-    push?: $Enums.Amenity | $Enums.Amenity[]
-  }
-
-  export type PropertyUpdatehighlightsInput = {
-    set?: $Enums.Highlight[]
-    push?: $Enums.Highlight | $Enums.Highlight[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -12925,6 +12775,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
   }
 
   export type ManagerUncheckedCreateWithoutManagedPropertiesInput = {
@@ -12933,6 +12784,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
   }
 
   export type ManagerCreateOrConnectWithoutManagedPropertiesInput = {
@@ -12977,6 +12829,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     tenant: TenantCreateNestedOneWithoutApplicationsInput
     lease?: LeaseCreateNestedOneWithoutApplicationInput
@@ -12990,6 +12843,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -13009,6 +12863,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyCreateNestedManyWithoutTenantsInput
     applications?: ApplicationCreateNestedManyWithoutTenantInput
     leases?: LeaseCreateNestedManyWithoutTenantInput
@@ -13020,6 +12875,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyUncheckedCreateNestedManyWithoutTenantsInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutTenantInput
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
@@ -13035,6 +12891,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     favorites?: PropertyCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationCreateNestedManyWithoutTenantInput
     leases?: LeaseCreateNestedManyWithoutTenantInput
@@ -13046,6 +12903,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     favorites?: PropertyUncheckedCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutTenantInput
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
@@ -13094,6 +12952,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type ManagerUncheckedUpdateWithoutManagedPropertiesInput = {
@@ -13102,6 +12961,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type LeaseUpsertWithWhereUniqueWithoutPropertyInput = {
@@ -13161,6 +13021,7 @@ export namespace Prisma {
     name?: StringFilter<"Application"> | string
     email?: StringFilter<"Application"> | string
     phoneNumber?: StringFilter<"Application"> | string
+    nationalNumber?: IntFilter<"Application"> | number
     message?: StringNullableFilter<"Application"> | string | null
     leaseId?: IntNullableFilter<"Application"> | number | null
   }
@@ -13190,6 +13051,7 @@ export namespace Prisma {
     name?: StringFilter<"Tenant"> | string
     email?: StringFilter<"Tenant"> | string
     phoneNumber?: StringFilter<"Tenant"> | string
+    nationalNumber?: IntFilter<"Tenant"> | number
   }
 
   export type TenantUpsertWithWhereUniqueWithoutPropertiesInput = {
@@ -13212,12 +13074,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13238,12 +13095,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13293,16 +13145,11 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
-    amenities?: EnumAmenityNullableListFilter<"Property">
-    highlights?: EnumHighlightNullableListFilter<"Property">
-    isPetsAllowed?: BoolFilter<"Property"> | boolean
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
-    baths?: FloatFilter<"Property"> | number
-    squareFeet?: IntFilter<"Property"> | number
+    baths?: IntFilter<"Property"> | number
+    squareFeet?: FloatFilter<"Property"> | number
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -13315,12 +13162,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13341,12 +13183,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13371,12 +13208,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13397,12 +13229,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13429,6 +13256,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     property: PropertyCreateNestedOneWithoutApplicationsInput
     lease?: LeaseCreateNestedOneWithoutApplicationInput
@@ -13442,6 +13270,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -13555,12 +13384,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13581,12 +13405,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13632,12 +13451,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13658,12 +13472,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13689,6 +13498,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyCreateNestedManyWithoutTenantsInput
     favorites?: PropertyCreateNestedManyWithoutFavoritedByInput
     leases?: LeaseCreateNestedManyWithoutTenantInput
@@ -13700,6 +13510,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyUncheckedCreateNestedManyWithoutTenantsInput
     favorites?: PropertyUncheckedCreateNestedManyWithoutFavoritedByInput
     leases?: LeaseUncheckedCreateNestedManyWithoutTenantInput
@@ -13751,16 +13562,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13777,16 +13583,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13814,6 +13615,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUpdateManyWithoutFavoritedByNestedInput
     leases?: LeaseUpdateManyWithoutTenantNestedInput
@@ -13825,6 +13627,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUncheckedUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUncheckedUpdateManyWithoutFavoritedByNestedInput
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
@@ -13866,12 +13669,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13892,12 +13690,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -13923,6 +13716,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyCreateNestedManyWithoutTenantsInput
     favorites?: PropertyCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationCreateNestedManyWithoutTenantInput
@@ -13934,6 +13728,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     properties?: PropertyUncheckedCreateNestedManyWithoutTenantsInput
     favorites?: PropertyUncheckedCreateNestedManyWithoutFavoritedByInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutTenantInput
@@ -13950,6 +13745,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     property: PropertyCreateNestedOneWithoutApplicationsInput
     tenant: TenantCreateNestedOneWithoutApplicationsInput
@@ -13964,6 +13760,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
   }
 
@@ -14014,16 +13811,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14040,16 +13832,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14077,6 +13864,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUpdateManyWithoutTenantNestedInput
@@ -14088,6 +13876,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUncheckedUpdateManyWithoutTenantsNestedInput
     favorites?: PropertyUncheckedUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutTenantNestedInput
@@ -14110,6 +13899,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     property?: PropertyUpdateOneRequiredWithoutApplicationsNestedInput
     tenant?: TenantUpdateOneRequiredWithoutApplicationsNestedInput
@@ -14124,6 +13914,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -14231,6 +14022,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -14271,6 +14063,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     tenant?: TenantUpdateOneRequiredWithoutApplicationsNestedInput
     lease?: LeaseUpdateOneWithoutApplicationNestedInput
@@ -14284,6 +14077,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -14296,6 +14090,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -14305,6 +14100,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUpdateManyWithoutTenantsNestedInput
     applications?: ApplicationUpdateManyWithoutTenantNestedInput
     leases?: LeaseUpdateManyWithoutTenantNestedInput
@@ -14316,6 +14112,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     properties?: PropertyUncheckedUpdateManyWithoutTenantsNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutTenantNestedInput
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
@@ -14327,6 +14124,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type TenantUpdateWithoutPropertiesInput = {
@@ -14334,6 +14132,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     favorites?: PropertyUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUpdateManyWithoutTenantNestedInput
     leases?: LeaseUpdateManyWithoutTenantNestedInput
@@ -14345,6 +14144,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     favorites?: PropertyUncheckedUpdateManyWithoutFavoritedByNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutTenantNestedInput
     leases?: LeaseUncheckedUpdateManyWithoutTenantNestedInput
@@ -14356,6 +14156,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
   }
 
   export type PropertyCreateManyManagerInput = {
@@ -14363,12 +14164,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -14384,16 +14180,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14410,16 +14201,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14436,16 +14222,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14461,6 +14242,7 @@ export namespace Prisma {
     name: string
     email: string
     phoneNumber: string
+    nationalNumber: number
     message?: string | null
     leaseId?: number | null
   }
@@ -14478,16 +14260,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14504,16 +14281,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14530,16 +14302,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14552,16 +14319,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14578,16 +14340,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14604,16 +14361,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14628,6 +14380,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     property?: PropertyUpdateOneRequiredWithoutApplicationsNestedInput
     lease?: LeaseUpdateOneWithoutApplicationNestedInput
@@ -14641,6 +14394,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -14653,6 +14407,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    nationalNumber?: IntFieldUpdateOperationsInput | number
     message?: NullableStringFieldUpdateOperationsInput | string | null
     leaseId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -14691,16 +14446,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14717,16 +14467,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14743,12 +14488,7 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
-    amenities?: PropertyCreateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyCreatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: boolean
     isParkingIncluded?: boolean
     beds: number
     baths: number
@@ -14765,16 +14505,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
-    amenities?: PropertyUpdateamenitiesInput | $Enums.Amenity[]
-    highlights?: PropertyUpdatehighlightsInput | $Enums.Highlight[]
-    isPetsAllowed?: BoolFieldUpdateOperationsInput | boolean
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
-    baths?: FloatFieldUpdateOperationsInput | number
-    squareFeet?: IntFieldUpdateOperationsInput | number
+    baths?: IntFieldUpdateOperationsInput | number
+    squareFeet?: FloatFieldUpdateOperationsInput | number
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null

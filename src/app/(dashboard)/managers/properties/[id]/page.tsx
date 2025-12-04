@@ -11,20 +11,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  useGetAuthUserQuery,
   useGetPaymentsQuery,
   useGetPropertyLeasesQuery,
   useGetPropertyQuery,
+  useDeletePropertyMutation,
+  useTogglePropertyVisibilityMutation,
 } from "@/state/api";
-import { ArrowDownToLine, ArrowLeft, Check, Download } from "lucide-react";
+import { ArrowDownToLine, ArrowLeft, Check, Download, Trash2, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import React from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const PropertyTenants = () => {
   const { id } = useParams();
+  const router = useRouter();
   const propertyId = Number(id);
 
+  const { data: authUser } = useGetAuthUserQuery();
   const { data: property, isLoading: propertyLoading } =
     useGetPropertyQuery(propertyId);
   const { data: leases, isLoading: leasesLoading } =
@@ -32,7 +37,44 @@ const PropertyTenants = () => {
   const { data: payments, isLoading: paymentsLoading } =
     useGetPaymentsQuery(propertyId);
 
+  const [deleteProperty, { isLoading: isDeleting }] = useDeletePropertyMutation();
+  const [toggleVisibility, { isLoading: isToggling }] = useTogglePropertyVisibilityMutation();
+  
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
   if (propertyLoading || leasesLoading || paymentsLoading) return <Loading />;
+
+  const hasActiveLeases = leases && leases.some(lease => new Date(lease.endDate) >= new Date());
+
+  const handleDelete = async () => {
+    if (!authUser?.cognitoInfo?.userId) return;
+    
+    try {
+      await deleteProperty({
+        id: propertyId,
+        cognitoId: authUser.cognitoInfo.userId,
+      }).unwrap();
+      router.push("/managers/properties");
+    } catch (error) {
+      console.error("Failed to delete property:", error);
+    } finally {
+      setShowConfirmDelete(false);
+    }
+  };
+
+  const handleToggleVisibility = async () => {
+    if (!authUser?.cognitoInfo?.userId || !property) return;
+    
+    try {
+      await toggleVisibility({
+        id: propertyId,
+        cognitoId: authUser.cognitoInfo.userId,
+        isHidden: !property.isHidden,
+      }).unwrap();
+    } catch (error) {
+      console.error("Failed to toggle visibility:", error);
+    }
+  };
 
   const getCurrentMonthPaymentStatus = (leaseId: number) => {
     const currentDate = new Date();
@@ -47,6 +89,34 @@ const PropertyTenants = () => {
 
   return (
     <div className="dashboard-container">
+      {/* Delete Confirmation Modal */}
+      {showConfirmDelete && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-xl">
+            <h3 className="text-lg font-bold mb-2">Delete Property?</h3>
+            <p className="text-gray-600 mb-4">
+              Are you sure you want to delete &quot;{property?.name}&quot;? This action cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowConfirmDelete(false)}
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded-md transition-colors disabled:opacity-50"
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Back to properties page */}
       <Link
         href="/managers/properties"
@@ -57,10 +127,65 @@ const PropertyTenants = () => {
         <span>Back to Properties</span>
       </Link>
 
-      <Header
-        title={property?.name || "My Property"}
-        subtitle="Manage tenants and leases for this property"
-      />
+      <div className="flex justify-between items-start mb-6">
+        <Header
+          title={property?.name || "My Property"}
+          subtitle="Manage tenants and leases for this property"
+        />
+        
+        {/* Property Actions */}
+        <div className="flex gap-3">
+          {/* Visibility Toggle */}
+          <button
+            onClick={handleToggleVisibility}
+            disabled={isToggling}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-colors ${
+              property?.isHidden
+                ? "bg-yellow-50 border-yellow-300 text-yellow-700 hover:bg-yellow-100"
+                : "bg-green-50 border-green-300 text-green-700 hover:bg-green-100"
+            } disabled:opacity-50`}
+            title={property?.isHidden ? "Show on map" : "Hide from map"}
+          >
+            {property?.isHidden ? (
+              <>
+                <EyeOff className="w-4 h-4" />
+                <span className="hidden sm:inline">Hidden</span>
+              </>
+            ) : (
+              <>
+                <Eye className="w-4 h-4" />
+                <span className="hidden sm:inline">Visible</span>
+              </>
+            )}
+          </button>
+
+          {/* Delete Button - only show if no active leases */}
+          {!hasActiveLeases && (
+            <button
+              onClick={() => setShowConfirmDelete(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-300 text-red-700 rounded-md hover:bg-red-100 transition-colors"
+              title="Delete property"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Delete</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Status badges */}
+      <div className="flex gap-2 mb-6">
+        {property?.isHidden && (
+          <span className="bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full">
+            Hidden from Search
+          </span>
+        )}
+        {hasActiveLeases && (
+          <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+            Currently Rented
+          </span>
+        )}
+      </div>
 
       <div className="w-full space-y-6">
         <div className="mt-8 bg-white rounded-xl shadow-md overflow-hidden p-6">

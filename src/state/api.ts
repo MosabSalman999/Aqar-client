@@ -99,7 +99,6 @@ export const api = createApi({
           propertyType: filters.propertyType,
           squareFeetMin: filters.squareFeet?.[0],
           squareFeetMax: filters.squareFeet?.[1],
-          amenities: filters.amenities?.join(","),
           availableFrom: filters.availableFrom,
           favoriteIds: filters.favoriteIds?.join(","),
           latitude: filters.coordinates?.[1],
@@ -292,6 +291,47 @@ export const api = createApi({
       },
     }),
 
+    deleteProperty: build.mutation<
+      { message: string },
+      { id: number; cognitoId: string }
+    >({
+      query: ({ id, cognitoId }) => ({
+        url: `properties/${id}`,
+        method: "DELETE",
+        body: { cognitoId },
+      }),
+      invalidatesTags: () => [
+        { type: "Properties", id: "LIST" },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Property deleted successfully!",
+          error: "Failed to delete property.",
+        });
+      },
+    }),
+
+    togglePropertyVisibility: build.mutation<
+      Property,
+      { id: number; cognitoId: string; isHidden: boolean }
+    >({
+      query: ({ id, cognitoId, isHidden }) => ({
+        url: `properties/${id}/visibility`,
+        method: "PATCH",
+        body: { cognitoId, isHidden },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Properties", id: "LIST" },
+        { type: "PropertyDetails", id },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Property visibility updated!",
+          error: "Failed to update property visibility.",
+        });
+      },
+    }),
+
     // lease related enpoints
     getLeases: build.query<Lease[], number>({
       query: () => "leases",
@@ -392,6 +432,8 @@ export const {
   useGetManagerPropertiesQuery,
   useCreatePropertyMutation,
   useUpdatePropertyMutation,
+  useDeletePropertyMutation,
+  useTogglePropertyVisibilityMutation,
   useGetTenantQuery,
   useAddFavoritePropertyMutation,
   useRemoveFavoritePropertyMutation,
