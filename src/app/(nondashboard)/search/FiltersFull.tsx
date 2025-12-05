@@ -8,7 +8,7 @@ import { cleanParams, cn, formatEnumString } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { AmenityIcons, PropertyTypeIcons } from "@/lib/constants";
+import { PropertyTypeIcons } from "@/lib/constants";
 import { Slider } from "@/components/ui/slider";
 import {
   Select,
@@ -59,14 +59,7 @@ const FiltersFull = () => {
     updateURL(initialState.filters);
   };
 
-  const handleAmenityChange = (amenity: AmenityEnum) => {
-    setLocalFilters((prev) => ({
-      ...prev,
-      amenities: prev.amenities.includes(amenity)
-        ? prev.amenities.filter((a) => a !== amenity)
-        : [...prev.amenities, amenity],
-    }));
-  };
+  // Amenities removed from project; no handler needed
 
   const handleLocationSearch = async () => {
     try {
@@ -254,29 +247,7 @@ const FiltersFull = () => {
           </div>
         </div>
 
-        {/* Amenities */}
-        <div>
-          <h4 className="font-bold mb-2">Amenities</h4>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(AmenityIcons).map(([amenity, Icon]) => (
-              <div
-                key={amenity}
-                className={cn(
-                  "flex items-center space-x-2 p-2 border rounded-lg hover:cursor-pointer",
-                  localFilters.amenities.includes(amenity as AmenityEnum)
-                    ? "border-black"
-                    : "border-gray-200"
-                )}
-                onClick={() => handleAmenityChange(amenity as AmenityEnum)}
-              >
-                <Icon className="w-5 h-5 hover:cursor-pointer" />
-                <Label className="hover:cursor-pointer">
-                  {formatEnumString(amenity)}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Amenities removed */}
 
         {/* Available From */}
         <div>
