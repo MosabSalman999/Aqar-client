@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import { Form } from "@/components/ui/form";
 import { PropertyFormData, propertySchema } from "@/lib/schemas";
 import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
-import { PropertyTypeEnum } from "@/lib/constants";
+import { PropertyTypeEnum, PropertyTypeLabels } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -17,16 +17,19 @@ const NewProperty = () => {
   const { data: authUser } = useGetAuthUserQuery();
 
   const form = useForm<PropertyFormData>({
-    resolver: zodResolver(propertySchema),
+    resolver: zodResolver(propertySchema) ,
     defaultValues: {
       name: "",
       description: "",
       pricePerMonth: 1000,
+      securityDeposit: 500,
+      applicationFee: 50,
       isParkingIncluded: true,
       photoUrls: [],
       beds: 1,
       baths: 1,
       squareFeet: 1000,
+      propertyType: undefined,
       address: "",
       city: "",
       state: "",
@@ -62,7 +65,7 @@ const NewProperty = () => {
   const onSubmit = async (data: PropertyFormData) => {
     if (!authUser?.cognitoInfo?.userId) {
       throw new Error("No manager ID found");
-    }
+    } 
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
@@ -81,7 +84,7 @@ const NewProperty = () => {
     formData.append("managerCognitoId", authUser.cognitoInfo.userId);
 
     await createProperty(formData);
-  };
+  } ;
 
   return (
     <div className="dashboard-container">
@@ -113,11 +116,23 @@ const NewProperty = () => {
             {/* Property Details */}
             <div className="space-y-6">
               <h2 className="text-lg font-semibold mb-4">Property Details</h2>
-              <CustomFormField
-                name="pricePerMonth"
-                label="Price per Month"
-                type="number"
-              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <CustomFormField
+                  name="pricePerMonth"
+                  label="Price per Month"
+                  type="number"
+                />
+                <CustomFormField
+                  name="securityDeposit"
+                  label="Security Deposit"
+                  type="number"
+                />
+                <CustomFormField
+                  name="applicationFee"
+                  label="Application Fee"
+                  type="number"
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <CustomFormField
                   name="beds"
@@ -149,7 +164,7 @@ const NewProperty = () => {
                   type="select"
                   options={Object.keys(PropertyTypeEnum).map((type) => ({
                     value: type,
-                    label: type,
+                    label: PropertyTypeLabels[type as PropertyTypeEnum],
                   }))}
                 />
               </div>

@@ -1,23 +1,50 @@
 import {
   Home,
-  Warehouse,
   Building,
-  Map,
+  Building2,
+  Hotel,
+  Castle,
+  Trees,
+  Layers,
+  LayoutList,
+  MapPin,
   LucideIcon,
 } from "lucide-react";
 
 export enum PropertyTypeEnum {
-  vacantLand = "vacantLand",
-  unsortedProperty = "unsortedProperty",
-  floorsAndApartments = "floorsAndApartments",
-  settlement = "settlement",
+  Apartment = "Apartment",
+  Villa = "Villa",
+  Townhouse = "Townhouse",
+  HotelApartment = "HotelApartment",
+  Penthouse = "Penthouse",
+  VillaCompound = "VillaCompound",
+  ResidentialBuilding = "ResidentialBuilding",
+  ResidentialFloor = "ResidentialFloor",
+  ResidentialPlot = "ResidentialPlot",
 }
 
+export const PropertyTypeLabels: Record<PropertyTypeEnum, string> = {
+  Apartment: "Apartment",
+  Villa: "Villa",
+  Townhouse: "Townhouse",
+  HotelApartment: "Hotel Apartment",
+  Penthouse: "Penthouse",
+  VillaCompound: "Villa Compound",
+  ResidentialBuilding: "Residential Building",
+  ResidentialFloor: "Residential Floor",
+  ResidentialPlot: "Residential Plot",
+};
+
 export const PropertyTypeIcons: Record<PropertyTypeEnum, LucideIcon> = {
-  vacantLand: Map,
-  unsortedProperty: Warehouse,
-  floorsAndApartments: Building,
-  settlement: Home,
+  Apartment: Building,
+  Villa: Home,
+  Townhouse: Building2,
+  HotelApartment: Hotel,
+  Penthouse: Castle,
+  VillaCompound: Trees,
+  ResidentialBuilding: Layers,
+  ResidentialFloor: LayoutList,
+  ResidentialPlot: MapPin,
 };
 
 // Add this constant at the end of the file
