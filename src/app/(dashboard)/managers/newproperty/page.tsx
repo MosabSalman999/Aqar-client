@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import { Form } from "@/components/ui/form";
 import { PropertyFormData, propertySchema } from "@/lib/schemas";
 import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
-import { PropertyTypeEnum, PropertyTypeLabels } from "@/lib/constants";
+import { PropertyTypeEnum, PropertyTypeLabels, FrequencyEnum, FrequencyLabels } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -25,6 +25,8 @@ const NewProperty = () => {
       securityDeposit: 500,
       applicationFee: 50,
       isParkingIncluded: true,
+      furnished: false,
+      frequency: undefined,
       photoUrls: [],
       beds: 1,
       baths: 1,
@@ -156,8 +158,13 @@ const NewProperty = () => {
                   label="Parking Included"
                   type="switch"
                 />
+                <CustomFormField
+                  name="furnished"
+                  label="Furnished"
+                  type="switch"
+                />
               </div>
-              <div className="mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <CustomFormField
                   name="propertyType"
                   label="Property Type"
@@ -165,6 +172,15 @@ const NewProperty = () => {
                   options={Object.keys(PropertyTypeEnum).map((type) => ({
                     value: type,
                     label: PropertyTypeLabels[type as PropertyTypeEnum],
+                  }))}
+                />
+                <CustomFormField
+                  name="frequency"
+                  label="Payment Frequency"
+                  type="select"
+                  options={Object.keys(FrequencyEnum).map((freq) => ({
+                    value: freq,
+                    label: FrequencyLabels[freq as FrequencyEnum],
                   }))}
                 />
               </div>

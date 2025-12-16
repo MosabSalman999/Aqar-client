@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { PropertyTypeEnum } from "@/lib/constants";
+import { PropertyTypeEnum, FrequencyEnum } from "@/lib/constants";
 
 export const propertySchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -8,6 +8,8 @@ export const propertySchema = z.object({
   securityDeposit: z.coerce.number().positive().min(0),
   applicationFee: z.coerce.number().positive().min(0),
   isParkingIncluded: z.boolean(),
+  furnished: z.boolean(),
+  frequency: z.nativeEnum(FrequencyEnum),
   photoUrls: z
     .array(z.instanceof(File))
     .min(1, "At least one photo is required"),

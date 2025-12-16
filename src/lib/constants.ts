@@ -47,6 +47,16 @@ export const PropertyTypeIcons: Record<PropertyTypeEnum, LucideIcon> = {
   ResidentialPlot: MapPin,
 };
 
+export enum FrequencyEnum {
+  Yearly = "Yearly",
+  Monthly = "Monthly",
+}
+
+export const FrequencyLabels: Record<FrequencyEnum, string> = {
+  Yearly: "Yearly",
+  Monthly: "Monthly",
+};
+
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 55; // in pixels
 
