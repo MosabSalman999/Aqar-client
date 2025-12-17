@@ -5,37 +5,36 @@ import Header from "@/components/Header";
 import { Form } from "@/components/ui/form";
 import { PropertyFormData, propertySchema } from "@/lib/schemas";
 import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
-import { PropertyTypeEnum, PropertyTypeLabels, FrequencyEnum, FrequencyLabels } from "@/lib/constants";
+import { PropertyTypeEnum, PropertyTypeLabels, FrequencyEnum, FrequencyLabels, CountryEnum, CountryLabels } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import CustomMapPicker from "@/components/CustomMapPicker";
+import { toast } from "sonner";
 
 const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
   const { data: authUser } = useGetAuthUserQuery();
 
   const form = useForm<PropertyFormData>({
-    resolver: zodResolver(propertySchema) ,
+    resolver: zodResolver(propertySchema),
     defaultValues: {
       name: "",
       description: "",
       pricePerMonth: 1000,
-      securityDeposit: 500,
-      applicationFee: 50,
       isParkingIncluded: true,
       furnished: false,
-      frequency: undefined,
+      frequency: FrequencyEnum.Monthly,
       photoUrls: [],
       beds: 1,
       baths: 1,
       squareFeet: 1000,
-      propertyType: undefined,
+      propertyType: PropertyTypeEnum.Apartment,
       address: "",
       city: "",
       state: "",
-      country: "",
+      country: CountryEnum.Jordan,
       postalCode: "",
       longitude: undefined,
       latitude: undefined,
@@ -58,7 +57,16 @@ const NewProperty = () => {
       if (location.address) form.setValue("address", location.address);
       if (location.city) form.setValue("city", location.city);
       if (location.state) form.setValue("state", location.state);
-      if (location.country) form.setValue("country", location.country);
+      // Map country string to CountryEnum if it matches
+      if (location.country) {
+        const countryKey = Object.keys(CountryEnum).find(
+          (key) => key.toLowerCase() === location.country?.toLowerCase() ||
+                   CountryLabels[key as CountryEnum].toLowerCase() === location.country?.toLowerCase()
+        );
+        if (countryKey) {
+          form.setValue("country", countryKey as CountryEnum);
+        }
+      }
       if (location.postalCode) form.setValue("postalCode", location.postalCode);
     },
     [form]
@@ -78,15 +86,25 @@ const NewProperty = () => {
         });
       } else if (Array.isArray(value)) {
         formData.append(key, JSON.stringify(value));
-      } else {
+      } else if (value !== undefined && value !== null) {
         formData.append(key, String(value));
       }
     });
 
     formData.append("managerCognitoId", authUser.cognitoInfo.userId);
 
-    await createProperty(formData);
-  } ;
+    try {
+      await createProperty(formData).unwrap();
+      toast.success("Property created successfully!", {
+        description: "Your property listing has been added.",
+      });
+      form.reset();
+    } catch {
+      toast.error("Failed to create property", {
+        description: "Please try again later.",
+      });
+    }
+  };
 
   return (
     <div className="dashboard-container">
@@ -118,24 +136,19 @@ const NewProperty = () => {
             {/* Property Details */}
             <div className="space-y-6">
               <h2 className="text-lg font-semibold mb-4">Property Details</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <CustomFormField
                   name="pricePerMonth"
                   label="Price per Month"
                   type="number"
                 />
                 <CustomFormField
-                  name="securityDeposit"
-                  label="Security Deposit"
-                  type="number"
-                />
-                <CustomFormField
-                  name="applicationFee"
-                  label="Application Fee"
+                  name="squareFeet"
+                  label="Square Feet"
                   type="number"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <CustomFormField
                   name="beds"
                   label="Number of Beds"
@@ -218,20 +231,28 @@ const NewProperty = () => {
               </div>
 
               <CustomFormField name="address" label="Address" />
-              <div className="flex justify-between gap-4">
-                <CustomFormField name="city" label="City" className="w-full" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CustomFormField
+                  name="country"
+                  label="Country"
+                  type="select"
+                  options={Object.keys(CountryEnum).map((c) => ({
+                    value: c,
+                    label: CountryLabels[c as CountryEnum],
+                  }))}
+                />
+                <CustomFormField name="city" label="City (Optional)" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <CustomFormField
                   name="state"
-                  label="State"
-                  className="w-full"
+                  label="State (Optional)"
                 />
                 <CustomFormField
                   name="postalCode"
-                  label="Postal Code"
-                  className="w-full"
+                  label="Postal Code (Optional)"
                 />
               </div>
-              <CustomFormField name="country" label="Country" />
             </div>
 
             <Button

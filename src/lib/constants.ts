@@ -57,6 +57,16 @@ export const FrequencyLabels: Record<FrequencyEnum, string> = {
   Monthly: "Monthly",
 };
 
+export enum CountryEnum {
+  Jordan = "Jordan",
+  UAE = "UAE",
+}
+
+export const CountryLabels: Record<CountryEnum, string> = {
+  Jordan: "Jordan",
+  UAE: "United Arab Emirates",
+};
+
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 55; // in pixels
 

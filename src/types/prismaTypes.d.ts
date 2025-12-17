@@ -53,13 +53,24 @@ export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
  * Enums
  */
 export namespace $Enums {
-  export const PropertyType: {
-  Rooms: 'Rooms',
-  Tinyhouse: 'Tinyhouse',
+  export const Frequency: {
+  Yearly: 'Yearly',
+  Monthly: 'Monthly'
+};
+
+export type Frequency = (typeof Frequency)[keyof typeof Frequency]
+
+
+export const PropertyType: {
   Apartment: 'Apartment',
   Villa: 'Villa',
   Townhouse: 'Townhouse',
-  Cottage: 'Cottage'
+  HotelApartment: 'HotelApartment',
+  Penthouse: 'Penthouse',
+  VillaCompound: 'VillaCompound',
+  ResidentialBuilding: 'ResidentialBuilding',
+  ResidentialFloor: 'ResidentialFloor',
+  ResidentialPlot: 'ResidentialPlot'
 };
 
 export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
@@ -84,6 +95,10 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 }
+
+export type Frequency = $Enums.Frequency
+
+export const Frequency: typeof $Enums.Frequency
 
 export type PropertyType = $Enums.PropertyType
 
@@ -1701,6 +1716,8 @@ export namespace Prisma {
     beds: number | null
     baths: number | null
     squareFeet: number | null
+    Frequency: $Enums.Frequency | null
+    Furnished: boolean | null
     propertyType: $Enums.PropertyType | null
     postedDate: Date | null
     averageRating: number | null
@@ -1720,6 +1737,8 @@ export namespace Prisma {
     beds: number | null
     baths: number | null
     squareFeet: number | null
+    Frequency: $Enums.Frequency | null
+    Furnished: boolean | null
     propertyType: $Enums.PropertyType | null
     postedDate: Date | null
     averageRating: number | null
@@ -1740,6 +1759,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: number
+    Furnished: number
     propertyType: number
     postedDate: number
     averageRating: number
@@ -1787,6 +1808,8 @@ export namespace Prisma {
     beds?: true
     baths?: true
     squareFeet?: true
+    Frequency?: true
+    Furnished?: true
     propertyType?: true
     postedDate?: true
     averageRating?: true
@@ -1806,6 +1829,8 @@ export namespace Prisma {
     beds?: true
     baths?: true
     squareFeet?: true
+    Frequency?: true
+    Furnished?: true
     propertyType?: true
     postedDate?: true
     averageRating?: true
@@ -1826,6 +1851,8 @@ export namespace Prisma {
     beds?: true
     baths?: true
     squareFeet?: true
+    Frequency?: true
+    Furnished?: true
     propertyType?: true
     postedDate?: true
     averageRating?: true
@@ -1933,6 +1960,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate: Date
     averageRating: number | null
@@ -1972,6 +2001,8 @@ export namespace Prisma {
     beds?: boolean
     baths?: boolean
     squareFeet?: boolean
+    Frequency?: boolean
+    Furnished?: boolean
     propertyType?: boolean
     postedDate?: boolean
     averageRating?: boolean
@@ -1999,6 +2030,8 @@ export namespace Prisma {
     beds?: boolean
     baths?: boolean
     squareFeet?: boolean
+    Frequency?: boolean
+    Furnished?: boolean
     propertyType?: boolean
     postedDate?: boolean
     averageRating?: boolean
@@ -2021,6 +2054,8 @@ export namespace Prisma {
     beds?: boolean
     baths?: boolean
     squareFeet?: boolean
+    Frequency?: boolean
+    Furnished?: boolean
     propertyType?: boolean
     postedDate?: boolean
     averageRating?: boolean
@@ -2043,6 +2078,8 @@ export namespace Prisma {
     beds?: boolean
     baths?: boolean
     squareFeet?: boolean
+    Frequency?: boolean
+    Furnished?: boolean
     propertyType?: boolean
     postedDate?: boolean
     averageRating?: boolean
@@ -2051,7 +2088,7 @@ export namespace Prisma {
     managerCognitoId?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "securityDeposit" | "applicationFee" | "photoUrls" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "securityDeposit" | "applicationFee" | "photoUrls" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "Frequency" | "Furnished" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
     manager?: boolean | ManagerDefaultArgs<ExtArgs>
@@ -2092,6 +2129,8 @@ export namespace Prisma {
       beds: number
       baths: number
       squareFeet: number
+      Frequency: $Enums.Frequency
+      Furnished: boolean
       propertyType: $Enums.PropertyType
       postedDate: Date
       averageRating: number | null
@@ -2538,6 +2577,8 @@ export namespace Prisma {
     readonly beds: FieldRef<"Property", 'Int'>
     readonly baths: FieldRef<"Property", 'Float'>
     readonly squareFeet: FieldRef<"Property", 'Int'>
+    readonly Frequency: FieldRef<"Property", 'Frequency'>
+    readonly Furnished: FieldRef<"Property", 'Boolean'>
     readonly propertyType: FieldRef<"Property", 'PropertyType'>
     readonly postedDate: FieldRef<"Property", 'DateTime'>
     readonly averageRating: FieldRef<"Property", 'Float'>
@@ -9874,6 +9915,8 @@ export namespace Prisma {
     beds: 'beds',
     baths: 'baths',
     squareFeet: 'squareFeet',
+    Frequency: 'Frequency',
+    Furnished: 'Furnished',
     propertyType: 'propertyType',
     postedDate: 'postedDate',
     averageRating: 'averageRating',
@@ -10042,6 +10085,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Frequency'
+   */
+  export type EnumFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Frequency'>
+    
+
+
+  /**
+   * Reference to a field of type 'Frequency[]'
+   */
+  export type ListEnumFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Frequency[]'>
+    
+
+
+  /**
    * Reference to a field of type 'PropertyType'
    */
   export type EnumPropertyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PropertyType'>
@@ -10115,6 +10172,8 @@ export namespace Prisma {
     beds?: IntFilter<"Property"> | number
     baths?: FloatFilter<"Property"> | number
     squareFeet?: IntFilter<"Property"> | number
+    Frequency?: EnumFrequencyFilter<"Property"> | $Enums.Frequency
+    Furnished?: BoolFilter<"Property"> | boolean
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -10141,6 +10200,8 @@ export namespace Prisma {
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
+    Frequency?: SortOrder
+    Furnished?: SortOrder
     propertyType?: SortOrder
     postedDate?: SortOrder
     averageRating?: SortOrderInput | SortOrder
@@ -10170,6 +10231,8 @@ export namespace Prisma {
     beds?: IntFilter<"Property"> | number
     baths?: FloatFilter<"Property"> | number
     squareFeet?: IntFilter<"Property"> | number
+    Frequency?: EnumFrequencyFilter<"Property"> | $Enums.Frequency
+    Furnished?: BoolFilter<"Property"> | boolean
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -10196,6 +10259,8 @@ export namespace Prisma {
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
+    Frequency?: SortOrder
+    Furnished?: SortOrder
     propertyType?: SortOrder
     postedDate?: SortOrder
     averageRating?: SortOrderInput | SortOrder
@@ -10224,6 +10289,8 @@ export namespace Prisma {
     beds?: IntWithAggregatesFilter<"Property"> | number
     baths?: FloatWithAggregatesFilter<"Property"> | number
     squareFeet?: IntWithAggregatesFilter<"Property"> | number
+    Frequency?: EnumFrequencyWithAggregatesFilter<"Property"> | $Enums.Frequency
+    Furnished?: BoolWithAggregatesFilter<"Property"> | boolean
     propertyType?: EnumPropertyTypeWithAggregatesFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     averageRating?: FloatNullableWithAggregatesFilter<"Property"> | number | null
@@ -10669,6 +10736,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -10693,6 +10762,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -10716,6 +10787,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10740,6 +10813,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10764,6 +10839,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -10783,6 +10860,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -10801,6 +10880,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -11259,6 +11340,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.Frequency | EnumFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrequencyFilter<$PrismaModel> | $Enums.Frequency
+  }
+
   export type EnumPropertyTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PropertyType | EnumPropertyTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PropertyType[] | ListEnumPropertyTypeFieldRefInput<$PrismaModel>
@@ -11356,6 +11444,8 @@ export namespace Prisma {
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
+    Frequency?: SortOrder
+    Furnished?: SortOrder
     propertyType?: SortOrder
     postedDate?: SortOrder
     averageRating?: SortOrder
@@ -11388,6 +11478,8 @@ export namespace Prisma {
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
+    Frequency?: SortOrder
+    Furnished?: SortOrder
     propertyType?: SortOrder
     postedDate?: SortOrder
     averageRating?: SortOrder
@@ -11407,6 +11499,8 @@ export namespace Prisma {
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
+    Frequency?: SortOrder
+    Furnished?: SortOrder
     propertyType?: SortOrder
     postedDate?: SortOrder
     averageRating?: SortOrder
@@ -11484,6 +11578,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Frequency | EnumFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.Frequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumFrequencyFilter<$PrismaModel>
   }
 
   export type EnumPropertyTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11991,6 +12095,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumFrequencyFieldUpdateOperationsInput = {
+    set?: $Enums.Frequency
   }
 
   export type EnumPropertyTypeFieldUpdateOperationsInput = {
@@ -12581,6 +12689,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedEnumFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.Frequency | EnumFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrequencyFilter<$PrismaModel> | $Enums.Frequency
+  }
+
   export type NestedEnumPropertyTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PropertyType | EnumPropertyTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PropertyType[] | ListEnumPropertyTypeFieldRefInput<$PrismaModel>
@@ -12676,6 +12791,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Frequency | EnumFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Frequency[] | ListEnumFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.Frequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumFrequencyFilter<$PrismaModel>
   }
 
   export type NestedEnumPropertyTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13107,6 +13232,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13130,6 +13257,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13182,6 +13311,8 @@ export namespace Prisma {
     beds?: IntFilter<"Property"> | number
     baths?: FloatFilter<"Property"> | number
     squareFeet?: IntFilter<"Property"> | number
+    Frequency?: EnumFrequencyFilter<"Property"> | $Enums.Frequency
+    Furnished?: BoolFilter<"Property"> | boolean
     propertyType?: EnumPropertyTypeFilter<"Property"> | $Enums.PropertyType
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
@@ -13201,6 +13332,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13224,6 +13357,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13251,6 +13386,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13274,6 +13411,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13429,6 +13568,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13452,6 +13593,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13500,6 +13643,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13523,6 +13668,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13615,6 +13762,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13638,6 +13787,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13726,6 +13877,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13749,6 +13902,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -13870,6 +14025,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13893,6 +14050,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14221,6 +14380,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -14239,6 +14400,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14262,6 +14425,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14285,6 +14450,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14324,6 +14491,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14347,6 +14516,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14370,6 +14541,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14389,6 +14562,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14412,6 +14587,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14435,6 +14612,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14519,6 +14698,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14542,6 +14723,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -14565,6 +14748,8 @@ export namespace Prisma {
     beds: number
     baths: number
     squareFeet: number
+    Frequency: $Enums.Frequency
+    Furnished: boolean
     propertyType: $Enums.PropertyType
     postedDate?: Date | string
     averageRating?: number | null
@@ -14584,6 +14769,8 @@ export namespace Prisma {
     beds?: IntFieldUpdateOperationsInput | number
     baths?: FloatFieldUpdateOperationsInput | number
     squareFeet?: IntFieldUpdateOperationsInput | number
+    Frequency?: EnumFrequencyFieldUpdateOperationsInput | $Enums.Frequency
+    Furnished?: BoolFieldUpdateOperationsInput | boolean
     propertyType?: EnumPropertyTypeFieldUpdateOperationsInput | $Enums.PropertyType
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null

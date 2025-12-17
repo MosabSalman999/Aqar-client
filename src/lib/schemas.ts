@@ -1,30 +1,26 @@
 import * as z from "zod";
-import { PropertyTypeEnum, FrequencyEnum } from "@/lib/constants";
+import { PropertyTypeEnum, FrequencyEnum, CountryEnum } from "@/lib/constants";
 
 export const propertySchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
-  pricePerMonth: z.coerce.number().positive().min(0).int(),
-  securityDeposit: z.coerce.number().positive().min(0),
-  applicationFee: z.coerce.number().positive().min(0),
+  pricePerMonth: z.number().positive("Price must be greater than 0").int(),
   isParkingIncluded: z.boolean(),
   furnished: z.boolean(),
   frequency: z.nativeEnum(FrequencyEnum),
-  photoUrls: z
-    .array(z.instanceof(File))
-    .min(1, "At least one photo is required"),
-  beds: z.coerce.number().positive().min(0).max(10).int(),
-  baths: z.coerce.number().positive().min(0).max(10).int(),
-  squareFeet: z.coerce.number().int().positive(),
+  photoUrls: z.array(z.instanceof(File)),
+  beds: z.number().min(1, "At least 1 bed is required").max(10).int(),
+  baths: z.number().min(1, "At least 1 bath is required").max(10),
+  squareFeet: z.number().int().positive("Square feet must be greater than 0"),
   propertyType: z.nativeEnum(PropertyTypeEnum),
   address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
-  state: z.string().min(1, "State is required"),
-  country: z.string().min(1, "Country is required"),
-  postalCode: z.string().min(1, "Postal code is required"),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.nativeEnum(CountryEnum),
+  postalCode: z.string().optional(),
   // Coordinates from Mapbox picker
-  longitude: z.coerce.number().min(-180).max(180).optional(),
-  latitude: z.coerce.number().min(-90).max(90).optional(),
+  longitude: z.number().min(-180).max(180).optional(),
+  latitude: z.number().min(-90).max(90).optional(),
 });
 
 export type PropertyFormData = z.infer<typeof propertySchema>;
