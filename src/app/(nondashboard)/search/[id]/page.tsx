@@ -28,9 +28,10 @@ const SingleListing = () => {
   }
 
   // Use property photoUrls or fallback to placeholder images
-  const propertyImages = property.photoUrls && property.photoUrls.length > 0
-    ? property.photoUrls
-    : ["/singlelisting-2.jpg", "/singlelisting-3.jpg"];
+  const propertyImages = 
+    Array.isArray(property.photoUrls) && property.photoUrls.length > 0
+      ? property.photoUrls
+      : ["/singlelisting-2.jpg", "/singlelisting-3.jpg"];
 
   return (
     <div>
