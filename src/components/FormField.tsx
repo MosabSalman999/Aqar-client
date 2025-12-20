@@ -62,7 +62,7 @@ interface FormFieldProps {
 export const CustomFormField: React.FC<FormFieldProps> = ({
   name,
   label,
-  type = "text",
+  type ,
   placeholder,
   options,
   accept,
@@ -147,6 +147,11 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             type="number"
             placeholder={placeholder}
             {...field}
+            value={field.value ?? ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              field.onChange(value === "" ? undefined : Number(value));
+            }}
             className={`border-gray-200 p-4 ${inputClassName}`}
             disabled={disabled}
           />
