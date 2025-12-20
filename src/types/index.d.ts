@@ -35,6 +35,7 @@ declare global {
 
   interface ContactWidgetProps {
     onOpenModal: () => void;
+    propertyId: number;
   }
 
   interface ImagePreviewsProps {

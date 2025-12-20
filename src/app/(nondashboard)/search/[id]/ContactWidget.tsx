@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { useGetAuthUserQuery } from "@/state/api";
+import { useGetAuthUserQuery, useGetPropertyQuery } from "@/state/api";
 import { Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const ContactWidget = ({ onOpenModal }: ContactWidgetProps) => {
+const ContactWidget = ({ onOpenModal, propertyId }: ContactWidgetProps) => {
   const { data: authUser } = useGetAuthUserQuery();
+  const { data: property } = useGetPropertyQuery(propertyId);
   const router = useRouter();
 
   const handleButtonClick = () => {
@@ -26,7 +27,7 @@ const ContactWidget = ({ onOpenModal }: ContactWidgetProps) => {
         <div>
           <p>Contact This Property</p>
           <div className="text-lg font-bold text-primary-800">
-            (424) 340-5574
+            {property?.manager?.phoneNumber || "Loading..."}
           </div>
         </div>
       </div>

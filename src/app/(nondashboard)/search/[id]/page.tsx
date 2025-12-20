@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAuthUserQuery } from "@/state/api";
+import { useGetAuthUserQuery, useGetPropertyQuery } from "@/state/api";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import ImagePreviews from "./ImagePreviews";
@@ -9,18 +9,32 @@ import PropertyDetails from "./PropertyDetails";
 import PropertyLocation from "./PropertyLocation";
 import ContactWidget from "./ContactWidget";
 import ApplicationModal from "./ApplicationModal";
+import Loading from "@/components/Loading";
 
 const SingleListing = () => {
   const { id } = useParams();
   const propertyId = Number(id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: authUser } = useGetAuthUserQuery();
+  const { data: property, isLoading, isError } = useGetPropertyQuery(propertyId);
+
+  if (isLoading) return <Loading />;
+  if (isError || !property) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-lg text-gray-500">Property not found</p>
+      </div>
+    );
+  }
+
+  // Use property photoUrls or fallback to placeholder images
+  const propertyImages = property.photoUrls && property.photoUrls.length > 0
+    ? property.photoUrls
+    : ["/singlelisting-2.jpg", "/singlelisting-3.jpg"];
 
   return (
     <div>
-      <ImagePreviews
-        images={["/singlelisting-2.jpg", "/singlelisting-3.jpg"]}
-      />
+      <ImagePreviews images={propertyImages} />
       <div className="flex flex-col md:flex-row justify-center gap-10 mx-10 md:w-2/3 md:mx-auto mt-16 mb-8">
         <div className="order-2 md:order-1">
           <PropertyOverview propertyId={propertyId} />
@@ -29,7 +43,7 @@ const SingleListing = () => {
         </div>
 
         <div className="order-1 md:order-2">
-          <ContactWidget onOpenModal={() => setIsModalOpen(true)} />
+          <ContactWidget onOpenModal={() => setIsModalOpen(true)} propertyId={propertyId} />
         </div>
       </div>
 
