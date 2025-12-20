@@ -17,11 +17,15 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { SidebarTrigger } from "./ui/sidebar";
+import { useTranslations, useLocale } from "next-intl";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("navbar");
+  const locale = useLocale();
 
   const isDashboardPage =
     pathname.includes("/managers") || pathname.includes("/tenants");
@@ -79,13 +83,13 @@ const Navbar = () => {
               {authUser.userRole?.toLowerCase() === "manager" ? (
                 <>
                   <Plus className="h-4 w-4" />
-                  <span className="hidden md:block ml-2">Add New Property</span>
+                  <span className="hidden md:block ml-2">{t("addNewProperty")}</span>
                 </>
               ) : (
                 <>
                   <Search className="h-4 w-4" />
                   <span className="hidden md:block ml-2">
-                    Search Properties
+                    {t("searchProperties")}
                   </span>
                 </>
               )}
@@ -94,10 +98,11 @@ const Navbar = () => {
         </div>
         {!isDashboardPage && (
           <p className="text-primary-200 hidden md:block">
-            Discover our perfect rental apartment with our advanced
+            {t("tagline")}
           </p>
         )}
         <div className="flex  items-center gap-5">
+          <LanguageSwitcher currentLocale={locale} />
           {authUser ? (
             <>
               <div className="relative hidden md:block">
@@ -133,7 +138,7 @@ const Navbar = () => {
                       )
                     }
                   >
-                    Go to Dashboard
+                    {t("goToDashboard")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-primary-200" />
                   <DropdownMenuItem
@@ -145,13 +150,13 @@ const Navbar = () => {
                       )
                     }
                   >
-                    Settings
+                    {t("settings")}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer hover:!bg-primary-700 hover:!text-primary-100"
                     onClick={handleSignOut}
                   >
-                    Sign out
+                    {t("signOut")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -163,7 +168,7 @@ const Navbar = () => {
                   variant="outline"
                   className="text-white border-white bg-transparent hover:bg-white hover:text-primary-700 rounded-lg"
                 >
-                  Sign In
+                  {t("signIn")}
                 </Button>
               </Link>
               <Link href="/signup">
@@ -171,7 +176,7 @@ const Navbar = () => {
                   variant="secondary"
                   className="text-white bg-secondary-600 hover:bg-white hover:text-primary-700 rounded-lg"
                 >
-                  Sign Up
+                  {t("signUp")}
                 </Button>
               </Link>
             </>

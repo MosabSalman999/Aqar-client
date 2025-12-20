@@ -1,0 +1,59 @@
+{
+  "navbar": {
+    "logo": "رينتيفول",
+    "addNewProperty": "إضافة عقار جديد",
+    "searchProperties": "البحث عن عقارات",
+    "tagline": "اكتشف شقتك المثالية للإيجار مع خدماتنا المتقدمة",
+    "goToDashboard": "الذهاب إلى لوحة التحكم",
+    "settings": "الإعدادات",
+    "signOut": "تسجيل الخروج",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب"
+  },
+  "sidebar": {
+    "managerView": "عرض المدير",
+    "renterView": "عرض المستأجر",
+    "properties": "العقارات",
+    "applications": "الطلبات",
+    "settings": "الإعدادات",
+    "favorites": "المفضلة",
+    "residences": "السكن"
+  },
+  "filters": {
+    "allFilters": "جميع الفلاتر",
+    "searchLocation": "البحث عن موقع",
+    "enterLocation": "أدخل الموقع",
+    "location": "الموقع",
+    "propertyType": "نوع العقار",
+    "anyType": "أي نوع",
+    "anyPropertyType": "أي نوع عقار",
+    "homeType": "نوع المنزل",
+    "priceRange": "نطاق السعر (شهرياً)",
+    "anyMinPrice": "أي حد أدنى للسعر",
+    "anyMaxPrice": "أي حد أقصى للسعر",
+    "beds": "غرف النوم",
+    "anyBeds": "أي عدد غرف",
+    "bed": "غرفة",
+    "baths": "الحمامات",
+    "anyBaths": "أي عدد حمامات",
+    "bath": "حمام",
+    "squareFeet": "المساحة بالقدم المربع",
+    "sqft": "قدم مربع",
+    "availableFrom": "متاح من",
+    "apply": "تطبيق",
+    "resetFilters": "إعادة تعيين الفلاتر"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "submit": "إرسال",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "filter": "تصفية",
+    "apply": "تطبيق",
+    "reset": "إعادة تعيين"
+  }
+}

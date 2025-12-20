@@ -21,49 +21,51 @@ import {
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const AppSidebar = ({ userType }: AppSidebarProps) => {
   const pathname = usePathname();
   const { toggleSidebar, open } = useSidebar();
+  const t = useTranslations("sidebar");
 
   const navLinks =
     userType === "manager"
       ? [
           {
             icon: Building,
-            label: "Properties",
+            label: t("properties"),
             href: "/managers/properties",
           },
           {
             icon: FileText,
-            label: "Applications",
+            label: t("applications"),
             href: "/managers/applications",
           },
           {
             icon: Settings,
-            label: "Settings",
+            label: t("settings"),
             href: "/managers/settings",
           },
         ]
       : [
           {
             icon: Heart,
-            label: "Favorites",
+            label: t("favorites"),
             href: "/tenants/favorites",
           },
           {
             icon: FileText,
-            label: "Applications",
+            label: t("applications"),
             href: "/tenants/applications",
           },
           {
             icon: Home,
-            label: "Residences",
+            label: t("residences"),
             href: "/tenants/residences",
           },
           {
             icon: Settings,
-            label: "Settings",
+            label: t("settings"),
             href: "/tenants/settings",
           },
         ];
@@ -89,7 +91,7 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
               {open ? (
                 <>
                   <h1 className="text-xl font-bold text-gray-800">
-                    {userType === "manager" ? "Manager View" : "Renter View"}
+                    {userType === "manager" ? t("managerView") : t("renterView")}
                   </h1>
                   <button
                     className="hover:bg-gray-100 p-2 rounded-md"

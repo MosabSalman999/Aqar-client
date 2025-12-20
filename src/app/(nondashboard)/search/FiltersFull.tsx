@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 const FiltersFull = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const FiltersFull = () => {
   const isFiltersFullOpen = useAppSelector(
     (state) => state.global.isFiltersFullOpen
   );
+  const t = useTranslations("filters");
 
   // Sync localFilters with Redux filters when they change
   React.useEffect(() => {
@@ -90,10 +92,10 @@ const FiltersFull = () => {
       <div className="flex flex-col space-y-6">
         {/* Location */}
         <div>
-          <h4 className="font-bold mb-2">Location</h4>
+          <h4 className="font-bold mb-2">{t("location")}</h4>
           <div className="flex items-center">
             <Input
-              placeholder="Enter location"
+              placeholder={t("enterLocation")}
               value={localFilters.location}
               onChange={(e) =>
                 setLocalFilters((prev) => ({
@@ -114,7 +116,7 @@ const FiltersFull = () => {
 
         {/* Property Type */}
         <div>
-          <h4 className="font-bold mb-2">Property Type</h4>
+          <h4 className="font-bold mb-2">{t("propertyType")}</h4>
           <div className="grid grid-cols-2 gap-4">
             <div
               className={cn(
@@ -130,7 +132,7 @@ const FiltersFull = () => {
                 }))
               }
             >
-              <span>Any Type</span>
+              <span>{t("anyType")}</span>
             </div>
             {Object.entries(PropertyTypeIcons).map(([type, Icon]) => (
               <div
@@ -157,7 +159,7 @@ const FiltersFull = () => {
 
         {/* Price Range */}
         <div>
-          <h4 className="font-bold mb-2">Price Range (Monthly)</h4>
+          <h4 className="font-bold mb-2">{t("priceRange")}</h4>
           <Slider
             min={0}
             max={10000}
@@ -182,7 +184,7 @@ const FiltersFull = () => {
         {/* Beds and Baths */}
         <div className="flex gap-4">
           <div className="flex-1">
-            <h4 className="font-bold mb-2">Beds</h4>
+            <h4 className="font-bold mb-2">{t("beds")}</h4>
             <Select
               value={localFilters.beds || "any"}
               onValueChange={(value) =>
@@ -190,19 +192,19 @@ const FiltersFull = () => {
               }
             >
               <SelectTrigger className="w-full rounded-xl">
-                <SelectValue placeholder="Beds" />
+                <SelectValue placeholder={t("beds")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="any">Any beds</SelectItem>
-                <SelectItem value="1">1+ bed</SelectItem>
-                <SelectItem value="2">2+ beds</SelectItem>
-                <SelectItem value="3">3+ beds</SelectItem>
-                <SelectItem value="4">4+ beds</SelectItem>
+                <SelectItem value="any">{t("anyBeds")}</SelectItem>
+                <SelectItem value="1">1+ {t("bed")}</SelectItem>
+                <SelectItem value="2">2+ {t("beds")}</SelectItem>
+                <SelectItem value="3">3+ {t("beds")}</SelectItem>
+                <SelectItem value="4">4+ {t("beds")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="flex-1">
-            <h4 className="font-bold mb-2">Baths</h4>
+            <h4 className="font-bold mb-2">{t("baths")}</h4>
             <Select
               value={localFilters.baths || "any"}
               onValueChange={(value) =>
@@ -210,13 +212,13 @@ const FiltersFull = () => {
               }
             >
               <SelectTrigger className="w-full rounded-xl">
-                <SelectValue placeholder="Baths" />
+                <SelectValue placeholder={t("baths")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="any">Any baths</SelectItem>
-                <SelectItem value="1">1+ bath</SelectItem>
-                <SelectItem value="2">2+ baths</SelectItem>
-                <SelectItem value="3">3+ baths</SelectItem>
+                <SelectItem value="any">{t("anyBaths")}</SelectItem>
+                <SelectItem value="1">1+ {t("bath")}</SelectItem>
+                <SelectItem value="2">2+ {t("baths")}</SelectItem>
+                <SelectItem value="3">3+ {t("baths")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -224,7 +226,7 @@ const FiltersFull = () => {
 
         {/* Square Feet */}
         <div>
-          <h4 className="font-bold mb-2">Square Feet</h4>
+          <h4 className="font-bold mb-2">{t("squareFeet")}</h4>
           <Slider
             min={0}
             max={5000}
@@ -242,8 +244,8 @@ const FiltersFull = () => {
             className="[&>.bar]:bg-primary-700"
           />
           <div className="flex justify-between mt-2">
-            <span>{localFilters.squareFeet[0] ?? 0} sq ft</span>
-            <span>{localFilters.squareFeet[1] ?? 5000} sq ft</span>
+            <span>{localFilters.squareFeet[0] ?? 0} {t("sqft")}</span>
+            <span>{localFilters.squareFeet[1] ?? 5000} {t("sqft")}</span>
           </div>
         </div>
 
@@ -251,7 +253,7 @@ const FiltersFull = () => {
 
         {/* Available From */}
         <div>
-          <h4 className="font-bold mb-2">Available From</h4>
+          <h4 className="font-bold mb-2">{t("availableFrom")}</h4>
           <Input
             type="date"
             value={
@@ -275,14 +277,14 @@ const FiltersFull = () => {
             onClick={handleSubmit}
             className="flex-1 bg-primary-700 text-white rounded-xl"
           >
-            APPLY
+            {t("apply")}
           </Button>
           <Button
             onClick={handleReset}
             variant="outline"
             className="flex-1 rounded-xl"
           >
-            Reset Filters
+            {t("resetFilters")}
           </Button>
         </div>
       </div>

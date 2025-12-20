@@ -1,0 +1,59 @@
+{
+  "navbar": {
+    "logo": "RENTIFUL",
+    "addNewProperty": "Add New Property",
+    "searchProperties": "Search Properties",
+    "tagline": "Discover our perfect rental apartment with our advanced",
+    "goToDashboard": "Go to Dashboard",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "sidebar": {
+    "managerView": "Manager View",
+    "renterView": "Renter View",
+    "properties": "Properties",
+    "applications": "Applications",
+    "settings": "Settings",
+    "favorites": "Favorites",
+    "residences": "Residences"
+  },
+  "filters": {
+    "allFilters": "All Filters",
+    "searchLocation": "Search location",
+    "enterLocation": "Enter location",
+    "location": "Location",
+    "propertyType": "Property Type",
+    "anyType": "Any Type",
+    "anyPropertyType": "Any Property Type",
+    "homeType": "Home Type",
+    "priceRange": "Price Range (Monthly)",
+    "anyMinPrice": "Any Min Price",
+    "anyMaxPrice": "Any Max Price",
+    "beds": "Beds",
+    "anyBeds": "Any Beds",
+    "bed": "bed",
+    "baths": "Baths",
+    "anyBaths": "Any Baths",
+    "bath": "bath",
+    "squareFeet": "Square Feet",
+    "sqft": "sq ft",
+    "availableFrom": "Available From",
+    "apply": "APPLY",
+    "resetFilters": "Reset Filters"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "apply": "Apply",
+    "reset": "Reset"
+  }
+}

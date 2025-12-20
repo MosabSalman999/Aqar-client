@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PropertyTypeIcons } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 
 const FiltersBar = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const FiltersBar = () => {
   );
   const viewMode = useAppSelector((state) => state.global.viewMode);
   const [searchInput, setSearchInput] = useState(filters.location);
+  const t = useTranslations("filters");
 
   const updateURL = debounce((newFilters: FiltersState) => {
     const cleanFilters = cleanParams(newFilters);
@@ -110,13 +112,13 @@ const FiltersBar = () => {
           onClick={() => dispatch(toggleFiltersFullOpen())}
         >
           <Filter className="w-4 h-4" />
-          <span>All Filters</span>
+          <span>{t("allFilters")}</span>
         </Button>
 
         {/* Search Location */}
         <div className="flex items-center">
           <Input
-            placeholder="Search location"
+            placeholder={t("searchLocation")}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="w-40 rounded-l-xl rounded-r-none border-primary-400 border-r-0"
@@ -145,7 +147,7 @@ const FiltersBar = () => {
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="any">Any Min Price</SelectItem>
+              <SelectItem value="any">{t("anyMinPrice")}</SelectItem>
               {[500, 1000, 1500, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
                   ${price / 1000}k+
@@ -167,7 +169,7 @@ const FiltersBar = () => {
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="any">Any Max Price</SelectItem>
+              <SelectItem value="any">{t("anyMaxPrice")}</SelectItem>
               {[1000, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
                   &lt;${price / 1000}k
@@ -185,14 +187,14 @@ const FiltersBar = () => {
             onValueChange={(value) => handleFilterChange("beds", value, null)}
           >
             <SelectTrigger className="w-26 rounded-xl border-primary-400">
-              <SelectValue placeholder="Beds" />
+              <SelectValue placeholder={t("beds")} />
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="any">Any Beds</SelectItem>
-              <SelectItem value="1">1+ bed</SelectItem>
-              <SelectItem value="2">2+ beds</SelectItem>
-              <SelectItem value="3">3+ beds</SelectItem>
-              <SelectItem value="4">4+ beds</SelectItem>
+              <SelectItem value="any">{t("anyBeds")}</SelectItem>
+              <SelectItem value="1">1+ {t("bed")}</SelectItem>
+              <SelectItem value="2">2+ {t("beds")}</SelectItem>
+              <SelectItem value="3">3+ {t("beds")}</SelectItem>
+              <SelectItem value="4">4+ {t("beds")}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -202,13 +204,13 @@ const FiltersBar = () => {
             onValueChange={(value) => handleFilterChange("baths", value, null)}
           >
             <SelectTrigger className="w-26 rounded-xl border-primary-400">
-              <SelectValue placeholder="Baths" />
+              <SelectValue placeholder={t("baths")} />
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="any">Any Baths</SelectItem>
-              <SelectItem value="1">1+ bath</SelectItem>
-              <SelectItem value="2">2+ baths</SelectItem>
-              <SelectItem value="3">3+ baths</SelectItem>
+              <SelectItem value="any">{t("anyBaths")}</SelectItem>
+              <SelectItem value="1">1+ {t("bath")}</SelectItem>
+              <SelectItem value="2">2+ {t("baths")}</SelectItem>
+              <SelectItem value="3">3+ {t("baths")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -221,10 +223,10 @@ const FiltersBar = () => {
           }
         >
           <SelectTrigger className="w-32 rounded-xl border-primary-400">
-            <SelectValue placeholder="Home Type" />
+            <SelectValue placeholder={t("homeType")} />
           </SelectTrigger>
           <SelectContent className="bg-white">
-            <SelectItem value="any">Any Property Type</SelectItem>
+            <SelectItem value="any">{t("anyPropertyType")}</SelectItem>
             {Object.entries(PropertyTypeIcons).map(([type, Icon]) => (
               <SelectItem key={type} value={type}>
                 <div className="flex items-center">
