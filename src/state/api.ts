@@ -108,8 +108,20 @@ export const api = createApi({
 
         return { url: "properties", params };
       },
+      transformResponse: (
+        response:
+          | Property[]
+          | {
+              length?: number;
+              properties?: Property[];
+            }
+      ) => {
+        if (Array.isArray(response)) return response;
+        if (response?.properties) return response.properties;
+        return [];
+      },
       providesTags: (result) =>
-        result
+        Array.isArray(result) && result.length
           ? [
               ...result.map(({ id }) => ({ type: "Properties" as const, id })),
               { type: "Properties", id: "LIST" },
