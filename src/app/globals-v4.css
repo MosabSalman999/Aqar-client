@@ -432,16 +432,7 @@ body {
     background: var(--color-jordanian-green-600);
 }
 
-/* RTL Support for Arabic */
-[dir="rtl"] {
-    direction: rtl;
-    text-align: right;
-}
-
-[dir="rtl"] .flex {
-    flex-direction: row-reverse;
-}
-
+/* Font classes for Arabic and English */
 .arabic-font {
     font-family: var(--font-amiri), var(--font-cairo), 'Amiri', 'Cairo', 'Tajawal', serif;
 }

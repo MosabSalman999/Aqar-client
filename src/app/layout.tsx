@@ -49,7 +49,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} ${cairo.variable} ${playfair.variable} antialiased`}
       >
