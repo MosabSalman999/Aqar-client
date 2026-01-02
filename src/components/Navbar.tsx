@@ -36,10 +36,10 @@ const Navbar = () => {
   };
   return (
     <div
-      className="fixed top-0 left-0 w-full z-50 shadow-xl"
+      className="fixed top-0 left-0 w-full z-50 shadow-xl jordanian-border"
       style={{ height: `${NAVBAR_HEIGHT}px` }}
     >
-      <div className="flex justify-between items-center w-full py-3 px-8 bg-primary-700 text-white">
+      <div className="flex justify-between items-center w-full py-3 px-8 bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white">
         <div className="flex items-center gap-4 md:gap-6">
           {isDashboardPage && (
             <div className="md:hidden">
@@ -48,30 +48,35 @@ const Navbar = () => {
           )}
           <Link
             href="/"
-            className="cursor-pointer hover:!text-primary-300"
+            className="cursor-pointer hover:!text-secondary-300 transition-colors"
             scroll={false}
           >
-            <div className="flex items-center gap-3 ">
-              <Image
-                src="/logo.svg"
-                alt="Rentiful Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
+            <div className="flex items-center gap-3">
+              <div className="relative w-8 h-8 bg-secondary-600 rounded-md flex items-center justify-center">
+                <span className="text-white font-bold text-lg">ع</span>
+              </div>
 
-              <div className="text-xl font-bold">
-                RENT
-                <span className="text-secondary-500 font-light hover:!text-primary-300  ">
-                  IFUL
-                </span>
+              <div className="flex flex-col">
+                <div className="text-xl font-bold tracking-wider flex items-center gap-2">
+                  {locale === 'ar' ? (
+                    <>
+                      <span className="arabic-font text-2xl">عقار</span>
+                      <span className="text-xs text-secondary-300">AQAR</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="english-font">AQAR</span>
+                      <span className="text-xs text-secondary-300 arabic-font">عقار</span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </Link>
           {isDashboardPage && authUser && (
             <Button
               variant="secondary"
-              className="md:ml-4 bg-primary-50 text-primary-700 hover:bg-secondary-500 hover:text-primary-50"
+              className="md:ml-4 bg-secondary-600 text-white hover:bg-secondary-700 border border-secondary-500"
               onClick={() =>
                 router.push(
                   authUser.userRole?.toLowerCase() === "manager"
@@ -97,7 +102,7 @@ const Navbar = () => {
           )}
         </div>
         {!isDashboardPage && (
-          <p className="text-primary-200 hidden md:block">
+          <p className="text-secondary-300 hidden md:block text-sm italic">
             {t("tagline")}
           </p>
         )}
@@ -106,29 +111,29 @@ const Navbar = () => {
           {authUser ? (
             <>
               <div className="relative hidden md:block">
-                <MessageCircle className="w-6 h-6 cursor-pointer text-primary-200 hover:text-primary-400" />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-700 rounded-full"></span>
+                <MessageCircle className="w-6 h-6 cursor-pointer text-secondary-300 hover:text-secondary-100 transition-colors" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-600 rounded-full"></span>
               </div>
               <div className="relative hidden md:block">
-                <Bell className="w-6 h-6 cursor-pointer text-primary-200 hover:text-primary-400" />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-700 rounded-full"></span>
+                <Bell className="w-6 h-6 cursor-pointer text-secondary-300 hover:text-secondary-100 transition-colors" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-600 rounded-full"></span>
               </div>
 
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none">
-                  <Avatar>
+                  <Avatar className="border-2 border-secondary-500">
                     <AvatarImage src={authUser.userInfo?.image} />
-                    <AvatarFallback className="bg-primary-600">
+                    <AvatarFallback className="bg-secondary-600 text-white">
                       {authUser.userRole?.[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <p className="text-primary-200 hidden md:block">
+                  <p className="text-white hidden md:block font-medium">
                     {authUser.userInfo?.name}
                   </p>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white text-primary-700">
+                <DropdownMenuContent className="bg-white text-primary-900 border-secondary-300">
                   <DropdownMenuItem
-                    className="cursor-pointer hover:!bg-primary-700 hover:!text-primary-100 font-bold"
+                    className="cursor-pointer hover:!bg-secondary-600 hover:!text-white font-bold"
                     onClick={() =>
                       router.push(
                         authUser.userRole?.toLowerCase() === "manager"
@@ -140,9 +145,9 @@ const Navbar = () => {
                   >
                     {t("goToDashboard")}
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-primary-200" />
+                  <DropdownMenuSeparator className="bg-secondary-300" />
                   <DropdownMenuItem
-                    className="cursor-pointer hover:!bg-primary-700 hover:!text-primary-100"
+                    className="cursor-pointer hover:!bg-secondary-600 hover:!text-white"
                     onClick={() =>
                       router.push(
                         `/${authUser.userRole?.toLowerCase()}s/settings`,
@@ -153,7 +158,7 @@ const Navbar = () => {
                     {t("settings")}
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="cursor-pointer hover:!bg-primary-700 hover:!text-primary-100"
+                    className="cursor-pointer hover:!bg-secondary-600 hover:!text-white"
                     onClick={handleSignOut}
                   >
                     {t("signOut")}
@@ -166,7 +171,7 @@ const Navbar = () => {
               <Link href="/signin">
                 <Button
                   variant="outline"
-                  className="text-white border-white bg-transparent hover:bg-white hover:text-primary-700 rounded-lg"
+                  className="text-white border-2 border-secondary-500 bg-transparent hover:bg-secondary-600 hover:border-secondary-600 rounded-lg transition-all"
                 >
                   {t("signIn")}
                 </Button>
@@ -174,7 +179,7 @@ const Navbar = () => {
               <Link href="/signup">
                 <Button
                   variant="secondary"
-                  className="text-white bg-secondary-600 hover:bg-white hover:text-primary-700 rounded-lg"
+                  className="text-white bg-secondary-600 hover:bg-secondary-700 border-2 border-secondary-600 rounded-lg transition-all"
                 >
                   {t("signUp")}
                 </Button>

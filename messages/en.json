@@ -1,9 +1,10 @@
 {
   "navbar": {
-    "logo": "RENTIFUL",
+    "logo": "AQAR",
+    "logoArabic": "عقار",
     "addNewProperty": "Add New Property",
     "searchProperties": "Search Properties",
-    "tagline": "Discover our perfect rental apartment with our advanced",
+    "tagline": "Find your home in Jordan - From Amman to Aqaba",
     "goToDashboard": "Go to Dashboard",
     "settings": "Settings",
     "signOut": "Sign out",
