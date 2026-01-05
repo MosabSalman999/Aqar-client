@@ -5,11 +5,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector,Provider } from "react-r
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "@/state";
+import activityLogReducer from "@/state/activityLog";
 import { api } from "@/state/api";
 
 /* REDUX STORE */
 const rootReducer = combineReducers({
   global: globalReducer,
+  activityLog: activityLogReducer,
   [api.reducerPath]: api.reducer,
 });
 
@@ -17,7 +19,13 @@ export const makeStore = () => {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(api.middleware),
+      getDefaultMiddleware({
+        serializableCheck: {
+          // Ignore these action types for serializable check (dates in activity logs)
+          ignoredActions: ["activityLog/addLog"],
+          ignoredPaths: ["activityLog.logs"],
+        },
+      }).concat(api.middleware),
   });
 };
 

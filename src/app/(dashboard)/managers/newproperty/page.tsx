@@ -12,10 +12,12 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import CustomMapPicker from "@/components/CustomMapPicker";
 import { toast } from "sonner";
+import { useActivityLog } from "@/hooks/useActivityLog";
 
 const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
   const { data: authUser } = useGetAuthUserQuery();
+  const { logPropertyCreated } = useActivityLog();
 
   const form = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -94,7 +96,8 @@ const NewProperty = () => {
     formData.append("managerCognitoId", authUser.cognitoInfo.userId);
 
     try {
-      await createProperty(formData).unwrap();
+      const result = await createProperty(formData).unwrap();
+      logPropertyCreated(data.name, result?.id);
       toast.success("Property created successfully!", {
         description: "Your property listing has been added.",
       });

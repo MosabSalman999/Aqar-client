@@ -18,11 +18,12 @@ import {
   useDeletePropertyMutation,
   useTogglePropertyVisibilityMutation,
 } from "@/state/api";
-import { ArrowDownToLine, ArrowLeft, Check, Download, Trash2, Eye, EyeOff } from "lucide-react";
+import { ArrowDownToLine, ArrowLeft, Check, Download, Trash2, Eye, EyeOff, Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useActivityLog } from "@/hooks/useActivityLog";
 
 const PropertyTenants = () => {
   const { id } = useParams();
@@ -41,19 +42,21 @@ const PropertyTenants = () => {
   const [toggleVisibility, { isLoading: isToggling }] = useTogglePropertyVisibilityMutation();
   
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const { logPropertyDeleted, logPropertyVisibilityChanged } = useActivityLog();
 
   if (propertyLoading || leasesLoading || paymentsLoading) return <Loading />;
 
   const hasActiveLeases = leases && leases.some(lease => new Date(lease.endDate) >= new Date());
 
   const handleDelete = async () => {
-    if (!authUser?.cognitoInfo?.userId) return;
+    if (!authUser?.cognitoInfo?.userId || !property) return;
     
     try {
       await deleteProperty({
         id: propertyId,
         cognitoId: authUser.cognitoInfo.userId,
       }).unwrap();
+      logPropertyDeleted(property.name, propertyId);
       router.push("/managers/properties");
     } catch (error) {
       console.error("Failed to delete property:", error);
@@ -71,6 +74,7 @@ const PropertyTenants = () => {
         cognitoId: authUser.cognitoInfo.userId,
         isHidden: !property.isHidden,
       }).unwrap();
+      logPropertyVisibilityChanged(property.name, !property.isHidden, propertyId);
     } catch (error) {
       console.error("Failed to toggle visibility:", error);
     }
@@ -135,6 +139,16 @@ const PropertyTenants = () => {
         
         {/* Property Actions */}
         <div className="flex gap-3">
+          {/* Edit Button */}
+          <Link
+            href={`/managers/properties/${propertyId}/edit`}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-300 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
+            title="Edit property"
+          >
+            <Edit className="w-4 h-4" />
+            <span className="hidden sm:inline">Edit</span>
+          </Link>
+
           {/* Visibility Toggle */}
           <button
             onClick={handleToggleVisibility}

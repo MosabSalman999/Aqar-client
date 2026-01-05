@@ -4,12 +4,61 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useGetAuthUserQuery } from "@/state/api";
+import { toast } from "sonner";
 
 const HeroSection = () => {
   const locale = useLocale();
   const isArabic = locale === 'ar';
+  const router = useRouter();
+  const { data: authUser, isLoading } = useGetAuthUserQuery();
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const handleSearch = () => {
+    if (!authUser) {
+      toast.error(
+        isArabic 
+          ? "يجب تسجيل الدخول للبحث عن العقارات" 
+          : "Please sign in to search for properties",
+        {
+          action: {
+            label: isArabic ? "تسجيل الدخول" : "Sign In",
+            onClick: () => router.push("/signin"),
+          },
+        }
+      );
+      return;
+    }
+    
+    // Navigate to search page with query
+    const searchParams = new URLSearchParams();
+    if (searchQuery.trim()) {
+      searchParams.set("location", searchQuery.trim());
+    }
+    router.push(`/search?${searchParams.toString()}`);
+  };
+
+  const handleCityClick = (city: string) => {
+    if (!authUser) {
+      toast.error(
+        isArabic 
+          ? "يجب تسجيل الدخول للبحث عن العقارات" 
+          : "Please sign in to search for properties",
+        {
+          action: {
+            label: isArabic ? "تسجيل الدخول" : "Sign In",
+            onClick: () => router.push("/signin"),
+          },
+        }
+      );
+      return;
+    }
+    
+    router.push(`/search?location=${encodeURIComponent(city)}`);
+  };
   
   return (
     <div className="relative h-screen">
@@ -61,12 +110,15 @@ const HeroSection = () => {
                 <div className="relative flex bg-white rounded-xl overflow-hidden shadow-2xl border-2 border-secondary-500">
                   <Input
                     type="text"
-                    onChange={() => {}}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                     placeholder={isArabic ? "ابحث عن مدينة، حي أو عنوان في الأردن..." : "Search by city, neighborhood or address in Jordan..."}
                     className={`w-full rounded-none border-none bg-white h-14 opacity-100 text-primary-900 px-6 text-lg ${isArabic ? 'text-right' : 'text-left'}`}
                   />
                   <Button
-                    onClick={() => {}}
+                    onClick={handleSearch}
+                    disabled={isLoading}
                     className="bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-none border-none hover:from-secondary-700 hover:to-secondary-800 h-14 px-8 font-bold text-lg"
                   >
                     {isArabic ? "بحث" : "Search"}
@@ -75,17 +127,32 @@ const HeroSection = () => {
               </div>
             </div>
 
+            {/* Auth indicator */}
+            {!authUser && !isLoading && (
+              <p className="text-white/70 text-sm mt-3">
+                {isArabic ? "سجّل دخولك للبحث عن العقارات" : "Sign in to search for properties"}
+              </p>
+            )}
+
             {/* Popular Jordanian Cities */}
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              {['عمّان', 'إربد', 'الزرقاء', 'العقبة', 'السلط', 'مادبا'].map((city, index) => (
+              {[
+                { ar: 'عمّان', en: 'Amman' },
+                { ar: 'إربد', en: 'Irbid' },
+                { ar: 'الزرقاء', en: 'Zarqa' },
+                { ar: 'العقبة', en: 'Aqaba' },
+                { ar: 'السلط', en: 'Salt' },
+                { ar: 'مادبا', en: 'Madaba' },
+              ].map((city, index) => (
                 <motion.button
-                  key={city}
+                  key={city.en}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
+                  onClick={() => handleCityClick(city.en)}
                   className="px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/30 rounded-full text-white hover:bg-secondary-600 hover:border-secondary-500 transition-all text-sm arabic-font"
                 >
-                  {city}
+                  {isArabic ? city.ar : city.en}
                 </motion.button>
               ))}
             </div>

@@ -59,6 +59,8 @@ interface GeocodingFeature {
 
 const CustomMapPicker: React.FC<MapPickerProps> = ({
   onLocationChange,
+  initialLongitude,
+  initialLatitude,
   className = "",
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -69,6 +71,13 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
+  
+  // Determine initial center
+  const initialCenter: [number, number] = 
+    initialLongitude !== undefined && initialLatitude !== undefined && 
+    isWithinJordan(initialLongitude, initialLatitude)
+      ? [initialLongitude, initialLatitude]
+      : JORDAN_CENTER;
 
   // Reverse geocode to get address from coordinates
   const reverseGeocode = useCallback(
@@ -206,8 +215,8 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: JORDAN_CENTER,
-      zoom: 8,
+      center: initialCenter,
+      zoom: initialLongitude !== undefined && initialLatitude !== undefined ? 14 : 8,
       maxBounds: JORDAN_BOUNDS, // Restrict panning to Jordan
     });
 
@@ -219,7 +228,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       draggable: true,
       color: "#3b82f6",
     })
-      .setLngLat(JORDAN_CENTER)
+      .setLngLat(initialCenter)
       .addTo(map.current);
 
     // Handle marker drag end
@@ -250,13 +259,13 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     });
 
     // Initial reverse geocode
-    reverseGeocode(JORDAN_CENTER[0], JORDAN_CENTER[1]);
+    reverseGeocode(initialCenter[0], initialCenter[1]);
 
     return () => {
       map.current?.remove();
       map.current = null;
     };
-  }, [reverseGeocode]);
+  }, [reverseGeocode, initialCenter, initialLongitude, initialLatitude]);
 
   // Forward geocoding for search (restricted to Jordan)
   const searchAddress = useCallback(async (query: string) => {

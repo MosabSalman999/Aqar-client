@@ -1682,8 +1682,6 @@ export namespace Prisma {
   export type PropertyAvgAggregateOutputType = {
     id: number | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     beds: number | null
     baths: number | null
     squareFeet: number | null
@@ -1695,8 +1693,6 @@ export namespace Prisma {
   export type PropertySumAggregateOutputType = {
     id: number | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     beds: number | null
     baths: number | null
     squareFeet: number | null
@@ -1710,8 +1706,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     isParkingIncluded: boolean | null
     beds: number | null
     baths: number | null
@@ -1722,6 +1716,7 @@ export namespace Prisma {
     postedDate: Date | null
     averageRating: number | null
     numberOfReviews: number | null
+    isHidden: boolean | null
     locationId: number | null
     managerCognitoId: string | null
   }
@@ -1731,8 +1726,6 @@ export namespace Prisma {
     name: string | null
     description: string | null
     pricePerMonth: number | null
-    securityDeposit: number | null
-    applicationFee: number | null
     isParkingIncluded: boolean | null
     beds: number | null
     baths: number | null
@@ -1743,6 +1736,7 @@ export namespace Prisma {
     postedDate: Date | null
     averageRating: number | null
     numberOfReviews: number | null
+    isHidden: boolean | null
     locationId: number | null
     managerCognitoId: string | null
   }
@@ -1752,8 +1746,6 @@ export namespace Prisma {
     name: number
     description: number
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls: number
     isParkingIncluded: number
     beds: number
@@ -1765,6 +1757,7 @@ export namespace Prisma {
     postedDate: number
     averageRating: number
     numberOfReviews: number
+    isHidden: number
     locationId: number
     managerCognitoId: number
     _all: number
@@ -1774,8 +1767,6 @@ export namespace Prisma {
   export type PropertyAvgAggregateInputType = {
     id?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     beds?: true
     baths?: true
     squareFeet?: true
@@ -1787,8 +1778,6 @@ export namespace Prisma {
   export type PropertySumAggregateInputType = {
     id?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     beds?: true
     baths?: true
     squareFeet?: true
@@ -1802,8 +1791,6 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     isParkingIncluded?: true
     beds?: true
     baths?: true
@@ -1814,6 +1801,7 @@ export namespace Prisma {
     postedDate?: true
     averageRating?: true
     numberOfReviews?: true
+    isHidden?: true
     locationId?: true
     managerCognitoId?: true
   }
@@ -1823,8 +1811,6 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     isParkingIncluded?: true
     beds?: true
     baths?: true
@@ -1835,6 +1821,7 @@ export namespace Prisma {
     postedDate?: true
     averageRating?: true
     numberOfReviews?: true
+    isHidden?: true
     locationId?: true
     managerCognitoId?: true
   }
@@ -1844,8 +1831,6 @@ export namespace Prisma {
     name?: true
     description?: true
     pricePerMonth?: true
-    securityDeposit?: true
-    applicationFee?: true
     photoUrls?: true
     isParkingIncluded?: true
     beds?: true
@@ -1857,6 +1842,7 @@ export namespace Prisma {
     postedDate?: true
     averageRating?: true
     numberOfReviews?: true
+    isHidden?: true
     locationId?: true
     managerCognitoId?: true
     _all?: true
@@ -1953,8 +1939,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls: string[]
     isParkingIncluded: boolean
     beds: number
@@ -1966,6 +1950,7 @@ export namespace Prisma {
     postedDate: Date
     averageRating: number | null
     numberOfReviews: number | null
+    isHidden: boolean
     locationId: number
     managerCognitoId: string
     _count: PropertyCountAggregateOutputType | null
@@ -1994,8 +1979,6 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
@@ -2007,6 +1990,7 @@ export namespace Prisma {
     postedDate?: boolean
     averageRating?: boolean
     numberOfReviews?: boolean
+    isHidden?: boolean
     locationId?: boolean
     managerCognitoId?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
@@ -2023,8 +2007,6 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
@@ -2036,6 +2018,7 @@ export namespace Prisma {
     postedDate?: boolean
     averageRating?: boolean
     numberOfReviews?: boolean
+    isHidden?: boolean
     locationId?: boolean
     managerCognitoId?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
@@ -2047,8 +2030,6 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
@@ -2060,6 +2041,7 @@ export namespace Prisma {
     postedDate?: boolean
     averageRating?: boolean
     numberOfReviews?: boolean
+    isHidden?: boolean
     locationId?: boolean
     managerCognitoId?: boolean
     location?: boolean | LocationDefaultArgs<ExtArgs>
@@ -2071,8 +2053,6 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     pricePerMonth?: boolean
-    securityDeposit?: boolean
-    applicationFee?: boolean
     photoUrls?: boolean
     isParkingIncluded?: boolean
     beds?: boolean
@@ -2084,11 +2064,12 @@ export namespace Prisma {
     postedDate?: boolean
     averageRating?: boolean
     numberOfReviews?: boolean
+    isHidden?: boolean
     locationId?: boolean
     managerCognitoId?: boolean
   }
 
-  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "securityDeposit" | "applicationFee" | "photoUrls" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "Frequency" | "Furnished" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
+  export type PropertyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "pricePerMonth" | "photoUrls" | "isParkingIncluded" | "beds" | "baths" | "squareFeet" | "Frequency" | "Furnished" | "propertyType" | "postedDate" | "averageRating" | "numberOfReviews" | "isHidden" | "locationId" | "managerCognitoId", ExtArgs["result"]["property"]>
   export type PropertyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     location?: boolean | LocationDefaultArgs<ExtArgs>
     manager?: boolean | ManagerDefaultArgs<ExtArgs>
@@ -2122,8 +2103,6 @@ export namespace Prisma {
       name: string
       description: string
       pricePerMonth: number
-      securityDeposit: number
-      applicationFee: number
       photoUrls: string[]
       isParkingIncluded: boolean
       beds: number
@@ -2135,6 +2114,7 @@ export namespace Prisma {
       postedDate: Date
       averageRating: number | null
       numberOfReviews: number | null
+      isHidden: boolean
       locationId: number
       managerCognitoId: string
     }, ExtArgs["result"]["property"]>
@@ -2570,8 +2550,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Property", 'String'>
     readonly description: FieldRef<"Property", 'String'>
     readonly pricePerMonth: FieldRef<"Property", 'Float'>
-    readonly securityDeposit: FieldRef<"Property", 'Float'>
-    readonly applicationFee: FieldRef<"Property", 'Float'>
     readonly photoUrls: FieldRef<"Property", 'String[]'>
     readonly isParkingIncluded: FieldRef<"Property", 'Boolean'>
     readonly beds: FieldRef<"Property", 'Int'>
@@ -2583,6 +2561,7 @@ export namespace Prisma {
     readonly postedDate: FieldRef<"Property", 'DateTime'>
     readonly averageRating: FieldRef<"Property", 'Float'>
     readonly numberOfReviews: FieldRef<"Property", 'Int'>
+    readonly isHidden: FieldRef<"Property", 'Boolean'>
     readonly locationId: FieldRef<"Property", 'Int'>
     readonly managerCognitoId: FieldRef<"Property", 'String'>
   }
@@ -5587,10 +5566,10 @@ export namespace Prisma {
   export type LocationGroupByOutputType = {
     id: number
     address: string
-    city: string
-    state: string
+    city: string | null
+    state: string | null
     country: string
-    postalCode: string
+    postalCode: string | null
     _count: LocationCountAggregateOutputType | null
     _avg: LocationAvgAggregateOutputType | null
     _sum: LocationSumAggregateOutputType | null
@@ -5657,10 +5636,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       address: string
-      city: string
-      state: string
+      city: string | null
+      state: string | null
       country: string
-      postalCode: string
+      postalCode: string | null
     }, ExtArgs["result"]["location"]>
     composites: {}
   }
@@ -9908,8 +9887,6 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     pricePerMonth: 'pricePerMonth',
-    securityDeposit: 'securityDeposit',
-    applicationFee: 'applicationFee',
     photoUrls: 'photoUrls',
     isParkingIncluded: 'isParkingIncluded',
     beds: 'beds',
@@ -9921,6 +9898,7 @@ export namespace Prisma {
     postedDate: 'postedDate',
     averageRating: 'averageRating',
     numberOfReviews: 'numberOfReviews',
+    isHidden: 'isHidden',
     locationId: 'locationId',
     managerCognitoId: 'managerCognitoId'
   };
@@ -10165,8 +10143,6 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
@@ -10178,6 +10154,7 @@ export namespace Prisma {
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
     numberOfReviews?: IntNullableFilter<"Property"> | number | null
+    isHidden?: BoolFilter<"Property"> | boolean
     locationId?: IntFilter<"Property"> | number
     managerCognitoId?: StringFilter<"Property"> | string
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
@@ -10193,8 +10170,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
@@ -10206,6 +10181,7 @@ export namespace Prisma {
     postedDate?: SortOrder
     averageRating?: SortOrderInput | SortOrder
     numberOfReviews?: SortOrderInput | SortOrder
+    isHidden?: SortOrder
     locationId?: SortOrder
     managerCognitoId?: SortOrder
     location?: LocationOrderByWithRelationInput
@@ -10224,8 +10200,6 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
@@ -10237,6 +10211,7 @@ export namespace Prisma {
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
     numberOfReviews?: IntNullableFilter<"Property"> | number | null
+    isHidden?: BoolFilter<"Property"> | boolean
     locationId?: IntFilter<"Property"> | number
     managerCognitoId?: StringFilter<"Property"> | string
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
@@ -10252,8 +10227,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
@@ -10265,6 +10238,7 @@ export namespace Prisma {
     postedDate?: SortOrder
     averageRating?: SortOrderInput | SortOrder
     numberOfReviews?: SortOrderInput | SortOrder
+    isHidden?: SortOrder
     locationId?: SortOrder
     managerCognitoId?: SortOrder
     _count?: PropertyCountOrderByAggregateInput
@@ -10282,8 +10256,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Property"> | string
     description?: StringWithAggregatesFilter<"Property"> | string
     pricePerMonth?: FloatWithAggregatesFilter<"Property"> | number
-    securityDeposit?: FloatWithAggregatesFilter<"Property"> | number
-    applicationFee?: FloatWithAggregatesFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
     isParkingIncluded?: BoolWithAggregatesFilter<"Property"> | boolean
     beds?: IntWithAggregatesFilter<"Property"> | number
@@ -10295,6 +10267,7 @@ export namespace Prisma {
     postedDate?: DateTimeWithAggregatesFilter<"Property"> | Date | string
     averageRating?: FloatNullableWithAggregatesFilter<"Property"> | number | null
     numberOfReviews?: IntNullableWithAggregatesFilter<"Property"> | number | null
+    isHidden?: BoolWithAggregatesFilter<"Property"> | boolean
     locationId?: IntWithAggregatesFilter<"Property"> | number
     managerCognitoId?: StringWithAggregatesFilter<"Property"> | string
   }
@@ -10438,20 +10411,20 @@ export namespace Prisma {
     NOT?: LocationWhereInput | LocationWhereInput[]
     id?: IntFilter<"Location"> | number
     address?: StringFilter<"Location"> | string
-    city?: StringFilter<"Location"> | string
-    state?: StringFilter<"Location"> | string
+    city?: StringNullableFilter<"Location"> | string | null
+    state?: StringNullableFilter<"Location"> | string | null
     country?: StringFilter<"Location"> | string
-    postalCode?: StringFilter<"Location"> | string
+    postalCode?: StringNullableFilter<"Location"> | string | null
     properties?: PropertyListRelationFilter
   }
 
   export type LocationOrderByWithRelationInput = {
     id?: SortOrder
     address?: SortOrder
-    city?: SortOrder
-    state?: SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
     country?: SortOrder
-    postalCode?: SortOrder
+    postalCode?: SortOrderInput | SortOrder
     properties?: PropertyOrderByRelationAggregateInput
   }
 
@@ -10461,20 +10434,20 @@ export namespace Prisma {
     OR?: LocationWhereInput[]
     NOT?: LocationWhereInput | LocationWhereInput[]
     address?: StringFilter<"Location"> | string
-    city?: StringFilter<"Location"> | string
-    state?: StringFilter<"Location"> | string
+    city?: StringNullableFilter<"Location"> | string | null
+    state?: StringNullableFilter<"Location"> | string | null
     country?: StringFilter<"Location"> | string
-    postalCode?: StringFilter<"Location"> | string
+    postalCode?: StringNullableFilter<"Location"> | string | null
     properties?: PropertyListRelationFilter
   }, "id">
 
   export type LocationOrderByWithAggregationInput = {
     id?: SortOrder
     address?: SortOrder
-    city?: SortOrder
-    state?: SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
     country?: SortOrder
-    postalCode?: SortOrder
+    postalCode?: SortOrderInput | SortOrder
     _count?: LocationCountOrderByAggregateInput
     _avg?: LocationAvgOrderByAggregateInput
     _max?: LocationMaxOrderByAggregateInput
@@ -10488,10 +10461,10 @@ export namespace Prisma {
     NOT?: LocationScalarWhereWithAggregatesInput | LocationScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Location"> | number
     address?: StringWithAggregatesFilter<"Location"> | string
-    city?: StringWithAggregatesFilter<"Location"> | string
-    state?: StringWithAggregatesFilter<"Location"> | string
+    city?: StringNullableWithAggregatesFilter<"Location"> | string | null
+    state?: StringNullableWithAggregatesFilter<"Location"> | string | null
     country?: StringWithAggregatesFilter<"Location"> | string
-    postalCode?: StringWithAggregatesFilter<"Location"> | string
+    postalCode?: StringNullableWithAggregatesFilter<"Location"> | string | null
   }
 
   export type ApplicationWhereInput = {
@@ -10729,8 +10702,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -10742,6 +10713,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
@@ -10755,8 +10727,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -10768,6 +10738,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
@@ -10780,8 +10751,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -10793,6 +10762,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
@@ -10806,8 +10776,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -10819,6 +10787,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
@@ -10832,8 +10801,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -10845,6 +10812,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
   }
@@ -10853,8 +10821,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -10866,6 +10832,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PropertyUncheckedUpdateManyInput = {
@@ -10873,8 +10840,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -10886,6 +10851,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
   }
@@ -11032,38 +10998,38 @@ export namespace Prisma {
 
   export type LocationUpdateInput = {
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
     properties?: PropertyUncheckedUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUpdateManyMutationInput = {
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LocationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApplicationCreateInput = {
@@ -11437,8 +11403,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     photoUrls?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
@@ -11450,6 +11414,7 @@ export namespace Prisma {
     postedDate?: SortOrder
     averageRating?: SortOrder
     numberOfReviews?: SortOrder
+    isHidden?: SortOrder
     locationId?: SortOrder
     managerCognitoId?: SortOrder
   }
@@ -11457,8 +11422,6 @@ export namespace Prisma {
   export type PropertyAvgOrderByAggregateInput = {
     id?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
@@ -11472,8 +11435,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -11484,6 +11445,7 @@ export namespace Prisma {
     postedDate?: SortOrder
     averageRating?: SortOrder
     numberOfReviews?: SortOrder
+    isHidden?: SortOrder
     locationId?: SortOrder
     managerCognitoId?: SortOrder
   }
@@ -11493,8 +11455,6 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     isParkingIncluded?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
@@ -11505,6 +11465,7 @@ export namespace Prisma {
     postedDate?: SortOrder
     averageRating?: SortOrder
     numberOfReviews?: SortOrder
+    isHidden?: SortOrder
     locationId?: SortOrder
     managerCognitoId?: SortOrder
   }
@@ -11512,8 +11473,6 @@ export namespace Prisma {
   export type PropertySumOrderByAggregateInput = {
     id?: SortOrder
     pricePerMonth?: SortOrder
-    securityDeposit?: SortOrder
-    applicationFee?: SortOrder
     beds?: SortOrder
     baths?: SortOrder
     squareFeet?: SortOrder
@@ -13073,19 +13032,19 @@ export namespace Prisma {
 
   export type LocationUpdateWithoutPropertiesInput = {
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LocationUncheckedUpdateWithoutPropertiesInput = {
     id?: IntFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    state?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
     country?: StringFieldUpdateOperationsInput | string
-    postalCode?: StringFieldUpdateOperationsInput | string
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ManagerUpsertWithoutManagedPropertiesInput = {
@@ -13225,8 +13184,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13238,6 +13195,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
     applications?: ApplicationCreateNestedManyWithoutPropertyInput
@@ -13250,8 +13208,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13263,6 +13219,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutPropertyInput
@@ -13304,8 +13261,6 @@ export namespace Prisma {
     name?: StringFilter<"Property"> | string
     description?: StringFilter<"Property"> | string
     pricePerMonth?: FloatFilter<"Property"> | number
-    securityDeposit?: FloatFilter<"Property"> | number
-    applicationFee?: FloatFilter<"Property"> | number
     photoUrls?: StringNullableListFilter<"Property">
     isParkingIncluded?: BoolFilter<"Property"> | boolean
     beds?: IntFilter<"Property"> | number
@@ -13317,6 +13272,7 @@ export namespace Prisma {
     postedDate?: DateTimeFilter<"Property"> | Date | string
     averageRating?: FloatNullableFilter<"Property"> | number | null
     numberOfReviews?: IntNullableFilter<"Property"> | number | null
+    isHidden?: BoolFilter<"Property"> | boolean
     locationId?: IntFilter<"Property"> | number
     managerCognitoId?: StringFilter<"Property"> | string
   }
@@ -13325,8 +13281,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13338,6 +13292,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
@@ -13350,8 +13305,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13363,6 +13316,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
@@ -13379,8 +13333,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13392,6 +13344,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
@@ -13404,8 +13357,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13417,6 +13368,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
@@ -13561,8 +13513,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13574,6 +13524,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
     applications?: ApplicationCreateNestedManyWithoutPropertyInput
@@ -13586,8 +13537,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13599,6 +13548,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     managerCognitoId: string
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutPropertyInput
@@ -13636,8 +13586,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13649,6 +13597,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     leases?: LeaseCreateNestedManyWithoutPropertyInput
@@ -13661,8 +13610,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13674,6 +13621,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
     leases?: LeaseUncheckedCreateNestedManyWithoutPropertyInput
@@ -13755,8 +13703,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -13768,6 +13714,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
@@ -13780,8 +13727,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -13793,6 +13738,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
@@ -13870,8 +13816,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13883,6 +13827,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     location: LocationCreateNestedOneWithoutPropertiesInput
     manager: ManagerCreateNestedOneWithoutManagedPropertiesInput
     applications?: ApplicationCreateNestedManyWithoutPropertyInput
@@ -13895,8 +13840,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -13908,6 +13851,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
     managerCognitoId: string
     applications?: ApplicationUncheckedCreateNestedManyWithoutPropertyInput
@@ -14018,8 +13962,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14031,6 +13973,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     applications?: ApplicationUpdateManyWithoutPropertyNestedInput
@@ -14043,8 +13986,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14056,6 +13997,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     applications?: ApplicationUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14373,8 +14315,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -14386,6 +14326,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     locationId: number
   }
 
@@ -14393,8 +14334,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14406,6 +14345,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
     applications?: ApplicationUpdateManyWithoutPropertyNestedInput
@@ -14418,8 +14358,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14431,6 +14369,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14443,8 +14382,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14456,6 +14393,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -14484,8 +14422,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14497,6 +14433,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
@@ -14509,8 +14446,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14522,6 +14457,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14534,8 +14470,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14547,6 +14481,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
   }
@@ -14555,8 +14490,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14568,6 +14501,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     location?: LocationUpdateOneRequiredWithoutPropertiesNestedInput
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
@@ -14580,8 +14514,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14593,6 +14525,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14605,8 +14538,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14618,6 +14549,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     managerCognitoId?: StringFieldUpdateOperationsInput | string
   }
@@ -14691,8 +14623,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14704,6 +14634,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     manager?: ManagerUpdateOneRequiredWithoutManagedPropertiesNestedInput
     leases?: LeaseUpdateManyWithoutPropertyNestedInput
     applications?: ApplicationUpdateManyWithoutPropertyNestedInput
@@ -14716,8 +14647,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14729,6 +14658,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     managerCognitoId?: StringFieldUpdateOperationsInput | string
     leases?: LeaseUncheckedUpdateManyWithoutPropertyNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutPropertyNestedInput
@@ -14741,8 +14671,6 @@ export namespace Prisma {
     name: string
     description: string
     pricePerMonth: number
-    securityDeposit: number
-    applicationFee: number
     photoUrls?: PropertyCreatephotoUrlsInput | string[]
     isParkingIncluded?: boolean
     beds: number
@@ -14754,6 +14682,7 @@ export namespace Prisma {
     postedDate?: Date | string
     averageRating?: number | null
     numberOfReviews?: number | null
+    isHidden?: boolean
     managerCognitoId: string
   }
 
@@ -14762,8 +14691,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     pricePerMonth?: FloatFieldUpdateOperationsInput | number
-    securityDeposit?: FloatFieldUpdateOperationsInput | number
-    applicationFee?: FloatFieldUpdateOperationsInput | number
     photoUrls?: PropertyUpdatephotoUrlsInput | string[]
     isParkingIncluded?: BoolFieldUpdateOperationsInput | boolean
     beds?: IntFieldUpdateOperationsInput | number
@@ -14775,6 +14702,7 @@ export namespace Prisma {
     postedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
     numberOfReviews?: NullableIntFieldUpdateOperationsInput | number | null
+    isHidden?: BoolFieldUpdateOperationsInput | boolean
     managerCognitoId?: StringFieldUpdateOperationsInput | string
   }
 

@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useTranslations, useLocale } from "next-intl";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ActivityLogButton } from "./ActivityLog";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -114,9 +115,8 @@ const Navbar = () => {
                 <MessageCircle className="w-6 h-6 cursor-pointer text-secondary-300 hover:text-secondary-100 transition-colors" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-600 rounded-full"></span>
               </div>
-              <div className="relative hidden md:block">
-                <Bell className="w-6 h-6 cursor-pointer text-secondary-300 hover:text-secondary-100 transition-colors" />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-secondary-600 rounded-full"></span>
+              <div className="hidden md:block">
+                <ActivityLogButton />
               </div>
 
               <DropdownMenu>
