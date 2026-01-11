@@ -5,7 +5,6 @@ import { Amplify } from "aws-amplify";
 
 import {
   Authenticator,
-  Heading,
   Radio,
   RadioGroupField,
   useAuthenticator,
@@ -26,15 +25,20 @@ Amplify.configure({
 const components = {
   Header() {
     return (
-      <View className="mt-4 mb-7">
-        <Heading level={3} className="!text-2xl !font-bold">
-          RENT
-          <span className="text-secondary-500 font-light hover:!text-primary-300">
-            IFUL
-          </span>
-        </Heading>
-        <p className="text-muted-foreground mt-2">
-          <span className="font-bold">Welcome!</span> Please sign in to continue
+      <View className="mt-4 mb-7 flex flex-col items-center">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-secondary-600 rounded-lg flex items-center justify-center shadow-lg">
+            <span className="text-white font-bold text-2xl">ع</span>
+          </div>
+          <div className="flex flex-col">
+            <div className="text-2xl font-bold tracking-wider flex items-center gap-2 text-primary-900">
+              <span className="english-font">AQAR</span>
+              <span className="text-sm text-secondary-600 arabic-font">عقار</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-muted-foreground text-center">
+          <span className="font-bold text-primary-800">Welcome!</span> Please sign in to continue
         </p>
       </View>
     );
@@ -48,7 +52,7 @@ const components = {
             Don&apos;t have an account?{" "}
             <button
               onClick={toSignUp}
-              className="text-primary hover:underline bg-transparent border-none p-0"
+              className="text-secondary-600 hover:text-secondary-700 hover:underline bg-transparent border-none p-0 font-semibold"
             >
               Sign up here
             </button>
@@ -86,7 +90,7 @@ const components = {
             Already have an account?{" "}
             <button
               onClick={toSignIn}
-              className="text-primary hover:underline bg-transparent border-none p-0"
+              className="text-secondary-600 hover:text-secondary-700 hover:underline bg-transparent border-none p-0 font-semibold"
             >
               Sign in
             </button>
@@ -161,7 +165,30 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+      <style jsx global>{`
+        [data-amplify-authenticator] {
+          --amplify-components-button-primary-background-color: var(--color-secondary-600);
+          --amplify-components-button-primary-hover-background-color: var(--color-secondary-700);
+          --amplify-components-button-primary-focus-background-color: var(--color-secondary-700);
+          --amplify-components-button-primary-active-background-color: var(--color-secondary-800);
+          --amplify-components-tabs-item-active-border-color: var(--color-secondary-600);
+          --amplify-components-tabs-item-active-color: var(--color-secondary-600);
+          --amplify-components-tabs-item-focus-color: var(--color-secondary-600);
+          --amplify-components-tabs-item-hover-color: var(--color-secondary-500);
+          --amplify-components-fieldcontrol-focus-border-color: var(--color-secondary-600);
+          --amplify-components-authenticator-router-border-width: 0;
+          --amplify-components-authenticator-router-box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+          --amplify-components-authenticator-container-width-max: 420px;
+          --amplify-components-button-link-color: var(--color-secondary-600);
+          --amplify-components-button-link-hover-color: var(--color-secondary-700);
+        }
+        [data-amplify-authenticator] [data-amplify-router] {
+          border-radius: 16px;
+          padding: 2rem;
+          background: white;
+        }
+      `}</style>
       <Authenticator
         initialState={pathname.includes("signup") ? "signUp" : "signIn"}
         components={components}
