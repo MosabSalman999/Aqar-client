@@ -68,7 +68,7 @@ export const CountryLabels: Record<CountryEnum, string> = {
 };
 
 // Add this constant at the end of the file
-export const NAVBAR_HEIGHT = 31; // in pixels
+export const NAVBAR_HEIGHT = 64; // in pixels
 
 export const PUBLIC_ROUTES = ["/", "/landing"] as const;
 
