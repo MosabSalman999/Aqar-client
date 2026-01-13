@@ -37,7 +37,7 @@ const Navbar = () => {
   };
   return (
     <div
-      className="fixed top-0 left-0 w-full z-50 shadow-xl jordanian-border"
+      className="fixed top-0 left-0 w-full z-50 shadow-xl"
       style={{ height: `${NAVBAR_HEIGHT}px` }}
     >
       <div className="flex justify-between items-center w-full py-3 px-8 bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white">

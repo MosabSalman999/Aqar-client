@@ -416,22 +416,6 @@ body {
     pointer-events: none;
 }
 
-.jordanian-border {
-    border-top: 3px solid var(--color-primary-900);
-    border-bottom: 3px solid var(--color-secondary-600);
-    position: relative;
-}
-
-.jordanian-border::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--color-jordanian-green-600);
-}
-
 /* Font classes for Arabic and English */
 .arabic-font {
     font-family: var(--font-amiri), var(--font-cairo), 'Amiri', 'Cairo', 'Tajawal', serif;
