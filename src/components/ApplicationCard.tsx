@@ -1,11 +1,19 @@
-import { Mail, MapPin, PhoneCall } from "lucide-react";
+import { Mail, MapPin, PhoneCall, User } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+
+interface ApplicationCardProps {
+  application: Application;
+  userType: "manager" | "renter";
+  children: React.ReactNode;
+  onViewTenantProfile?: (tenantCognitoId: string) => void;
+}
 
 const ApplicationCard = ({
   application,
   userType,
   children,
+  onViewTenantProfile,
 }: ApplicationCardProps) => {
   const [imgSrc, setImgSrc] = useState(
     application.property.photoUrls?.[0] || "/placeholder.jpg"
@@ -94,17 +102,40 @@ const ApplicationCard = ({
             <hr className="mt-3" />
           </div>
           <div className="flex gap-4">
-            <div>
+            <div
+              className={userType === "manager" && onViewTenantProfile ? "cursor-pointer" : ""}
+              onClick={() => {
+                if (userType === "manager" && onViewTenantProfile && application.tenant) {
+                  onViewTenantProfile(application.tenant.cognitoId);
+                }
+              }}
+            >
               <Image
                 src="/landing-i1.png"
                 alt={contactPerson.name}
                 width={40}
                 height={40}
-                className="rounded-full mr-2 min-w-[40px] min-h-[40px]"
+                className="rounded-full mr-2 min-w-[40px] min-h-[40px] hover:ring-2 hover:ring-primary-500 transition-all"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div className="font-semibold">{contactPerson.name}</div>
+              <div
+                className={`font-semibold ${
+                  userType === "manager" && onViewTenantProfile
+                    ? "cursor-pointer hover:text-primary-600 hover:underline"
+                    : ""
+                }`}
+                onClick={() => {
+                  if (userType === "manager" && onViewTenantProfile && application.tenant) {
+                    onViewTenantProfile(application.tenant.cognitoId);
+                  }
+                }}
+              >
+                {contactPerson.name}
+                {userType === "manager" && onViewTenantProfile && (
+                  <User className="w-4 h-4 inline-block ml-1 text-primary-500" />
+                )}
+              </div>
               <div className="text-sm flex items-center text-primary-600">
                 <PhoneCall className="w-5 h-5 mr-2" />
                 {contactPerson.phoneNumber}

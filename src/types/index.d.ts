@@ -100,6 +100,113 @@ declare global {
     userInfo: Tenant | Manager;
     userRole: JsonObject | JsonPrimitive | JsonArray;
   }
+
+  // ─────────────────────────────────────────────────────────────
+  // EVALUATION & REPUTATION TYPES
+  // ─────────────────────────────────────────────────────────────
+
+  interface TenantEvaluation {
+    id: number;
+    createdAt: string;
+    leaseId: number;
+    tenantCognitoId: string;
+    managerCognitoId: string;
+    rating: number;
+    comment: string;
+    integrityScore: number;
+    latePaymentCount: number;
+    reportsCount: number;
+    lease?: {
+      property?: {
+        id: number;
+        name: string;
+      };
+    };
+    manager?: {
+      name: string;
+    };
+  }
+
+  interface PropertyEvaluation {
+    id: number;
+    createdAt: string;
+    leaseId: number;
+    propertyId: number;
+    tenantCognitoId: string;
+    rating: number;
+    comment: string;
+    tenant?: {
+      name: string;
+    };
+    lease?: {
+      startDate: string;
+      endDate: string;
+    };
+  }
+
+  interface IntegritySnapshot {
+    id: number;
+    createdAt: string;
+    tenantCognitoId: string;
+    integrityScore: number;
+    totalLatePayments: number;
+    totalReports: number;
+    totalLeasesCompleted: number;
+    averageManagerRating: number | null;
+  }
+
+  interface IntegrityBreakdown {
+    baseScore: number;
+    latePaymentPenalty: number;
+    reportPenalty: number;
+    leaseBonus: number;
+    ratingAdjustment: number;
+  }
+
+  interface TenantIntegrity {
+    integrityScore: number;
+    latePaymentCount: number;
+    reportsCount: number;
+    totalLeasesCompleted: number;
+    averageManagerRating: number | null;
+    breakdown: IntegrityBreakdown;
+  }
+
+  interface TenantReputation {
+    tenant: {
+      id: number;
+      cognitoId: string;
+      name: string;
+      email: string;
+    };
+    currentIntegrity: TenantIntegrity;
+    evaluations: TenantEvaluation[];
+    integrityHistory: IntegritySnapshot[];
+  }
+
+  interface PropertyEvaluationsResponse {
+    propertyId: number;
+    totalEvaluations: number;
+    averageRating: number | null;
+    evaluations: PropertyEvaluation[];
+  }
+
+  interface CanEvaluateResponse {
+    canEvaluate: boolean;
+    reason: string | null;
+  }
+
+  interface CreateTenantEvaluationRequest {
+    leaseId: number;
+    rating: number;
+    comment: string;
+  }
+
+  interface CreatePropertyEvaluationRequest {
+    leaseId: number;
+    rating: number;
+    comment: string;
+  }
 }
 
 export {};

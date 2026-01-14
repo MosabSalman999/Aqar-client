@@ -34,6 +34,8 @@ export const api = createApi({
     "Leases",
     "Payments",
     "Applications",
+    "TenantEvaluations",
+    "PropertyEvaluations",
   ],
 
 
@@ -439,6 +441,98 @@ export const api = createApi({
         body: data,
       }),
     }),
+
+    // ─────────────────────────────────────────────────────────────
+    // EVALUATION ENDPOINTS
+    // ─────────────────────────────────────────────────────────────
+
+    // Tenant Evaluation (Manager-only)
+    createTenantEvaluation: build.mutation<
+      TenantEvaluation,
+      CreateTenantEvaluationRequest
+    >({
+      query: (body) => ({
+        url: "evaluations/tenant-evaluations",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["TenantEvaluations", "Leases"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Tenant evaluation submitted successfully!",
+          error: "Failed to submit tenant evaluation.",
+        });
+      },
+    }),
+
+    getTenantReputation: build.query<TenantReputation, string>({
+      query: (tenantCognitoId) =>
+        `evaluations/tenant-evaluations/${tenantCognitoId}`,
+      providesTags: (result) => [
+        { type: "TenantEvaluations", id: result?.tenant?.cognitoId },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to load tenant reputation.",
+        });
+      },
+    }),
+
+    canEvaluateTenant: build.query<CanEvaluateResponse, number>({
+      query: (leaseId) =>
+        `evaluations/tenant-evaluations/can-evaluate/${leaseId}`,
+    }),
+
+    // Property Evaluation (Public read, Tenant write)
+    createPropertyEvaluation: build.mutation<
+      PropertyEvaluation,
+      CreatePropertyEvaluationRequest
+    >({
+      query: (body) => ({
+        url: "evaluations/property-evaluations",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (result) => [
+        { type: "PropertyEvaluations", id: result?.propertyId },
+        { type: "PropertyDetails", id: result?.propertyId },
+        "Leases",
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Property review submitted successfully!",
+          error: "Failed to submit property review.",
+        });
+      },
+    }),
+
+    getPropertyEvaluations: build.query<PropertyEvaluationsResponse, number>({
+      query: (propertyId) =>
+        `evaluations/property-evaluations/${propertyId}`,
+      providesTags: (result) => [
+        { type: "PropertyEvaluations", id: result?.propertyId },
+      ],
+    }),
+
+    canEvaluateProperty: build.query<CanEvaluateResponse, number>({
+      query: (leaseId) =>
+        `evaluations/property-evaluations/can-evaluate/${leaseId}`,
+    }),
+
+    // Lease Termination (Manager-only)
+    terminateLease: build.mutation<Lease, number>({
+      query: (leaseId) => ({
+        url: `evaluations/leases/${leaseId}/terminate`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Leases"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Lease terminated successfully!",
+          error: "Failed to terminate lease.",
+        });
+      },
+    }),
   }),
 });
 
@@ -464,4 +558,12 @@ export const {
   useUpdateApplicationStatusMutation,
   useCreateApplicationMutation,
   useGetPricePredictionMutation,
+  // Evaluation hooks
+  useCreateTenantEvaluationMutation,
+  useGetTenantReputationQuery,
+  useCanEvaluateTenantQuery,
+  useCreatePropertyEvaluationMutation,
+  useGetPropertyEvaluationsQuery,
+  useCanEvaluatePropertyQuery,
+  useTerminateLeaseMutation,
 } = api;

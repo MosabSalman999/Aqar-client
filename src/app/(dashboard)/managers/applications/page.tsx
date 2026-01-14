@@ -8,14 +8,30 @@ import {
   useGetApplicationsQuery,
   useGetAuthUserQuery,
   useUpdateApplicationStatusMutation,
+  useTerminateLeaseMutation,
+  useCanEvaluateTenantQuery,
 } from "@/state/api";
-import { CircleCheckBig, Download, File, Hospital } from "lucide-react";
+import {
+  TenantReputationModal,
+  TenantEvaluationModal,
+} from "@/components/evaluations";
+import { CircleCheckBig, Download, File, Hospital, UserCheck, XCircle, Star } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Applications = () => {
   const { data: authUser } = useGetAuthUserQuery();
   const [activeTab, setActiveTab] = useState("all");
+  
+  // State for modals
+  const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null);
+  const [isReputationModalOpen, setIsReputationModalOpen] = useState(false);
+  const [evaluationModalData, setEvaluationModalData] = useState<{
+    isOpen: boolean;
+    leaseId: number;
+    tenantName: string;
+    propertyName: string;
+  } | null>(null);
 
   const {
     data: applications,
@@ -31,9 +47,34 @@ const Applications = () => {
     }
   );
   const [updateApplicationStatus] = useUpdateApplicationStatusMutation();
+  const [terminateLease] = useTerminateLeaseMutation();
 
   const handleStatusChange = async (id: number, status: string) => {
     await updateApplicationStatus({ id, status });
+  };
+
+  const handleViewTenantProfile = (tenantCognitoId: string) => {
+    setSelectedTenantId(tenantCognitoId);
+    setIsReputationModalOpen(true);
+  };
+
+  const handleTerminateLease = async (leaseId: number) => {
+    if (confirm("Are you sure you want to terminate this lease? This action cannot be undone.")) {
+      await terminateLease(leaseId);
+    }
+  };
+
+  const handleOpenEvaluationModal = (
+    leaseId: number,
+    tenantName: string,
+    propertyName: string
+  ) => {
+    setEvaluationModalData({
+      isOpen: true,
+      leaseId,
+      tenantName,
+      propertyName,
+    });
   };
 
   if (isLoading) return <Loading />;
@@ -73,6 +114,7 @@ const Applications = () => {
                   key={application.id}
                   application={application}
                   userType="manager"
+                  onViewTenantProfile={handleViewTenantProfile}
                 >
                   <div className="flex justify-between gap-5 w-full pb-4 px-4">
                     {/* Colored Section Status */}
@@ -134,6 +176,35 @@ const Applications = () => {
                           Download Agreement
                         </button>
                       )}
+                      {/* Lease Management Buttons for Approved Applications */}
+                      {application.status === "Approved" && application.lease && (
+                        <>
+                          {application.lease.status === "Active" && (
+                            <button
+                              className="px-4 py-2 text-sm text-white bg-orange-600 rounded hover:bg-orange-500 flex items-center"
+                              onClick={() => handleTerminateLease(application.lease!.id)}
+                            >
+                              <XCircle className="w-4 h-4 mr-1" />
+                              Terminate Lease
+                            </button>
+                          )}
+                          {application.lease.status === "Terminated" && (
+                            <button
+                              className="px-4 py-2 text-sm text-white bg-purple-600 rounded hover:bg-purple-500 flex items-center"
+                              onClick={() =>
+                                handleOpenEvaluationModal(
+                                  application.lease!.id,
+                                  application.tenant.name,
+                                  application.property.name
+                                )
+                              }
+                            >
+                              <Star className="w-4 h-4 mr-1" />
+                              Evaluate Tenant
+                            </button>
+                          )}
+                        </>
+                      )}
                       {application.status === "Pending" && (
                         <>
                           <button
@@ -169,6 +240,29 @@ const Applications = () => {
           </TabsContent>
         ))}
       </Tabs>
+
+      {/* Tenant Reputation Modal */}
+      {selectedTenantId && (
+        <TenantReputationModal
+          isOpen={isReputationModalOpen}
+          onClose={() => {
+            setIsReputationModalOpen(false);
+            setSelectedTenantId(null);
+          }}
+          tenantCognitoId={selectedTenantId}
+        />
+      )}
+
+      {/* Tenant Evaluation Modal */}
+      {evaluationModalData && (
+        <TenantEvaluationModal
+          isOpen={evaluationModalData.isOpen}
+          onClose={() => setEvaluationModalData(null)}
+          leaseId={evaluationModalData.leaseId}
+          tenantName={evaluationModalData.tenantName}
+          propertyName={evaluationModalData.propertyName}
+        />
+      )}
     </div>
   );
 };

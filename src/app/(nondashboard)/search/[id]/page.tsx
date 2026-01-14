@@ -10,6 +10,7 @@ import PropertyLocation from "./PropertyLocation";
 import ContactWidget from "./ContactWidget";
 import ApplicationModal from "./ApplicationModal";
 import Loading from "@/components/Loading";
+import { PropertyReviewsSection } from "@/components/evaluations";
 
 const SingleListing = () => {
   const { id } = useParams();
@@ -41,6 +42,8 @@ const SingleListing = () => {
           <PropertyOverview propertyId={propertyId} />
           <PropertyDetails propertyId={propertyId} />
           <PropertyLocation propertyId={propertyId} />
+          {/* Property Reviews Section */}
+          <PropertyReviewsSection propertyId={propertyId} />
         </div>
 
         <div className="order-1 md:order-2">
