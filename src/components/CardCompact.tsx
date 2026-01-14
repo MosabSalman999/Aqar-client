@@ -1,7 +1,10 @@
 import { Bath, Bed, Heart, House, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PriceLabelBadge from "./PriceLabelBadge";
+import { useGetPricePredictionMutation } from "@/state/api";
+import { PricingResult } from "@/state";
 
 const CardCompact = ({
   property,
@@ -13,6 +16,43 @@ const CardCompact = ({
   const [imgSrc, setImgSrc] = useState(
     property.photoUrls?.[0] || "/placeholder.jpg"
   );
+  const [getPricePrediction] = useGetPricePredictionMutation();
+  const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+
+  const country = property.location?.country;
+  const isUAE = country === "UAE";
+
+  // Fetch price label for UAE properties
+  useEffect(() => {
+    const fetchPriceLabel = async () => {
+      if (!isUAE || !property.location?.coordinates) return;
+      
+      setIsLoadingPrice(true);
+      try {
+        const result = await getPricePrediction({
+          beds: property.beds,
+          baths: property.baths,
+          squareFeet: property.squareFeet,
+          propertyType: property.propertyType,
+          furnished: property.Furnished || false,
+          location: property.location?.city || "Dubai",
+          city: property.location?.city || "Dubai",
+          latitude: property.location.coordinates.latitude,
+          longitude: property.location.coordinates.longitude,
+          country: "UAE",
+          managerPrice: property.pricePerMonth,
+        }).unwrap();
+        setPricingResult(result);
+      } catch (error) {
+        console.error("Failed to fetch price label:", error);
+      } finally {
+        setIsLoadingPrice(false);
+      }
+    };
+
+    fetchPriceLabel();
+  }, [property, isUAE, getPricePrediction]);
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
@@ -65,7 +105,7 @@ const CardCompact = ({
           <p className="text-gray-600 mb-1 text-sm">
             {property?.location?.address}, {property?.location?.city}
           </p>
-          <div className="flex text-sm items-center">
+          <div className="flex text-sm items-center gap-2">
             <Star className="w-3 h-3 text-yellow-400 mr-1" />
             <span className="font-semibold">
               {property.averageRating.toFixed(1)}
@@ -73,6 +113,13 @@ const CardCompact = ({
             <span className="text-gray-600 ml-1">
               ({property.numberOfReviews})
             </span>
+            {/* Price Label Badge for UAE */}
+            <PriceLabelBadge
+              priceLabel={pricingResult?.price_label || null}
+              isLoading={isLoadingPrice}
+              country={country}
+              showNotAvailable={false}
+            />
           </div>
         </div>
         <div className="flex justify-between items-center text-sm">

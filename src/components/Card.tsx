@@ -1,7 +1,10 @@
 import { Bath, Bed, Heart, House, Star, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PriceLabelBadge from "./PriceLabelBadge";
+import { useGetPricePredictionMutation } from "@/state/api";
+import { PricingResult } from "@/state";
 
 const Card = ({
   property,
@@ -13,6 +16,43 @@ const Card = ({
   const [imgSrc, setImgSrc] = useState(
     property.photoUrls?.[0] || "/placeholder.jpg"
   );
+  const [getPricePrediction] = useGetPricePredictionMutation();
+  const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+
+  const country = property.location?.country;
+  const isUAE = country === "UAE";
+
+  // Fetch price label for UAE properties
+  useEffect(() => {
+    const fetchPriceLabel = async () => {
+      if (!isUAE || !property.location?.coordinates) return;
+      
+      setIsLoadingPrice(true);
+      try {
+        const result = await getPricePrediction({
+          beds: property.beds,
+          baths: property.baths,
+          squareFeet: property.squareFeet,
+          propertyType: property.propertyType,
+          furnished: property.Furnished || false,
+          location: property.location?.city || "Dubai",
+          city: property.location?.city || "Dubai",
+          latitude: property.location.coordinates.latitude,
+          longitude: property.location.coordinates.longitude,
+          country: "UAE",
+          managerPrice: property.pricePerMonth,
+        }).unwrap();
+        setPricingResult(result);
+      } catch (error) {
+        console.error("Failed to fetch price label:", error);
+      } finally {
+        setIsLoadingPrice(false);
+      }
+    };
+
+    fetchPriceLabel();
+  }, [property, isUAE, getPricePrediction]);
 
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full mb-5">
@@ -51,6 +91,17 @@ const Card = ({
           <div className="absolute top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
             <EyeOff className="w-3 h-3" />
             Hidden
+          </div>
+        )}
+        {/* Price Label Badge for UAE */}
+        {!property.isHidden && (
+          <div className="absolute top-4 right-4">
+            <PriceLabelBadge
+              priceLabel={pricingResult?.price_label || null}
+              isLoading={isLoadingPrice}
+              country={country}
+              showNotAvailable={false}
+            />
           </div>
         )}
       </div>

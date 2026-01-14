@@ -1,6 +1,8 @@
-import { useGetPropertyQuery } from "@/state/api";
+import { useGetPropertyQuery, useGetPricePredictionMutation } from "@/state/api";
 import { MapPin, Star } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PriceLabelBadge from "@/components/PriceLabelBadge";
+import { PricingResult } from "@/state";
 
 const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
   const {
@@ -8,6 +10,43 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
     isError,
     isLoading,
   } = useGetPropertyQuery(propertyId);
+  const [getPricePrediction] = useGetPricePredictionMutation();
+  const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+
+  const country = property?.location?.country;
+  const isUAE = country === "UAE";
+
+  // Fetch price label for UAE properties
+  useEffect(() => {
+    const fetchPriceLabel = async () => {
+      if (!property || !isUAE || !property.location?.coordinates) return;
+      
+      setIsLoadingPrice(true);
+      try {
+        const result = await getPricePrediction({
+          beds: property.beds,
+          baths: property.baths,
+          squareFeet: property.squareFeet,
+          propertyType: property.propertyType,
+          furnished: property.Furnished || false,
+          location: property.location?.city || "Dubai",
+          city: property.location?.city || "Dubai",
+          latitude: property.location.coordinates.latitude,
+          longitude: property.location.coordinates.longitude,
+          country: "UAE",
+          managerPrice: property.pricePerMonth,
+        }).unwrap();
+        setPricingResult(result);
+      } catch (error) {
+        console.error("Failed to fetch price label:", error);
+      } finally {
+        setIsLoadingPrice(false);
+      }
+    };
+
+    fetchPriceLabel();
+  }, [property, isUAE, getPricePrediction]);
 
   if (isLoading) return <>Loading...</>;
   if (isError || !property) {
@@ -47,8 +86,14 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
         <div className="flex justify-between items-center gap-4 px-5">
           <div>
             <div className="text-sm text-gray-500">Monthly Rent</div>
-            <div className="font-semibold">
+            <div className="font-semibold flex items-center gap-2">
               ${property.pricePerMonth.toLocaleString()}
+              <PriceLabelBadge
+                priceLabel={pricingResult?.price_label || null}
+                isLoading={isLoadingPrice}
+                country={country}
+                showNotAvailable={true}
+              />
             </div>
           </div>
           <div className="border-l border-gray-300 h-10"></div>

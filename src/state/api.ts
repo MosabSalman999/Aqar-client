@@ -9,7 +9,7 @@ import {
 } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
-import { FiltersState } from ".";
+import { FiltersState, PricingRequest, PricingResult } from ".";
 
 
 
@@ -36,7 +36,7 @@ export const api = createApi({
     "Applications",
   ],
 
-  
+
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
@@ -74,11 +74,11 @@ export const api = createApi({
             },
           };
         } catch (error: unknown) {
-          return { 
-            error: { 
+          return {
+            error: {
               status: 'CUSTOM_ERROR' as const,
               error: error instanceof Error ? error.message : "Could not fetch user data"
-            } 
+            }
           };
         }
       },
@@ -112,9 +112,9 @@ export const api = createApi({
         response:
           | Property[]
           | {
-              length?: number;
-              properties?: Property[];
-            }
+            length?: number;
+            properties?: Property[];
+          }
       ) => {
         if (Array.isArray(response)) return response;
         if (response?.properties) return response.properties;
@@ -123,9 +123,9 @@ export const api = createApi({
       providesTags: (result) =>
         Array.isArray(result) && result.length
           ? [
-              ...result.map(({ id }) => ({ type: "Properties" as const, id })),
-              { type: "Properties", id: "LIST" },
-            ]
+            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+            { type: "Properties", id: "LIST" },
+          ]
           : [{ type: "Properties", id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
@@ -160,9 +160,9 @@ export const api = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Properties" as const, id })),
-              { type: "Properties", id: "LIST" },
-            ]
+            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+            { type: "Properties", id: "LIST" },
+          ]
           : [{ type: "Properties", id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
@@ -235,9 +235,9 @@ export const api = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Properties" as const, id })),
-              { type: "Properties", id: "LIST" },
-            ]
+            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+            { type: "Properties", id: "LIST" },
+          ]
           : [{ type: "Properties", id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         await withToast(queryFulfilled, {
@@ -431,6 +431,14 @@ export const api = createApi({
         });
       },
     }),
+
+    getPricePrediction: build.mutation<PricingResult, PricingRequest>({
+      query: (data) => ({
+        url: "pricePrediction/predict",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -455,4 +463,5 @@ export const {
   useGetApplicationsQuery,
   useUpdateApplicationStatusMutation,
   useCreateApplicationMutation,
+  useGetPricePredictionMutation,
 } = api;

@@ -67,6 +67,10 @@ export const CountryLabels: Record<CountryEnum, string> = {
   UAE: "United Arab Emirates",
 };
 
+// UAE Cities for AI Price Prediction
+export const UAECities = ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"] as const;
+export type UAECity = (typeof UAECities)[number];
+
 // Add this constant at the end of the file
 export const NAVBAR_HEIGHT = 64; // in pixels
 

@@ -14,8 +14,23 @@ const JORDAN_BOUNDS: [[number, number], [number, number]] = [
   [39.3, 33.4], // Northeast: [lng, lat]
 ];
 
+// UAE boundaries (approximate bounding box)
+const UAE_BOUNDS: [[number, number], [number, number]] = [
+  [51.5, 22.6], // Southwest: [lng, lat]
+  [56.4, 26.1], // Northeast: [lng, lat]
+];
+
+// Combined bounds for Jordan and UAE (used for map max bounds)
+const COMBINED_BOUNDS: [[number, number], [number, number]] = [
+  [34.9, 22.6], // Southwest: min lng, min lat
+  [56.4, 33.4], // Northeast: max lng, max lat
+];
+
 // Jordan center (Amman)
 const JORDAN_CENTER: [number, number] = [35.9106, 31.9539];
+
+// UAE center (Dubai)
+const UAE_CENTER: [number, number] = [55.2708, 25.2048];
 
 // Check if coordinates are within Jordan
 const isWithinJordan = (lng: number, lat: number): boolean => {
@@ -25,6 +40,28 @@ const isWithinJordan = (lng: number, lat: number): boolean => {
     lat >= JORDAN_BOUNDS[0][1] &&
     lat <= JORDAN_BOUNDS[1][1]
   );
+};
+
+// Check if coordinates are within UAE
+const isWithinUAE = (lng: number, lat: number): boolean => {
+  return (
+    lng >= UAE_BOUNDS[0][0] &&
+    lng <= UAE_BOUNDS[1][0] &&
+    lat >= UAE_BOUNDS[0][1] &&
+    lat <= UAE_BOUNDS[1][1]
+  );
+};
+
+// Check if coordinates are within allowed regions (Jordan or UAE)
+const isWithinAllowedRegions = (lng: number, lat: number): boolean => {
+  return isWithinJordan(lng, lat) || isWithinUAE(lng, lat);
+};
+
+// Get country name from coordinates
+const getCountryFromCoordinates = (lng: number, lat: number): string => {
+  if (isWithinJordan(lng, lat)) return "Jordan";
+  if (isWithinUAE(lng, lat)) return "UAE";
+  return "Unknown";
 };
 
 interface MapPickerProps {
@@ -75,23 +112,27 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
   // Determine initial center
   const initialCenter: [number, number] = 
     initialLongitude !== undefined && initialLatitude !== undefined && 
-    isWithinJordan(initialLongitude, initialLatitude)
+    isWithinAllowedRegions(initialLongitude, initialLatitude)
       ? [initialLongitude, initialLatitude]
       : JORDAN_CENTER;
 
   // Reverse geocode to get address from coordinates
   const reverseGeocode = useCallback(
     async (lng: number, lat: number) => {
-      // Check if within Jordan first
-      if (!isWithinJordan(lng, lat)) {
-        setLocationError("Please select a location within Jordan");
+      // Check if within allowed regions first
+      if (!isWithinAllowedRegions(lng, lat)) {
+        setLocationError("Please select a location within Jordan or UAE");
         return;
       }
       setLocationError(null);
 
+      // Determine country code for API call
+      const countryCode = isWithinJordan(lng, lat) ? "JO" : "AE";
+      const defaultCountry = getCountryFromCoordinates(lng, lat);
+
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}&types=address,place&country=JO`
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}&types=address,place&country=${countryCode}`
         );
         const data = await response.json();
 
@@ -105,7 +146,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
             : feature.text || "";
           let city = "";
           let state = "";
-          let country = "Jordan";
+          let country = defaultCountry;
           let postalCode = "";
 
           context.forEach((item) => {
@@ -114,7 +155,11 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
             } else if (item.id.startsWith("region")) {
               state = item.text;
             } else if (item.id.startsWith("country")) {
-              country = item.text;
+              // Map country names to our enum values
+              const countryText = item.text;
+              if (countryText === "Jordan") country = "Jordan";
+              else if (countryText === "United Arab Emirates" || countryText === "UAE") country = "UAE";
+              else country = countryText;
             } else if (item.id.startsWith("postcode")) {
               postalCode = item.text;
             }
@@ -133,7 +178,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
           onLocationChange({
             longitude: lng,
             latitude: lat,
-            country: "Jordan",
+            country: defaultCountry,
           });
         }
       } catch (error) {
@@ -141,7 +186,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
         onLocationChange({
           longitude: lng,
           latitude: lat,
-          country: "Jordan",
+          country: defaultCountry,
         });
       }
     },
@@ -162,10 +207,10 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       (position) => {
         const { longitude, latitude } = position.coords;
 
-        // Check if within Jordan
-        if (!isWithinJordan(longitude, latitude)) {
+        // Check if within allowed regions (Jordan or UAE)
+        if (!isWithinAllowedRegions(longitude, latitude)) {
           setLocationError(
-            "Your current location is outside Jordan. Please select a location within Jordan."
+            "Your current location is outside Jordan and UAE. Please select a location within these regions."
           );
           setIsGettingLocation(false);
           return;
@@ -217,8 +262,8 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       // Using streets-v12 for better 3D building support
       style: "mapbox://styles/mapbox/streets-v12",
       center: initialCenter,
-      zoom: initialLongitude !== undefined && initialLatitude !== undefined ? 16 : 10,
-      maxBounds: JORDAN_BOUNDS, // Restrict panning to Jordan
+      zoom: initialLongitude !== undefined && initialLatitude !== undefined ? 16 : 5,
+      maxBounds: COMBINED_BOUNDS, // Restrict panning to Jordan and UAE
       // 3D Camera Settings: pitch tilts the camera for 3D perspective view
       pitch: 45,
       // bearing rotates the map for a more dynamic 3D view
@@ -308,11 +353,11 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     marker.current.on("dragend", () => {
       const lngLat = marker.current?.getLngLat();
       if (lngLat) {
-        if (isWithinJordan(lngLat.lng, lngLat.lat)) {
+        if (isWithinAllowedRegions(lngLat.lng, lngLat.lat)) {
           setLocationError(null);
           reverseGeocode(lngLat.lng, lngLat.lat);
         } else {
-          setLocationError("Please select a location within Jordan");
+          setLocationError("Please select a location within Jordan or UAE");
           // Reset marker to center of Jordan
           marker.current?.setLngLat(JORDAN_CENTER);
         }
@@ -322,12 +367,12 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     // Handle map click to move marker
     map.current.on("click", (e) => {
       const { lng, lat } = e.lngLat;
-      if (isWithinJordan(lng, lat)) {
+      if (isWithinAllowedRegions(lng, lat)) {
         setLocationError(null);
         marker.current?.setLngLat([lng, lat]);
         reverseGeocode(lng, lat);
       } else {
-        setLocationError("Please select a location within Jordan");
+        setLocationError("Please select a location within Jordan or UAE");
       }
     });
 
@@ -340,7 +385,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
     };
   }, [reverseGeocode, initialCenter, initialLongitude, initialLatitude]);
 
-  // Forward geocoding for search (restricted to Jordan)
+  // Forward geocoding for search (restricted to Jordan and UAE)
   const searchAddress = useCallback(async (query: string) => {
     if (!query || query.length < 3) {
       setSuggestions([]);
@@ -349,10 +394,11 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
 
     setIsLoading(true);
     try {
+      // Search in both Jordan (JO) and UAE (AE)
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
           query
-        )}.json?access_token=${mapboxgl.accessToken}&types=address,place,locality&limit=5&country=JO&bbox=${JORDAN_BOUNDS[0][0]},${JORDAN_BOUNDS[0][1]},${JORDAN_BOUNDS[1][0]},${JORDAN_BOUNDS[1][1]}`
+        )}.json?access_token=${mapboxgl.accessToken}&types=address,place,locality&limit=5&country=JO,AE`
       );
       const data = await response.json();
       setSuggestions(data.features || []);
@@ -377,9 +423,9 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
   const handleSelectSuggestion = (feature: GeocodingFeature) => {
     const [lng, lat] = feature.center;
 
-    // Validate location is within Jordan
-    if (!isWithinJordan(lng, lat)) {
-      setLocationError("Please select a location within Jordan");
+    // Validate location is within allowed regions (Jordan or UAE)
+    if (!isWithinAllowedRegions(lng, lat)) {
+      setLocationError("Please select a location within Jordan or UAE");
       return;
     }
     setLocationError(null);
@@ -398,7 +444,7 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       : feature.text || "";
     let city = "";
     let state = "";
-    let country = "Jordan";
+    let country = getCountryFromCoordinates(lng, lat);
     let postalCode = "";
 
     context.forEach((item) => {
@@ -407,7 +453,11 @@ const CustomMapPicker: React.FC<MapPickerProps> = ({
       } else if (item.id.startsWith("region")) {
         state = item.text;
       } else if (item.id.startsWith("country")) {
-        country = item.text;
+        // Map country names to our enum values
+        const countryText = item.text;
+        if (countryText === "Jordan") country = "Jordan";
+        else if (countryText === "United Arab Emirates" || countryText === "UAE") country = "UAE";
+        else country = countryText;
       } else if (item.id.startsWith("postcode")) {
         postalCode = item.text;
       }

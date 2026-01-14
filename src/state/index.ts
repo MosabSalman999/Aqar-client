@@ -32,6 +32,35 @@ export const initialState: InitialStateTypes = {
   viewMode: "grid",
 };
 
+export interface PricingRequest {
+  beds: number;
+  baths: number;
+  squareFeet: number;
+  propertyType: string;
+  furnished: boolean;
+  location: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  managerPrice: number;
+}
+
+export interface PricingResult {
+  country: string;
+  predicted_price: number | null;
+  predicted_price_monthly: number | null;
+  minimum_allowed_price: number | null;
+  manager_price_valid: boolean;
+  price_label: "Low" | "Medium" | "High" | "Not Classified";
+  message: string;
+  rent_category?: string;
+  category_description?: string;
+}
+
+
+
+
 export const globalSlice = createSlice({
   name: "global",
   initialState,

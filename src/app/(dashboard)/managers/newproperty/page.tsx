@@ -4,20 +4,26 @@ import { CustomFormField } from "@/components/FormField";
 import Header from "@/components/Header";
 import { Form } from "@/components/ui/form";
 import { PropertyFormData, propertySchema } from "@/lib/schemas";
-import { useCreatePropertyMutation, useGetAuthUserQuery } from "@/state/api";
-import { PropertyTypeEnum, PropertyTypeLabels, FrequencyEnum, FrequencyLabels, CountryEnum, CountryLabels } from "@/lib/constants";
+import { useCreatePropertyMutation, useGetAuthUserQuery, useGetPricePredictionMutation } from "@/state/api";
+import { PropertyTypeEnum, PropertyTypeLabels, FrequencyEnum, FrequencyLabels, CountryEnum, CountryLabels, UAECities } from "@/lib/constants";
+import { PricingResult } from "@/state";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import CustomMapPicker from "@/components/CustomMapPicker";
 import { toast } from "sonner";
 import { useActivityLog } from "@/hooks/useActivityLog";
+import { Sparkles, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
 const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
   const { data: authUser } = useGetAuthUserQuery();
   const { logPropertyCreated } = useActivityLog();
+  const [getPricePrediction, { isLoading: isPredicting }] = useGetPricePredictionMutation();
+  
+  const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
+  const [pricingError, setPricingError] = useState<string | null>(null);
 
   const form = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -42,6 +48,58 @@ const NewProperty = () => {
       latitude: undefined,
     },
   });
+
+  // Watch form values for AI pricing
+  const watchedCountry = form.watch("country");
+  const watchedPrice = form.watch("pricePerMonth");
+  const watchedCity = form.watch("city");
+  const isUAE = watchedCountry === CountryEnum.UAE;
+
+  // Fetch AI pricing when UAE is selected
+  const fetchPricePrediction = useCallback(async () => {
+    if (!isUAE) {
+      setPricingResult(null);
+      setPricingError(null);
+      return;
+    }
+
+    const formValues = form.getValues();
+    const city = formValues.city || "Dubai";
+    
+    // Validate city is a valid UAE city
+    if (!UAECities.includes(city as typeof UAECities[number])) {
+      setPricingError(`Please select a valid UAE city: ${UAECities.join(", ")}`);
+      setPricingResult(null);
+      return;
+    }
+
+    if (!formValues.latitude || !formValues.longitude) {
+      setPricingError("Please select a location on the map for AI pricing");
+      setPricingResult(null);
+      return;
+    }
+
+    try {
+      setPricingError(null);
+      const result = await getPricePrediction({
+        beds: formValues.beds,
+        baths: formValues.baths,
+        squareFeet: formValues.squareFeet,
+        propertyType: formValues.propertyType,
+        furnished: formValues.furnished,
+        location: city,
+        city: city,
+        latitude: formValues.latitude,
+        longitude: formValues.longitude,
+        country: formValues.country,
+        managerPrice: formValues.pricePerMonth,
+      }).unwrap();
+      setPricingResult(result);
+    } catch (error) {
+      setPricingError("Failed to get AI price prediction. Please try again.");
+      setPricingResult(null);
+    }
+  }, [form, getPricePrediction, isUAE]);
 
   // Handle location change from map picker
   const handleLocationChange = useCallback(
@@ -204,6 +262,120 @@ const NewProperty = () => {
 
             <hr className="my-6 border-gray-200" />
 
+            {/* AI Pricing Section - Only for UAE */}
+            {isUAE && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-purple-500" />
+                      AI Price Prediction
+                    </h2>
+                    <p className="text-sm text-gray-500 mt-1">
+                      AI pricing rules apply in UAE only
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={fetchPricePrediction}
+                    disabled={isPredicting}
+                    className="flex items-center gap-2"
+                  >
+                    {isPredicting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-4 h-4" />
+                    )}
+                    {isPredicting ? "Analyzing..." : "Get AI Prediction"}
+                  </Button>
+                </div>
+
+                {pricingError && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-700">{pricingError}</p>
+                  </div>
+                )}
+
+                {pricingResult && (
+                  <div className={`rounded-lg p-4 border ${
+                    pricingResult.manager_price_valid
+                      ? "bg-green-50 border-green-200"
+                      : "bg-red-50 border-red-200"
+                  }`}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-600">AI Predicted Price (Monthly)</p>
+                        <p className="text-lg font-bold text-purple-700">
+                          {pricingResult.predicted_price_monthly?.toLocaleString()} AED
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Minimum Allowed</p>
+                        <p className="text-lg font-bold text-orange-600">
+                          {pricingResult.minimum_allowed_price?.toLocaleString()} AED
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Your Price</p>
+                        <p className="text-lg font-bold">
+                          {watchedPrice?.toLocaleString()} AED
+                        </p>
+                      </div>
+                    </div>
+                    {pricingResult.rent_category && (
+                      <div className="mt-3 pt-3 border-t border-gray-200">
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Rent Category:</span> {pricingResult.rent_category}
+                        </p>
+                        {pricingResult.category_description && (
+                          <p className="text-sm text-gray-500 mt-1">{pricingResult.category_description}</p>
+                        )}
+                      </div>
+                    )}
+                    <div className="mt-4 flex items-center gap-2">
+                      {pricingResult.manager_price_valid ? (
+                        <>
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                          <span className="text-green-700 font-medium">
+                            Price is valid - {pricingResult.price_label} price range
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <AlertCircle className="w-5 h-5 text-red-600" />
+                          <span className="text-red-700 font-medium">
+                            {pricingResult.message}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {!pricingResult && !pricingError && !isPredicting && (
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <p className="text-sm text-purple-700">
+                      Click &quot;Get AI Prediction&quot; to validate your price against the market rate.
+                      Prices below 80% of the predicted value will not be accepted.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {!isUAE && (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-gray-400" />
+                  AI pricing rules apply in UAE only. Any price is accepted for {CountryLabels[watchedCountry as CountryEnum] || watchedCountry}.
+                </p>
+              </div>
+            )}
+
+            <hr className="my-6 border-gray-200" />
+
             {/* Photos */}
             <div>
               <h2 className="text-lg font-semibold mb-4">Photos</h2>
@@ -261,9 +433,15 @@ const NewProperty = () => {
             <Button
               type="submit"
               className="bg-primary-700 text-white w-full mt-8"
+              disabled={isUAE && pricingResult && !pricingResult.manager_price_valid}
             >
               Create Property
             </Button>
+            {isUAE && pricingResult && !pricingResult.manager_price_valid && (
+              <p className="text-sm text-red-600 text-center mt-2">
+                Cannot create: Price is below the minimum allowed ({pricingResult.minimum_allowed_price?.toLocaleString()} AED/month)
+              </p>
+            )}
           </form>
         </Form>
       </div>
