@@ -5,12 +5,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useAppSelector } from "@/state/redux";
 import { useGetPropertiesQuery } from "@/state/api";
 import { Property } from "@/types/prismaTypes";
+import { getCurrencySymbolByCountry, getPerMonthTextByLocale } from "@/hooks/useCurrency";
+import { useLocale } from "next-intl";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
 
 const Map = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filters = useAppSelector((state) => state.global.filters);
+  const locale = useLocale();
   const {
     data: properties,
     isLoading,
@@ -99,7 +102,7 @@ const Map = () => {
     });
 
     properties.forEach((property) => {
-      const marker = createPropertyMarker(property, map);
+      const marker = createPropertyMarker(property, map, locale);
       const markerElement = marker.getElement();
       const path = markerElement.querySelector("path[fill='#3FB1CE']");
       if (path) path.setAttribute("fill", "#000000");
@@ -132,7 +135,10 @@ const Map = () => {
   );
 };
 
-const createPropertyMarker = (property: Property, map: mapboxgl.Map) => {
+const createPropertyMarker = (property: Property, map: mapboxgl.Map, locale: string) => {
+  const currencySymbol = getCurrencySymbolByCountry(property.location?.country, locale);
+  const perMonthText = getPerMonthTextByLocale(locale);
+  
   const marker = new mapboxgl.Marker()
     .setLngLat([
       property.location.coordinates.longitude,
@@ -146,8 +152,8 @@ const createPropertyMarker = (property: Property, map: mapboxgl.Map) => {
           <div>
             <a href="/search/${property.id}" target="_blank" class="marker-popup-title">${property.name}</a>
             <p class="marker-popup-price">
-              $${property.pricePerMonth}
-              <span class="marker-popup-price-unit"> / month</span>
+              ${property.pricePerMonth} ${currencySymbol}
+              <span class="marker-popup-price-unit"> ${perMonthText}</span>
             </p>
           </div>
         </div>

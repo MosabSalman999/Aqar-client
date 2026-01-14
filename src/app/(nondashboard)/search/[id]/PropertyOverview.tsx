@@ -3,6 +3,7 @@ import { MapPin, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import PriceLabelBadge from "@/components/PriceLabelBadge";
 import { PricingResult } from "@/state";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
   const {
@@ -13,6 +14,7 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
   const [getPricePrediction] = useGetPricePredictionMutation();
   const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
   const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+  const { getCurrencySymbol } = useCurrency();
 
   const country = property?.location?.country;
   const isUAE = country === "UAE";
@@ -87,7 +89,7 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
           <div>
             <div className="text-sm text-gray-500">Monthly Rent</div>
             <div className="font-semibold flex items-center gap-2">
-              ${property.pricePerMonth.toLocaleString()}
+              {property.pricePerMonth.toLocaleString()} {getCurrencySymbol(country)}
               <PriceLabelBadge
                 priceLabel={pricingResult?.price_label || null}
                 isLoading={isLoadingPrice}

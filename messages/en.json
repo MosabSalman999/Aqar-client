@@ -44,6 +44,13 @@
     "apply": "APPLY",
     "resetFilters": "Reset Filters"
   },
+  "currency": {
+    "jordan": "JD",
+    "uae": "AED",
+    "default": "$",
+    "perMonth": "/month",
+    "monthly": "monthly"
+  },
   "common": {
     "loading": "Loading...",
     "error": "An error occurred",

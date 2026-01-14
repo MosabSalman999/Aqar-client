@@ -1,6 +1,8 @@
 import { Mail, MapPin, PhoneCall, User } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useCurrency } from "@/hooks/useCurrency";
+import { Application } from "@/types/prismaTypes";
 
 interface ApplicationCardProps {
   application: Application;
@@ -18,6 +20,8 @@ const ApplicationCard = ({
   const [imgSrc, setImgSrc] = useState(
     application.property.photoUrls?.[0] || "/placeholder.jpg"
   );
+  const { getCurrencySymbol, getPerMonthText } = useCurrency();
+  const country = application.property.location?.country;
 
   const statusColor =
     application.status === "Approved"
@@ -54,8 +58,8 @@ const ApplicationCard = ({
               </div>
             </div>
             <div className="text-xl font-semibold">
-              ${application.property.pricePerMonth}{" "}
-              <span className="text-sm font-normal">/ month</span>
+              {application.property.pricePerMonth} {getCurrencySymbol(country)}
+              <span className="text-sm font-normal"> {getPerMonthText()}</span>
             </div>
           </div>
         </div>

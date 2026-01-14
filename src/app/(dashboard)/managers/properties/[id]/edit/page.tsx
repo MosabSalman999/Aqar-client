@@ -33,6 +33,7 @@ import Link from "next/link";
 import { ArrowLeft, Trash2, Eye, EyeOff, Save, Sparkles, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import { useActivityLog } from "@/hooks/useActivityLog";
 import * as z from "zod";
+import { useCurrency } from "@/hooks/useCurrency";
 
 // Create a modified schema for editing (photos are optional when editing)
 const editPropertySchema = z.object({
@@ -69,6 +70,7 @@ const EditProperty = () => {
   const [deleteProperty, { isLoading: isDeleting }] = useDeletePropertyMutation();
   const [toggleVisibility, { isLoading: isToggling }] = useTogglePropertyVisibilityMutation();
   const [getPricePrediction, { isLoading: isPredicting }] = useGetPricePredictionMutation();
+  const { getCurrencySymbol } = useCurrency();
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
@@ -491,19 +493,19 @@ const EditProperty = () => {
                       <div>
                         <p className="text-sm text-gray-600">AI Predicted Price</p>
                         <p className="text-lg font-bold text-purple-700">
-                          {pricingResult.predicted_price?.toLocaleString()} AED
+                          {pricingResult.predicted_price?.toLocaleString()} {getCurrencySymbol("UAE")}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Minimum Allowed</p>
                         <p className="text-lg font-bold text-orange-600">
-                          {pricingResult.minimum_allowed_price?.toLocaleString()} AED
+                          {pricingResult.minimum_allowed_price?.toLocaleString()} {getCurrencySymbol("UAE")}
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Your Price</p>
                         <p className="text-lg font-bold">
-                          {watchedPrice?.toLocaleString()} AED
+                          {watchedPrice?.toLocaleString()} {getCurrencySymbol("UAE")}
                         </p>
                       </div>
                     </div>
@@ -625,7 +627,7 @@ const EditProperty = () => {
             </div>
             {isUAE && pricingResult && !pricingResult.manager_price_valid && (
               <p className="text-sm text-red-600 text-center">
-                Cannot save: Price is below the minimum allowed ({pricingResult.minimum_allowed_price?.toLocaleString()} AED)
+                Cannot save: Price is below the minimum allowed ({pricingResult.minimum_allowed_price?.toLocaleString()} {getCurrencySymbol("UAE")})
               </p>
             )}
           </form>

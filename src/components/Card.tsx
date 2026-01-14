@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import PriceLabelBadge from "./PriceLabelBadge";
 import { useGetPricePredictionMutation } from "@/state/api";
 import { PricingResult } from "@/state";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const Card = ({
   property,
@@ -19,6 +20,7 @@ const Card = ({
   const [getPricePrediction] = useGetPricePredictionMutation();
   const [pricingResult, setPricingResult] = useState<PricingResult | null>(null);
   const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+  const { getCurrencySymbol, getPerMonthText } = useCurrency();
 
   const country = property.location?.country;
   const isUAE = country === "UAE";
@@ -133,8 +135,8 @@ const Card = ({
             </span>
           </div>
           <p className="text-lg font-bold mb-3">
-            ${property.pricePerMonth.toFixed(0)}{" "}
-            <span className="text-gray-600 text-base font-normal"> /month</span>
+            {property.pricePerMonth.toFixed(0)} {getCurrencySymbol(country)}
+            <span className="text-gray-600 text-base font-normal"> {getPerMonthText()}</span>
           </p>
         </div>
         <hr />

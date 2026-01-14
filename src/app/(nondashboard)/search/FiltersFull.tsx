@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "next-intl";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const FiltersFull = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const FiltersFull = () => {
     (state) => state.global.isFiltersFullOpen
   );
   const t = useTranslations("filters");
+  const { getCurrencySymbol } = useCurrency();
 
   // Sync localFilters with Redux filters when they change
   React.useEffect(() => {
@@ -176,8 +178,8 @@ const FiltersFull = () => {
             }
           />
           <div className="flex justify-between mt-2">
-            <span>${localFilters.priceRange[0] ?? 0}</span>
-            <span>${localFilters.priceRange[1] ?? 10000}</span>
+            <span>{localFilters.priceRange[0] ?? 0} {getCurrencySymbol()}</span>
+            <span>{localFilters.priceRange[1] ?? 10000} {getCurrencySymbol()}</span>
           </div>
         </div>
 

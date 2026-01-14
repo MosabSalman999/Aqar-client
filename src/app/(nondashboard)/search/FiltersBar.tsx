@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { PropertyTypeIcons } from "@/lib/constants";
 import { useTranslations } from "next-intl";
+import { useCurrency } from "@/hooks/useCurrency";
 
 const FiltersBar = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const FiltersBar = () => {
   const viewMode = useAppSelector((state) => state.global.viewMode);
   const [searchInput, setSearchInput] = useState(filters.location);
   const t = useTranslations("filters");
+  const { getCurrencySymbol } = useCurrency();
 
   const updateURL = debounce((newFilters: FiltersState) => {
     const cleanFilters = cleanParams(newFilters);
@@ -150,7 +152,7 @@ const FiltersBar = () => {
               <SelectItem value="any">{t("anyMinPrice")}</SelectItem>
               {[500, 1000, 1500, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
-                  ${price / 1000}k+
+                  {price / 1000}k+ {getCurrencySymbol()}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -172,7 +174,7 @@ const FiltersBar = () => {
               <SelectItem value="any">{t("anyMaxPrice")}</SelectItem>
               {[1000, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
-                  &lt;${price / 1000}k
+                  &lt;{price / 1000}k {getCurrencySymbol()}
                 </SelectItem>
               ))}
             </SelectContent>

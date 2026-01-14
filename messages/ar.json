@@ -44,6 +44,13 @@
     "apply": "تطبيق",
     "resetFilters": "إعادة تعيين الفلاتر"
   },
+  "currency": {
+    "jordan": "دينار",
+    "uae": "درهم",
+    "default": "$",
+    "perMonth": "/شهرياً",
+    "monthly": "شهرياً"
+  },
   "common": {
     "loading": "جاري التحميل...",
     "error": "حدث خطأ",
