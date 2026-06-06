@@ -2,10 +2,7 @@
 
 A production-grade, role-based rental platform frontend built with Next.js App Router. It delivers a polished public landing experience, a map-first search workflow, and dedicated dashboards for tenants and managers.
 
-
-
-https://github.com/user-attachments/assets/ebd51555-be10-4254-9ec1-f4fbc25a50ae
-
+<img width="1920" height="3910" alt="screencapture-localhost-3000-landing-2026-06-06-18_03_59" src="https://github.com/user-attachments/assets/ee213916-1c2b-4937-90cd-c099391b70de" />
 
 
 
